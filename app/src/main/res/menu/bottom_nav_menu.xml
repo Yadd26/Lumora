@@ -12,14 +12,9 @@
         android:title="@string/nav_discussion" />
 
     <item
-        android:id="@+id/quizFragment"
-        android:icon="@drawable/ic_quiz"
-        android:title="Kuis" />
-
-    <item
-        android:id="@+id/learningResourcesFragment"
-        android:icon="@drawable/ic_resources"
-        android:title="@string/nav_resources" />
+        android:id="@+id/bookmarkFragment"
+        android:icon="@drawable/ic_bookmark"
+        android:title="@string/nav_bookmark" />
 
     <item
         android:id="@+id/profileFragment"

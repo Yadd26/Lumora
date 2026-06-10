@@ -23,6 +23,19 @@ public class QuizQuestion {
     @SerializedName("category")
     private String category;
 
+    // Konstruktor default
+    public QuizQuestion() {
+    }
+
+    // Konstruktor berparameter lengkap
+    public QuizQuestion(String question, String correctAnswer, List<String> incorrectAnswers, String difficulty, String category) {
+        this.question = question;
+        this.correctAnswer = correctAnswer;
+        this.incorrectAnswers = incorrectAnswers;
+        this.difficulty = difficulty;
+        this.category = category;
+    }
+
     // Getter dan Setter
     public String getQuestion() {
         return question;

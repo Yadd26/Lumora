@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Nama Aplikasi -->
-    <string name="app_name">Lumora</string>
-    <string name="app_tagline">Terangi Perjalanan Belajarmu</string>
+    <string name="app_name">LUMORA</string>
+    <string name="app_tagline">Where Ancient Wisdom Meets Modern Learning</string>
 
     <!-- Navigasi Bawah -->
-    <string name="nav_home">Beranda</string>
-    <string name="nav_discussion">Diskusi</string>
-    <string name="nav_bookmark">Markah</string>
-    <string name="nav_profile">Profil</string>
+    <string name="nav_home">Archive</string>
+    <string name="nav_discussion">Forum Akademik</string>
+    <string name="nav_bookmark">Koleksi Pribadi</string>
+    <string name="nav_profile">Profil Akademisi</string>
 
     <!-- Kategori & Label Lainnya -->
     <string name="category_learning">Pembelajaran</string>
     <string name="detail_category">Materi Belajar</string>
 
     <!-- Fragment Beranda -->
-    <string name="home_title">Jelajahi</string>
-    <string name="home_subtitle">Temukan materi pembelajaran</string>
-    <string name="search_hint">Cari materi…</string>
+    <string name="home_title">Lumora Archive</string>
+    <string name="home_subtitle">Temukan pengetahuan yang tersimpan dalam koleksi akademik dunia.</string>
+    <string name="search_hint">Cari manuskrip, referensi, atau pengetahuan...</string>
     <string name="loading_materials">Memuat materi…</string>
     <string name="no_materials_found">Materi tidak ditemukan</string>
     <string name="no_materials_description">Coba sesuaikan pencarian Anda atau tarik untuk memperbarui</string>
@@ -36,13 +36,13 @@
     <string name="read_material">Baca Materi</string>
 
     <!-- Fragment Diskusi -->
-    <string name="discussion_title">Diskusi</string>
-    <string name="discussion_subtitle">Bergabung dalam percakapan</string>
-    <string name="add_discussion">Diskusi Baru</string>
-    <string name="discussion_title_hint">Judul diskusi</string>
-    <string name="discussion_content_hint">Tulis pemikiran Anda…</string>
-    <string name="no_discussions">Belum ada diskusi</string>
-    <string name="no_discussions_description">Mulailah diskusi pertama Anda</string>
+    <string name="discussion_title">Forum Akademik</string>
+    <string name="discussion_subtitle">Bertukar pemikiran akademik dengan akademisi lainnya</string>
+    <string name="add_discussion">Forum Baru</string>
+    <string name="discussion_title_hint">Judul topik akademik</string>
+    <string name="discussion_content_hint">Tulis gagasan atau pertanyaan akademik Anda…</string>
+    <string name="no_discussions">Belum ada forum aktif.</string>
+    <string name="no_discussions_description">Mulailah diskusi akademik pertama Anda.</string>
     <string name="delete_discussion">Hapus</string>
     <string name="delete_discussion_title">Hapus Diskusi?</string>
     <string name="delete_discussion_message">Tindakan ini tidak dapat dibatalkan.</string>
@@ -53,20 +53,20 @@
     <string name="field_required">Kolom ini wajib diisi</string>
 
     <!-- Fragment Markah -->
-    <string name="bookmark_title">Markah</string>
-    <string name="bookmark_subtitle">Materi yang Anda simpan</string>
-    <string name="no_bookmarks">Belum ada materi tersimpan</string>
-    <string name="no_bookmarks_description">Simpan materi favorit untuk dibaca nanti</string>
+    <string name="bookmark_title">Koleksi Pribadi</string>
+    <string name="bookmark_subtitle">Koleksi naskah dan referensi yang Anda simpan</string>
+    <string name="no_bookmarks">Belum ada koleksi tersimpan.</string>
+    <string name="no_bookmarks_description">Bangun perpustakaan pribadi Anda dengan menyimpan referensi penting.</string>
     <string name="delete_bookmark_title">Hapus Markah?</string>
     <string name="delete_bookmark_message">Materi ini akan dihapus dari markah Anda.</string>
     <string name="delete">Hapus</string>
     <string name="remove">Hapus</string>
 
     <!-- Fragment Profil -->
-    <string name="profile_title">Profil</string>
-    <string name="hello_user">Halo, %1$s!</string>
-    <string name="total_bookmarks">Materi Disimpan</string>
-    <string name="total_discussions">Diskusi</string>
+    <string name="profile_title">Scholar Profile</string>
+    <string name="hello_user">Akademisi, %1$s!</string>
+    <string name="total_bookmarks">Koleksi Pribadi</string>
+    <string name="total_discussions">Diskusi Akademik</string>
     <string name="total_users">Akun Terdaftar</string>
     <string name="appearance">Tampilan</string>
     <string name="dark_mode">Mode Gelap</string>
@@ -117,4 +117,33 @@
     <string name="books_opened">Buku Dibuka</string>
     <string name="study_time_est">Estimasi Waktu</string>
     <string name="difficulty_level">Tingkat Kesulitan</string>
+
+    <!-- Redesign Kuis Strings -->
+    <string name="quiz_score_best">Skor Terbaik</string>
+    <string name="quiz_favorite_category">Kuis Terfavorit</string>
+
+    <!-- New Feature Strings -->
+    <string name="nav_learning_path">Jalur Pembelajaran</string>
+    <string name="nav_tutorial">Panduan Akademik</string>
+    <string name="text_books_read">Buku Dibaca</string>
+    <string name="text_tutorials_completed">Tutorial Selesai</string>
+    <string name="text_quizzes_completed">Kuis Selesai</string>
+    <string name="text_paths_completed">Jalur Selesai</string>
+    <string name="text_study_streak">Streak Belajar</string>
+    <string name="streak_format">%1$d Hari</string>
+    <string name="achievement_title">Prestasi Akademik</string>
+    <string name="achievement_locked">Terkunci</string>
+    <string name="achievement_unlocked">Terbuka</string>
+    <string name="btn_read_book">Baca Buku</string>
+    <string name="btn_quick_quiz">Kuis Akademik</string>
+    <string name="btn_quick_learning_path">Jalur Belajar</string>
+    <string name="btn_quick_tutorials">Panduan Kode</string>
+    <string name="btn_quick_resources">Arsip Rencana</string>
+    <string name="continue_reading">Lanjutkan Membaca</string>
+    <string name="learning_history">Riwayat Pembelajaran</string>
+    <string name="save_progress">Simpan Progress</string>
+    <string name="next_chapter">Bab Selanjutnya</string>
+    <string name="prev_chapter">Bab Sebelumnya</string>
+    <string name="reading_progress">Membaca: %1$d%%</string>
+    <string name="test_knowledge">Uji Pemahaman</string>
 </resources>

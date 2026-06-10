@@ -59,6 +59,36 @@
             android:exported="false"
             android:parentActivityName=".activities.MainActivity" />
 
+        <!-- Quiz Detail Activity -->
+        <activity
+            android:name=".activities.QuizDetailActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.MainActivity" />
+
+        <!-- Quiz Activity -->
+        <activity
+            android:name=".activities.QuizActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.QuizDetailActivity" />
+
+        <!-- Reader Activity -->
+        <activity
+            android:name=".activities.ReaderActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.DetailActivity" />
+
+        <!-- Learning Path Detail Activity -->
+        <activity
+            android:name=".activities.LearningPathDetailActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.MainActivity" />
+
+        <!-- Tutorial Detail Activity -->
+        <activity
+            android:name=".activities.TutorialDetailActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.MainActivity" />
+
     </application>
 
 </manifest>

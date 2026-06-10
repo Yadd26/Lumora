@@ -1,11 +1,16 @@
 package com.lumora.app.fragments;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 import android.content.Intent;
+
+import java.util.List;
+import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -117,18 +122,45 @@ public class ProfileFragment extends Fragment {
     }
 
     /**
-     * Memuat jumlah markah, riwayat dibuka, diskusi, minat utama, dan kuis selesai dari SQLite secara asinkron,
-     * serta mengambil data kuis dari SessionManager.
+     * Memuat jumlah markah, riwayat dibuka, diskusi, minat utama, dan data kuis selesai dari SQLite secara asinkron.
      */
     private void loadStatistics() {
-        int quizCompleted = sessionManager.getQuizCompletedCount();
-        int highScore = sessionManager.getHighScore();
-
         executorService.execute(() -> {
             int totalBookmarks = databaseHelper.countBookmarks();
             int totalHistory = databaseHelper.countHistory();
             int totalDiscussions = databaseHelper.countDiscussions();
             String favoriteCategory = databaseHelper.getFavoriteCategory();
+            
+            // Statistik Kuis dari SQLite
+            int totalQuizCompleted = databaseHelper.countQuizHistory();
+            int maxQuizScore = databaseHelper.getMaxQuizScore();
+            String favoriteQuizCategory = databaseHelper.getFavoriteQuizCategory();
+
+            // Statistik Akademik Baru
+            int booksRead = databaseHelper.countBooksRead(1);
+            int tutorialsCompleted = databaseHelper.countTutorialsCompleted(1);
+            int pathsCompleted = databaseHelper.getLearningPathsCompleted(1);
+            int studyStreak = databaseHelper.getStudyStreak(1);
+
+            // Sync and evaluate achievements into SQLite achievements table
+            if (booksRead >= 5 && !databaseHelper.hasAchievement(1, "Explorer")) {
+                databaseHelper.insertAchievement(1, "Explorer", "Membuka 5 Buku");
+            }
+            if (tutorialsCompleted >= 5 && !databaseHelper.hasAchievement(1, "Scholar")) {
+                databaseHelper.insertAchievement(1, "Scholar", "Menyelesaikan 5 Tutorial");
+            }
+            if (booksRead >= 10 && !databaseHelper.hasAchievement(1, "Master Reader")) {
+                databaseHelper.insertAchievement(1, "Master Reader", "Membaca 10 Buku");
+            }
+            if (pathsCompleted >= 1 && !databaseHelper.hasAchievement(1, "Knowledge Keeper")) {
+                databaseHelper.insertAchievement(1, "Knowledge Keeper", "Menyelesaikan Learning Path");
+            }
+            if (maxQuizScore >= 90 && !databaseHelper.hasAchievement(1, "Quiz Champion")) {
+                databaseHelper.insertAchievement(1, "Quiz Champion", "Mendapat skor kuis 90+");
+            }
+
+            // Retrieve list of earned achievements from database
+            List<String> earnedAchievements = databaseHelper.getEarnedAchievements(1);
 
             if (isAdded()) {
                 requireActivity().runOnUiThread(() -> {
@@ -136,11 +168,79 @@ public class ProfileFragment extends Fragment {
                     binding.textTotalHistory.setText(String.valueOf(totalHistory));
                     binding.textTotalDiscussions.setText(String.valueOf(totalDiscussions));
                     binding.textFavoriteCategory.setText(favoriteCategory);
-                    binding.textQuizCompleted.setText(String.valueOf(quizCompleted));
-                    binding.textQuizHighScore.setText(String.valueOf(highScore));
+                    binding.textQuizCompleted.setText(String.valueOf(totalQuizCompleted));
+                    binding.textQuizHighScore.setText(String.valueOf(maxQuizScore));
+                    binding.textFavoriteQuizCategory.setText(favoriteQuizCategory);
+
+                    binding.textBooksRead.setText(String.valueOf(booksRead));
+                    binding.textTutorialsCompleted.setText(String.valueOf(tutorialsCompleted));
+                    binding.textPathsCompleted.setText(String.valueOf(pathsCompleted));
+                    binding.textStudyStreak.setText(studyStreak + " Hari");
+
+                    updateAchievements(earnedAchievements);
                 });
             }
         });
+    }
+
+    private void updateAchievements(List<String> earned) {
+        int goldColor = Color.parseColor("#C8A165");
+        int grayColor = Color.parseColor("#CCCCCC");
+
+        // 1. Explorer (5 Books)
+        if (earned.contains("Explorer")) {
+            binding.imgAchievementExplorer.setBackgroundTintList(ColorStateList.valueOf(goldColor));
+            binding.textStatusExplorer.setText("Terbuka ✓");
+            binding.textStatusExplorer.setTextColor(goldColor);
+        } else {
+            binding.imgAchievementExplorer.setBackgroundTintList(ColorStateList.valueOf(grayColor));
+            binding.textStatusExplorer.setText("Terkunci");
+            binding.textStatusExplorer.setTextColor(grayColor);
+        }
+
+        // 2. Scholar (5 Tutorials)
+        if (earned.contains("Scholar")) {
+            binding.imgAchievementScholar.setBackgroundTintList(ColorStateList.valueOf(goldColor));
+            binding.textStatusScholar.setText("Terbuka ✓");
+            binding.textStatusScholar.setTextColor(goldColor);
+        } else {
+            binding.imgAchievementScholar.setBackgroundTintList(ColorStateList.valueOf(grayColor));
+            binding.textStatusScholar.setText("Terkunci");
+            binding.textStatusScholar.setTextColor(grayColor);
+        }
+
+        // 3. Master Reader (10 Books)
+        if (earned.contains("Master Reader")) {
+            binding.imgAchievementMaster.setBackgroundTintList(ColorStateList.valueOf(goldColor));
+            binding.textStatusMaster.setText("Terbuka ✓");
+            binding.textStatusMaster.setTextColor(goldColor);
+        } else {
+            binding.imgAchievementMaster.setBackgroundTintList(ColorStateList.valueOf(grayColor));
+            binding.textStatusMaster.setText("Terkunci");
+            binding.textStatusMaster.setTextColor(grayColor);
+        }
+
+        // 4. Knowledge Keeper (1 Path)
+        if (earned.contains("Knowledge Keeper")) {
+            binding.imgAchievementKeeper.setBackgroundTintList(ColorStateList.valueOf(goldColor));
+            binding.textStatusKeeper.setText("Terbuka ✓");
+            binding.textStatusKeeper.setTextColor(goldColor);
+        } else {
+            binding.imgAchievementKeeper.setBackgroundTintList(ColorStateList.valueOf(grayColor));
+            binding.textStatusKeeper.setText("Terkunci");
+            binding.textStatusKeeper.setTextColor(grayColor);
+        }
+
+        // 5. Quiz Champion (Skor 90+)
+        if (earned.contains("Quiz Champion")) {
+            binding.imgAchievementChampion.setBackgroundTintList(ColorStateList.valueOf(goldColor));
+            binding.textStatusChampion.setText("Terbuka ✓");
+            binding.textStatusChampion.setTextColor(goldColor);
+        } else {
+            binding.imgAchievementChampion.setBackgroundTintList(ColorStateList.valueOf(grayColor));
+            binding.textStatusChampion.setText("Terkunci");
+            binding.textStatusChampion.setTextColor(grayColor);
+        }
     }
 
     /**

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Brand Colors (Dark Theme) -->
+    <color name="primary">#C8A165</color>
+    <color name="primary_dark">#A6804E</color>
+    <color name="primary_light">#D4B483</color>
+    <color name="primary_container">#2C241C</color>
+    <color name="on_primary">#1B1A17</color>
+    <color name="on_primary_container">#F5EFE6</color>
+
+    <!-- Secondary Colors (Dark Theme) -->
+    <color name="secondary">#D4B483</color>
+    <color name="secondary_dark">#B09265</color>
+    <color name="secondary_container">#2C241C</color>
+    <color name="on_secondary">#1B1A17</color>
+    <color name="on_secondary_container">#D4C6B8</color>
+
+    <!-- Tertiary / Accent (Dark Theme) -->
+    <color name="tertiary">#D4B483</color>
+    <color name="tertiary_container">#2C241C</color>
+    <color name="on_tertiary">#1B1A17</color>
+
+    <!-- Background & Surface (Dark Theme) -->
+    <color name="background">#1B1A17</color>
+    <color name="surface">#2C241C</color>
+    <color name="surface_variant">#3D3328</color>
+    <color name="on_background">#F5EFE6</color>
+    <color name="on_surface">#F5EFE6</color>
+    <color name="on_surface_variant">#D4C6B8</color>
+
+    <!-- Error Colors (Dark Theme) -->
+    <color name="error">#CF6679</color>
+    <color name="error_container">#401F24</color>
+    <color name="on_error">#1B1A17</color>
+    <color name="on_error_container">#CF6679</color>
+
+    <!-- Outline & Divider (Dark Theme) -->
+    <color name="outline">#D4B483</color>
+    <color name="outline_variant">#C8A165</color>
+
+    <!-- Status Bar (Dark Theme) -->
+    <color name="status_bar">#1B1A17</color>
+
+    <!-- Card Colors (Dark Theme) -->
+    <color name="card_background">#2C241C</color>
+    <color name="card_stroke">#C8A165</color>
+
+    <!-- Text Colors (Dark Theme) -->
+    <color name="text_primary">#F5EFE6</color>
+    <color name="text_secondary">#D4C6B8</color>
+    <color name="text_hint">#D4C6B8</color>
+
+    <!-- Bottom Navigation (Dark Theme) -->
+    <color name="bottom_nav_background">#2C241C</color>
+    <color name="bottom_nav_selected">#C8A165</color>
+    <color name="bottom_nav_unselected">#D4C6B8</color>
+
+    <!-- Gradient Colors (Dark Theme) -->
+    <color name="gradient_start">#2C241C</color>
+    <color name="gradient_end">#1B1A17</color>
+
+    <!-- Success / Warning (Dark Theme) -->
+    <color name="success">#81C784</color>
+    <color name="warning">#FFD54F</color>
+
+    <!-- Bookmark Colors (Dark Theme) -->
+    <color name="bookmark_active">#C8A165</color>
+    <color name="bookmark_inactive">#D4C6B8</color>
+
+    <!-- Ripple (Dark Theme) -->
+    <color name="ripple_color">#1AC8A165</color>
+
+    <!-- Shimmer Placeholder (Dark Theme) -->
+    <color name="shimmer_base">#3D3328</color>
+    <color name="shimmer_highlight">#2C241C</color>
+</resources>

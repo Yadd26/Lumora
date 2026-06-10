@@ -5,9 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:attr/colorBackground">
+    android:background="@color/background">
 
-    <!-- Header Section -->
+    <!-- Header Section (Wooden Style Dark Brown Gradient) -->
     <LinearLayout
         android:id="@+id/header_section"
         android:layout_width="0dp"
@@ -15,7 +15,7 @@
         android:background="@drawable/bg_gradient_primary"
         android:orientation="vertical"
         android:paddingHorizontal="20dp"
-        android:paddingTop="16dp"
+        android:paddingTop="20dp"
         android:paddingBottom="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,8 +26,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/home_title"
+            android:fontFamily="@font/cinzel"
             android:textAppearance="?attr/textAppearanceHeadlineMedium"
-            android:textColor="@android:color/white"
+            android:textColor="@color/on_primary"
             android:textStyle="bold" />
 
         <TextView
@@ -35,20 +36,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:alpha="0.85"
-            android:text="Pusat Pembelajaran &amp; Referensi Digital"
+            android:alpha="0.9"
+            android:text="@string/home_subtitle"
+            android:fontFamily="@font/cormorant_garamond"
             android:textAppearance="?attr/textAppearanceBodyMedium"
-            android:textColor="@android:color/white" />
+            android:textColor="@color/on_primary" />
 
-        <!-- Search Bar -->
+        <!-- Search Bar (Parchment background with gold border overlay) -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:cardBackgroundColor="#33FFFFFF"
+            app:cardBackgroundColor="#20FFFFFF"
             app:cardCornerRadius="12dp"
             app:cardElevation="0dp"
-            app:strokeWidth="0dp">
+            app:strokeColor="@color/tertiary"
+            app:strokeWidth="1dp">
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/search_view"
@@ -56,7 +59,7 @@
                 android:layout_height="48dp"
                 android:iconifiedByDefault="false"
                 app:iconifiedByDefault="false"
-                app:queryHint="Cari judul, penulis, kategori…"
+                app:queryHint="@string/search_hint"
                 app:searchHintIcon="@null" />
 
         </com.google.android.material.card.MaterialCardView>
@@ -90,14 +93,267 @@
                     android:orientation="vertical"
                     android:paddingVertical="16dp">
 
-                    <!-- Section: Rekomendasi Hari Ini -->
+                    <!-- Section: Menu Akademik (Quick Access to Quiz & Resources) -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
-                        android:text="Rekomendasi Hari Ini"
+                        android:text="Lembaga Akademik"
+                        android:fontFamily="@font/cinzel"
                         android:textAppearance="?attr/textAppearanceTitleMedium"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="@color/text_primary"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="12dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:orientation="vertical">
+
+                        <!-- Row 1 -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <!-- Quick Access: Kuis Kategori -->
+                            <com.google.android.material.card.MaterialCardView
+                                android:id="@+id/btn_quick_quiz"
+                                android:layout_width="0dp"
+                                android:layout_height="88dp"
+                                android:layout_margin="4dp"
+                                android:layout_weight="1"
+                                android:clickable="true"
+                                android:focusable="true"
+                                app:cardBackgroundColor="@color/surface"
+                                app:cardCornerRadius="16dp"
+                                app:strokeColor="@color/tertiary"
+                                app:strokeWidth="1.2dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:padding="8dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="📜"
+                                        android:textSize="24sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="4dp"
+                                        android:text="Ujian Kuis"
+                                        android:fontFamily="@font/cinzel"
+                                        android:textColor="@color/primary"
+                                        android:textSize="13sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+                            </com.google.android.material.card.MaterialCardView>
+
+                            <!-- Quick Access: Jalur Pembelajaran -->
+                            <com.google.android.material.card.MaterialCardView
+                                android:id="@+id/btn_quick_learning_path"
+                                android:layout_width="0dp"
+                                android:layout_height="88dp"
+                                android:layout_margin="4dp"
+                                android:layout_weight="1"
+                                android:clickable="true"
+                                android:focusable="true"
+                                app:cardBackgroundColor="@color/surface"
+                                app:cardCornerRadius="16dp"
+                                app:strokeColor="@color/tertiary"
+                                app:strokeWidth="1.2dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:padding="8dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="🗺️"
+                                        android:textSize="24sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="4dp"
+                                        android:text="Jalur Belajar"
+                                        android:fontFamily="@font/cinzel"
+                                        android:textColor="@color/primary"
+                                        android:textSize="13sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+                            </com.google.android.material.card.MaterialCardView>
+
+                        </LinearLayout>
+
+                        <!-- Row 2 -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <!-- Quick Access: Panduan Akademik / Tutorial -->
+                            <com.google.android.material.card.MaterialCardView
+                                android:id="@+id/btn_quick_tutorials"
+                                android:layout_width="0dp"
+                                android:layout_height="88dp"
+                                android:layout_margin="4dp"
+                                android:layout_weight="1"
+                                android:clickable="true"
+                                android:focusable="true"
+                                app:cardBackgroundColor="@color/surface"
+                                app:cardCornerRadius="16dp"
+                                app:strokeColor="@color/tertiary"
+                                app:strokeWidth="1.2dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:padding="8dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="💻"
+                                        android:textSize="24sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="4dp"
+                                        android:text="Panduan Kode"
+                                        android:fontFamily="@font/cinzel"
+                                        android:textColor="@color/primary"
+                                        android:textSize="13sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+                            </com.google.android.material.card.MaterialCardView>
+
+                            <!-- Quick Access: Rencana Belajar -->
+                            <com.google.android.material.card.MaterialCardView
+                                android:id="@+id/btn_quick_resources"
+                                android:layout_width="0dp"
+                                android:layout_height="88dp"
+                                android:layout_margin="4dp"
+                                android:layout_weight="1"
+                                android:clickable="true"
+                                android:focusable="true"
+                                app:cardBackgroundColor="@color/surface"
+                                app:cardCornerRadius="16dp"
+                                app:strokeColor="@color/tertiary"
+                                app:strokeWidth="1.2dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:padding="8dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="📚"
+                                        android:textSize="24sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="4dp"
+                                        android:text="Arsip Rencana"
+                                        android:fontFamily="@font/cinzel"
+                                        android:textColor="@color/primary"
+                                        android:textSize="13sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+                            </com.google.android.material.card.MaterialCardView>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- Section: Lanjutkan Membaca -->
+                    <LinearLayout
+                        android:id="@+id/layout_continue_reading"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="20dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="16dp"
+                            android:text="Lanjutkan Membaca"
+                            android:fontFamily="@font/cinzel"
+                            android:textAppearance="?attr/textAppearanceTitleMedium"
+                            android:textColor="@color/text_primary"
+                            android:textStyle="bold" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_continue_reading"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="8dp"
+                            android:paddingHorizontal="12dp"
+                            android:clipToPadding="false"
+                            tools:listitem="@layout/item_continue_reading" />
+
+                    </LinearLayout>
+
+                    <!-- Section: Riwayat Pembelajaran -->
+                    <LinearLayout
+                        android:id="@+id/layout_learning_history_section"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="16dp"
+                            android:text="Riwayat Pembelajaran"
+                            android:fontFamily="@font/cinzel"
+                            android:textAppearance="?attr/textAppearanceTitleMedium"
+                            android:textColor="@color/text_primary"
+                            android:textStyle="bold" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_learning_history"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:nestedScrollingEnabled="false"
+                            tools:listitem="@layout/item_learning_history" />
+
+                    </LinearLayout>
+
+                    <!-- Section: Rekomendasi Akademik -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:text="Rekomendasi Akademik"
+                        android:fontFamily="@font/cinzel"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        android:textColor="@color/text_primary"
                         android:textStyle="bold" />
 
                     <com.google.android.material.card.MaterialCardView
@@ -109,9 +365,10 @@
                         android:layout_marginBottom="20dp"
                         android:clickable="true"
                         android:focusable="true"
-                        app:cardBackgroundColor="?attr/colorSurfaceVariant"
+                        app:cardBackgroundColor="@color/surface"
                         app:cardCornerRadius="16dp"
-                        app:strokeWidth="0dp">
+                        app:strokeColor="@color/tertiary"
+                        app:strokeWidth="1.2dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -123,7 +380,8 @@
                                 android:layout_width="80dp"
                                 android:layout_height="112dp"
                                 app:cardCornerRadius="8dp"
-                                app:strokeWidth="0dp"
+                                app:strokeColor="@color/tertiary"
+                                app:strokeWidth="1dp"
                                 app:cardElevation="0dp">
 
                                 <ImageView
@@ -147,23 +405,26 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:background="@drawable/bg_search_bar"
+                                    android:backgroundTint="@color/primary"
                                     android:paddingHorizontal="8dp"
                                     android:paddingVertical="2dp"
                                     android:text="PILIHAN TERBAIK"
+                                    android:fontFamily="@font/cinzel"
                                     android:textAppearance="?attr/textAppearanceLabelSmall"
-                                    android:textColor="@color/primary"
+                                    android:textColor="@color/on_primary"
                                     android:textStyle="bold" />
 
                                 <TextView
                                     android:id="@+id/text_recommend_title"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="6dp"
+                                    android:layout_marginTop="8dp"
                                     android:ellipsize="end"
                                     android:maxLines="2"
                                     android:text="Memuat buku pilihan..."
+                                    android:fontFamily="@font/cinzel"
                                     android:textAppearance="?attr/textAppearanceTitleMedium"
-                                    android:textColor="?attr/colorOnSurface"
+                                    android:textColor="@color/text_primary"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -174,8 +435,9 @@
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="-"
+                                    android:fontFamily="@font/cormorant_garamond"
                                     android:textAppearance="?attr/textAppearanceBodyMedium"
-                                    android:textColor="?attr/colorOnSurfaceVariant" />
+                                    android:textColor="@color/text_secondary" />
 
                             </LinearLayout>
 
@@ -188,9 +450,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
-                        android:text="Kategori Pembelajaran"
+                        android:text="Arsip Departemen"
+                        android:fontFamily="@font/cinzel"
                         android:textAppearance="?attr/textAppearanceTitleMedium"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="@color/text_primary"
                         android:textStyle="bold" />
 
                     <HorizontalScrollView
@@ -211,161 +474,184 @@
                             <com.google.android.material.card.MaterialCardView
                                 android:id="@+id/cat_pemrograman"
                                 android:layout_width="140dp"
-                                android:layout_height="80dp"
+                                android:layout_height="64dp"
                                 android:layout_margin="4dp"
                                 android:clickable="true"
                                 android:focusable="true"
                                 app:cardCornerRadius="12dp"
-                                app:cardBackgroundColor="?attr/colorSurfaceVariant">
-
+                                app:cardBackgroundColor="@color/surface"
+                                app:strokeColor="@color/tertiary"
+                                app:strokeWidth="1.2dp">
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:gravity="center"
                                     android:padding="8dp"
                                     android:text="Pemrograman"
+                                    android:fontFamily="@font/cormorant_garamond"
                                     android:textStyle="bold"
-                                    android:textColor="?attr/colorOnSurfaceVariant" />
+                                    android:textColor="@color/text_primary" />
                             </com.google.android.material.card.MaterialCardView>
 
                             <!-- Kategori Basis Data -->
                             <com.google.android.material.card.MaterialCardView
                                 android:id="@+id/cat_basis_data"
                                 android:layout_width="140dp"
-                                android:layout_height="80dp"
+                                android:layout_height="64dp"
                                 android:layout_margin="4dp"
                                 android:clickable="true"
                                 android:focusable="true"
                                 app:cardCornerRadius="12dp"
-                                app:cardBackgroundColor="?attr/colorSurfaceVariant">
+                                app:cardBackgroundColor="@color/surface"
+                                app:strokeColor="@color/tertiary"
+                                app:strokeWidth="1.2dp">
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:gravity="center"
                                     android:padding="8dp"
                                     android:text="Basis Data"
+                                    android:fontFamily="@font/cormorant_garamond"
                                     android:textStyle="bold"
-                                    android:textColor="?attr/colorOnSurfaceVariant" />
+                                    android:textColor="@color/text_primary" />
                             </com.google.android.material.card.MaterialCardView>
 
                             <!-- Kategori Jaringan Komputer -->
                             <com.google.android.material.card.MaterialCardView
                                 android:id="@+id/cat_jaringan"
                                 android:layout_width="140dp"
-                                android:layout_height="80dp"
+                                android:layout_height="64dp"
                                 android:layout_margin="4dp"
                                 android:clickable="true"
                                 android:focusable="true"
                                 app:cardCornerRadius="12dp"
-                                app:cardBackgroundColor="?attr/colorSurfaceVariant">
+                                app:cardBackgroundColor="@color/surface"
+                                app:strokeColor="@color/tertiary"
+                                app:strokeWidth="1.2dp">
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:gravity="center"
                                     android:padding="8dp"
                                     android:text="Jaringan Komputer"
+                                    android:fontFamily="@font/cormorant_garamond"
                                     android:textStyle="bold"
-                                    android:textColor="?attr/colorOnSurfaceVariant" />
+                                    android:textColor="@color/text_primary" />
                             </com.google.android.material.card.MaterialCardView>
 
                             <!-- Kategori Sistem Informasi -->
                             <com.google.android.material.card.MaterialCardView
                                 android:id="@+id/cat_sistem_informasi"
                                 android:layout_width="140dp"
-                                android:layout_height="80dp"
+                                android:layout_height="64dp"
                                 android:layout_margin="4dp"
                                 android:clickable="true"
                                 android:focusable="true"
                                 app:cardCornerRadius="12dp"
-                                app:cardBackgroundColor="?attr/colorSurfaceVariant">
+                                app:cardBackgroundColor="@color/surface"
+                                app:strokeColor="@color/tertiary"
+                                app:strokeWidth="1.2dp">
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:gravity="center"
                                     android:padding="8dp"
                                     android:text="Sistem Informasi"
+                                    android:fontFamily="@font/cormorant_garamond"
                                     android:textStyle="bold"
-                                    android:textColor="?attr/colorOnSurfaceVariant" />
+                                    android:textColor="@color/text_primary" />
                             </com.google.android.material.card.MaterialCardView>
 
                             <!-- Kategori AI -->
                             <com.google.android.material.card.MaterialCardView
                                 android:id="@+id/cat_ai"
                                 android:layout_width="140dp"
-                                android:layout_height="80dp"
+                                android:layout_height="64dp"
                                 android:layout_margin="4dp"
                                 android:clickable="true"
                                 android:focusable="true"
                                 app:cardCornerRadius="12dp"
-                                app:cardBackgroundColor="?attr/colorSurfaceVariant">
+                                app:cardBackgroundColor="@color/surface"
+                                app:strokeColor="@color/tertiary"
+                                app:strokeWidth="1.2dp">
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:gravity="center"
                                     android:padding="8dp"
                                     android:text="Artificial Intelligence"
+                                    android:fontFamily="@font/cormorant_garamond"
                                     android:textStyle="bold"
-                                    android:textColor="?attr/colorOnSurfaceVariant" />
+                                    android:textColor="@color/text_primary" />
                             </com.google.android.material.card.MaterialCardView>
 
                             <!-- Kategori Data Science -->
                             <com.google.android.material.card.MaterialCardView
                                 android:id="@+id/cat_data_science"
                                 android:layout_width="140dp"
-                                android:layout_height="80dp"
+                                android:layout_height="64dp"
                                 android:layout_margin="4dp"
                                 android:clickable="true"
                                 android:focusable="true"
                                 app:cardCornerRadius="12dp"
-                                app:cardBackgroundColor="?attr/colorSurfaceVariant">
+                                app:cardBackgroundColor="@color/surface"
+                                app:strokeColor="@color/tertiary"
+                                app:strokeWidth="1.2dp">
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:gravity="center"
                                     android:padding="8dp"
                                     android:text="Data Science"
+                                    android:fontFamily="@font/cormorant_garamond"
                                     android:textStyle="bold"
-                                    android:textColor="?attr/colorOnSurfaceVariant" />
+                                    android:textColor="@color/text_primary" />
                             </com.google.android.material.card.MaterialCardView>
 
                             <!-- Kategori Cyber Security -->
                             <com.google.android.material.card.MaterialCardView
                                 android:id="@+id/cat_security"
                                 android:layout_width="140dp"
-                                android:layout_height="80dp"
+                                android:layout_height="64dp"
                                 android:layout_margin="4dp"
                                 android:clickable="true"
                                 android:focusable="true"
                                 app:cardCornerRadius="12dp"
-                                app:cardBackgroundColor="?attr/colorSurfaceVariant">
+                                app:cardBackgroundColor="@color/surface"
+                                app:strokeColor="@color/tertiary"
+                                app:strokeWidth="1.2dp">
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:gravity="center"
                                     android:padding="8dp"
                                     android:text="Cyber Security"
+                                    android:fontFamily="@font/cormorant_garamond"
                                     android:textStyle="bold"
-                                    android:textColor="?attr/colorOnSurfaceVariant" />
+                                    android:textColor="@color/text_primary" />
                             </com.google.android.material.card.MaterialCardView>
 
                             <!-- Kategori Mobile Development -->
                             <com.google.android.material.card.MaterialCardView
                                 android:id="@+id/cat_mobile"
                                 android:layout_width="140dp"
-                                android:layout_height="80dp"
+                                android:layout_height="64dp"
                                 android:layout_margin="4dp"
                                 android:clickable="true"
                                 android:focusable="true"
                                 app:cardCornerRadius="12dp"
-                                app:cardBackgroundColor="?attr/colorSurfaceVariant">
+                                app:cardBackgroundColor="@color/surface"
+                                app:strokeColor="@color/tertiary"
+                                app:strokeWidth="1.2dp">
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:gravity="center"
                                     android:padding="8dp"
                                     android:text="Mobile Dev"
+                                    android:fontFamily="@font/cormorant_garamond"
                                     android:textStyle="bold"
-                                    android:textColor="?attr/colorOnSurfaceVariant" />
+                                    android:textColor="@color/text_primary" />
                             </com.google.android.material.card.MaterialCardView>
 
                         </LinearLayout>
@@ -378,8 +664,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
                         android:text="Buku Populer"
+                        android:fontFamily="@font/cinzel"
                         android:textAppearance="?attr/textAppearanceTitleMedium"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="@color/text_primary"
                         android:textStyle="bold" />
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -392,14 +679,15 @@
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:listitem="@layout/item_material" />
 
-                    <!-- Horizontal Book Section: Pemrograman -->
+                    <!-- Horizontal Book Section: Referensi Terbaru -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
-                        android:text="Buku Pemrograman"
+                        android:text="Referensi Terbaru"
+                        android:fontFamily="@font/cinzel"
                         android:textAppearance="?attr/textAppearanceTitleMedium"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="@color/text_primary"
                         android:textStyle="bold" />
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -412,14 +700,15 @@
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:listitem="@layout/item_material" />
 
-                    <!-- Horizontal Book Section: Basis Data -->
+                    <!-- Horizontal Book Section: Koleksi Favorit -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
-                        android:text="Buku Basis Data"
+                        android:text="Koleksi Favorit"
+                        android:fontFamily="@font/cinzel"
                         android:textAppearance="?attr/textAppearanceTitleMedium"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="@color/text_primary"
                         android:textStyle="bold" />
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -432,45 +721,23 @@
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:listitem="@layout/item_material" />
 
-                    <!-- Horizontal Book Section: Jaringan Komputer -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="16dp"
-                        android:text="Buku Jaringan Komputer"
-                        android:textAppearance="?attr/textAppearanceTitleMedium"
-                        android:textColor="?attr/colorOnSurface"
-                        android:textStyle="bold" />
-
+                    <!-- Horizontal Book Section: Jaringan Komputer (Hidden/styled compatibility) -->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_networking"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="20dp"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:listitem="@layout/item_material" />
+                        android:layout_marginTop="0dp"
+                        android:layout_marginBottom="0dp"
+                        android:visibility="gone" />
 
-                    <!-- Horizontal Book Section: Kecerdasan Buatan -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="16dp"
-                        android:text="Buku Kecerdasan Buatan"
-                        android:textAppearance="?attr/textAppearanceTitleMedium"
-                        android:textColor="?attr/colorOnSurface"
-                        android:textStyle="bold" />
-
+                    <!-- Horizontal Book Section: Kecerdasan Buatan (Hidden/styled compatibility) -->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_ai"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="20dp"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:listitem="@layout/item_material" />
+                        android:layout_marginTop="0dp"
+                        android:layout_marginBottom="0dp"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 
@@ -498,8 +765,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Hasil Pencarian"
+                        android:fontFamily="@font/cinzel"
                         android:textAppearance="?attr/textAppearanceTitleMedium"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="@color/text_primary"
                         android:textStyle="bold" />
 
                     <!-- Close Search button -->
@@ -508,7 +776,9 @@
                         style="@style/Widget.Material3.Button.TextButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tutup" />
+                        android:text="Tutup"
+                        android:fontFamily="@font/cinzel"
+                        android:textColor="@color/primary" />
 
                 </LinearLayout>
 
@@ -542,9 +812,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Mengambil materi belajar..."
+                    android:text="Mengambil arsip perpustakaan..."
+                    android:fontFamily="@font/cormorant_garamond"
                     android:textAppearance="?attr/textAppearanceBodyMedium"
-                    android:textColor="?attr/colorOnSurfaceVariant" />
+                    android:textColor="@color/text_secondary" />
 
             </LinearLayout>
 
@@ -562,25 +833,28 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:alpha="0.5"
-                    android:src="@drawable/ic_empty_state"
-                    android:contentDescription="Tidak ditemukan" />
+                    android:src="@drawable/ic_bookmark_outline"
+                    android:contentDescription="Tidak ditemukan"
+                    app:tint="@color/tertiary" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Buku Tidak Ditemukan"
+                    android:text="Arsip Tidak Ditemukan"
+                    android:fontFamily="@font/cinzel"
                     android:textAppearance="?attr/textAppearanceTitleMedium"
-                    android:textColor="?attr/colorOnSurface" />
+                    android:textColor="@color/text_primary" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
-                    android:text="Silakan gunakan kata kunci pencarian yang lain."
+                    android:text="Silakan gunakan kata kunci pencarian naskah yang lain."
+                    android:fontFamily="@font/cormorant_garamond"
                     android:textAppearance="?attr/textAppearanceBodyMedium"
-                    android:textColor="?attr/colorOnSurfaceVariant" />
+                    android:textColor="@color/text_secondary" />
 
             </LinearLayout>
 
@@ -599,7 +873,8 @@
                     android:layout_height="100dp"
                     android:alpha="0.5"
                     android:src="@drawable/ic_error_state"
-                    android:contentDescription="@string/error_loading" />
+                    android:contentDescription="@string/error_loading"
+                    app:tint="@color/primary" />
 
                 <TextView
                     android:id="@+id/text_error_message"
@@ -607,8 +882,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="@string/error_loading"
+                    android:fontFamily="@font/cinzel"
                     android:textAppearance="?attr/textAppearanceTitleMedium"
-                    android:textColor="?attr/colorOnSurface" />
+                    android:textColor="@color/text_primary" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_retry"
@@ -616,6 +892,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="@string/retry"
+                    android:fontFamily="@font/cinzel"
+                    android:backgroundTint="@color/primary"
                     app:cornerRadius="8dp" />
 
             </LinearLayout>
