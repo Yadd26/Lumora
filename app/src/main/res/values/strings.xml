@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Nama Aplikasi -->
+    <string name="app_name">Lumora</string>
+    <string name="app_tagline">Terangi Perjalanan Belajarmu</string>
+
+    <!-- Navigasi Bawah -->
+    <string name="nav_home">Beranda</string>
+    <string name="nav_discussion">Diskusi</string>
+    <string name="nav_bookmark">Markah</string>
+    <string name="nav_profile">Profil</string>
+
+    <!-- Kategori & Label Lainnya -->
+    <string name="category_learning">Pembelajaran</string>
+    <string name="detail_category">Materi Belajar</string>
+
+    <!-- Fragment Beranda -->
+    <string name="home_title">Jelajahi</string>
+    <string name="home_subtitle">Temukan materi pembelajaran</string>
+    <string name="search_hint">Cari materi…</string>
+    <string name="loading_materials">Memuat materi…</string>
+    <string name="no_materials_found">Materi tidak ditemukan</string>
+    <string name="no_materials_description">Coba sesuaikan pencarian Anda atau tarik untuk memperbarui</string>
+    <string name="error_loading">Terjadi kesalahan</string>
+    <string name="error_no_internet">Tidak ada koneksi internet</string>
+    <string name="error_timeout">Waktu permintaan habis</string>
+    <string name="error_server">Terjadi kesalahan server</string>
+    <string name="retry">Coba Lagi</string>
+    <string name="pull_to_refresh">Tarik untuk memperbarui</string>
+
+    <!-- Aktivitas Detail -->
+    <string name="detail_title">Detail Materi</string>
+    <string name="bookmark_added">Materi disimpan ke markah!</string>
+    <string name="bookmark_removed">Markah dihapus</string>
+    <string name="share_material">Bagikan materi</string>
+    <string name="read_material">Baca Materi</string>
+
+    <!-- Fragment Diskusi -->
+    <string name="discussion_title">Diskusi</string>
+    <string name="discussion_subtitle">Bergabung dalam percakapan</string>
+    <string name="add_discussion">Diskusi Baru</string>
+    <string name="discussion_title_hint">Judul diskusi</string>
+    <string name="discussion_content_hint">Tulis pemikiran Anda…</string>
+    <string name="no_discussions">Belum ada diskusi</string>
+    <string name="no_discussions_description">Mulailah diskusi pertama Anda</string>
+    <string name="delete_discussion">Hapus</string>
+    <string name="delete_discussion_title">Hapus Diskusi?</string>
+    <string name="delete_discussion_message">Tindakan ini tidak dapat dibatalkan.</string>
+    <string name="cancel">Batal</string>
+    <string name="post">Kirim</string>
+    <string name="discussion_posted">Diskusi berhasil dikirim!</string>
+    <string name="discussion_deleted">Diskusi dihapus</string>
+    <string name="field_required">Kolom ini wajib diisi</string>
+
+    <!-- Fragment Markah -->
+    <string name="bookmark_title">Markah</string>
+    <string name="bookmark_subtitle">Materi yang Anda simpan</string>
+    <string name="no_bookmarks">Belum ada materi tersimpan</string>
+    <string name="no_bookmarks_description">Simpan materi favorit untuk dibaca nanti</string>
+    <string name="delete_bookmark_title">Hapus Markah?</string>
+    <string name="delete_bookmark_message">Materi ini akan dihapus dari markah Anda.</string>
+    <string name="delete">Hapus</string>
+    <string name="remove">Hapus</string>
+
+    <!-- Fragment Profil -->
+    <string name="profile_title">Profil</string>
+    <string name="hello_user">Halo, %1$s!</string>
+    <string name="total_bookmarks">Materi Disimpan</string>
+    <string name="total_discussions">Diskusi</string>
+    <string name="total_users">Akun Terdaftar</string>
+    <string name="appearance">Tampilan</string>
+    <string name="dark_mode">Mode Gelap</string>
+    <string name="dark_mode_description">Beralih antara tema terang dan gelap</string>
+    <string name="edit_username">Ubah Nama Pengguna</string>
+    <string name="username_hint">Masukkan nama Anda</string>
+    <string name="save">Simpan</string>
+    <string name="username_saved">Nama pengguna disimpan!</string>
+    <string name="default_username">Siswa</string>
+    <string name="about_lumora">Tentang Lumora</string>
+    <string name="about_description">Platform pembelajaran digital modern untuk mahasiswa yang mendukung pembelajaran online dan offline.</string>
+    <string name="version">Versi 1.0</string>
+    <string name="account_settings">Akun</string>
+    <string name="preferences">Preferensi</string>
+    <string name="info">Informasi</string>
+    <string name="logout">Keluar</string>
+    <string name="developer_label">Developer: %1$s</string>
+    <string name="developer_name">Hilmy Affayyad Akbar</string>
+
+    <!-- Autentikasi -->
+    <string name="email_label">Email</string>
+    <string name="password_label">Kata Sandi</string>
+    <string name="name_label">Nama Lengkap</string>
+    <string name="confirm_password_label">Konfirmasi Kata Sandi</string>
+    <string name="login_btn">Masuk</string>
+    <string name="register_btn">Daftar</string>
+    <string name="goto_register">Belum punya akun? Daftar</string>
+    <string name="goto_login">Sudah punya akun? Masuk</string>
+    <string name="error_email_required">Email wajib diisi</string>
+    <string name="error_password_required">Kata sandi wajib diisi</string>
+    <string name="error_name_required">Nama wajib diisi</string>
+    <string name="error_password_length">Kata sandi minimal 6 karakter</string>
+    <string name="error_password_mismatch">Konfirmasi kata sandi harus sama</string>
+    <string name="error_email_exists">Email sudah terdaftar</string>
+    <string name="login_failed">Email atau kata sandi salah</string>
+    <string name="register_success">Pendaftaran berhasil</string>
+
+    <!-- Umum -->
+    <string name="ok">OK</string>
+    <string name="error">Kesalahan</string>
+    <string name="loading">Memuat…</string>
+
+    <!-- Sumber Belajar & Riwayat Baru -->
+    <string name="nav_resources">Sumber Belajar</string>
+    <string name="learning_info">Rencana Belajar</string>
+    <string name="start_learning">Mulai Belajar</string>
+    <string name="favorite_interest">Minat Utama</string>
+    <string name="books_opened">Buku Dibuka</string>
+    <string name="study_time_est">Estimasi Waktu</string>
+    <string name="difficulty_level">Tingkat Kesulitan</string>
+</resources>
