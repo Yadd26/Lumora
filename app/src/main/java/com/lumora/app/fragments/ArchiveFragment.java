@@ -21,7 +21,7 @@ import com.lumora.app.adapters.BookAdapter;
 import com.lumora.app.adapters.ContinueReadingAdapter;
 import com.lumora.app.adapters.LearningHistoryAdapter;
 import com.lumora.app.database.DatabaseHelper;
-import com.lumora.app.databinding.FragmentHomeBinding;
+import com.lumora.app.databinding.FragmentArchiveBinding;
 import com.lumora.app.models.Book;
 import com.lumora.app.models.BookProgress;
 import com.lumora.app.models.LearningHistoryItem;
@@ -44,9 +44,9 @@ import retrofit2.Response;
  * HomeFragment - Layar utama pembelajaran yang menampilkan Rekomendasi Buku Hari Ini,
  * Kategori Pembelajaran Interaktif, dan 5 Section Buku Terkini dari Open Library API.
  */
-public class HomeFragment extends Fragment implements BookAdapter.OnBookClickListener {
+public class ArchiveFragment extends Fragment implements BookAdapter.OnBookClickListener {
 
-    private FragmentHomeBinding binding;
+    private FragmentArchiveBinding binding;
 
     // Adapters
     private BookAdapter popularAdapter;
@@ -80,7 +80,7 @@ public class HomeFragment extends Fragment implements BookAdapter.OnBookClickLis
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding = FragmentArchiveBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -696,3 +696,4 @@ public class HomeFragment extends Fragment implements BookAdapter.OnBookClickLis
         binding = null;
     }
 }
+

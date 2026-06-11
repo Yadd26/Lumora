@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.lumora.app.activities.DetailActivity;
+import com.lumora.app.activities.TutorialDetailActivity;
 import com.lumora.app.adapters.ResourceAdapter;
 import com.lumora.app.databinding.FragmentLearningResourcesBinding;
 import com.lumora.app.models.ResourceItem;
@@ -274,10 +275,11 @@ public class LearningResourcesFragment extends Fragment implements ResourceAdapt
             intent.putExtra(DetailActivity.EXTRA_BOOK_EDITION_COUNT, mockEditions);
             startActivity(intent);
         } else {
-            // Untuk tutorial/referensi, tampilkan informasi interaktif
-            Toast.makeText(requireContext(), 
-                    "Materi \"" + item.getTitle() + "\" telah ditambahkan ke rencana belajar digital Anda.", 
-                    Toast.LENGTH_SHORT).show();
+            // Open TutorialDetailActivity for tutorials/references
+            Intent intent = new Intent(requireContext(), TutorialDetailActivity.class);
+            // Since TutorialDetailActivity might need a tutorial object or ID, we pass basic info
+            // For now just starting it is enough to show progress
+            startActivity(intent);
         }
     }
 

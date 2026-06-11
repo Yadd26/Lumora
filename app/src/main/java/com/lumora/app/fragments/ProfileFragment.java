@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 import android.content.Intent;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -75,6 +77,8 @@ public class ProfileFragment extends Fragment {
         setupAboutSection();
         setupLogoutButton();
         setupBookmarksNavigation();
+        setupDailyGoalSelector();
+        setupAchievementsGallery();
     }
 
     @Override
@@ -121,67 +125,7 @@ public class ProfileFragment extends Fragment {
         });
     }
 
-    /**
-     * Memuat jumlah markah, riwayat dibuka, diskusi, minat utama, dan data kuis selesai dari SQLite secara asinkron.
-     */
-    private void loadStatistics() {
-        executorService.execute(() -> {
-            int totalBookmarks = databaseHelper.countBookmarks();
-            int totalHistory = databaseHelper.countHistory();
-            int totalDiscussions = databaseHelper.countDiscussions();
-            String favoriteCategory = databaseHelper.getFavoriteCategory();
-            
-            // Statistik Kuis dari SQLite
-            int totalQuizCompleted = databaseHelper.countQuizHistory();
-            int maxQuizScore = databaseHelper.getMaxQuizScore();
-            String favoriteQuizCategory = databaseHelper.getFavoriteQuizCategory();
 
-            // Statistik Akademik Baru
-            int booksRead = databaseHelper.countBooksRead(1);
-            int tutorialsCompleted = databaseHelper.countTutorialsCompleted(1);
-            int pathsCompleted = databaseHelper.getLearningPathsCompleted(1);
-            int studyStreak = databaseHelper.getStudyStreak(1);
-
-            // Sync and evaluate achievements into SQLite achievements table
-            if (booksRead >= 5 && !databaseHelper.hasAchievement(1, "Explorer")) {
-                databaseHelper.insertAchievement(1, "Explorer", "Membuka 5 Buku");
-            }
-            if (tutorialsCompleted >= 5 && !databaseHelper.hasAchievement(1, "Scholar")) {
-                databaseHelper.insertAchievement(1, "Scholar", "Menyelesaikan 5 Tutorial");
-            }
-            if (booksRead >= 10 && !databaseHelper.hasAchievement(1, "Master Reader")) {
-                databaseHelper.insertAchievement(1, "Master Reader", "Membaca 10 Buku");
-            }
-            if (pathsCompleted >= 1 && !databaseHelper.hasAchievement(1, "Knowledge Keeper")) {
-                databaseHelper.insertAchievement(1, "Knowledge Keeper", "Menyelesaikan Learning Path");
-            }
-            if (maxQuizScore >= 90 && !databaseHelper.hasAchievement(1, "Quiz Champion")) {
-                databaseHelper.insertAchievement(1, "Quiz Champion", "Mendapat skor kuis 90+");
-            }
-
-            // Retrieve list of earned achievements from database
-            List<String> earnedAchievements = databaseHelper.getEarnedAchievements(1);
-
-            if (isAdded()) {
-                requireActivity().runOnUiThread(() -> {
-                    binding.textTotalBookmarks.setText(String.valueOf(totalBookmarks));
-                    binding.textTotalHistory.setText(String.valueOf(totalHistory));
-                    binding.textTotalDiscussions.setText(String.valueOf(totalDiscussions));
-                    binding.textFavoriteCategory.setText(favoriteCategory);
-                    binding.textQuizCompleted.setText(String.valueOf(totalQuizCompleted));
-                    binding.textQuizHighScore.setText(String.valueOf(maxQuizScore));
-                    binding.textFavoriteQuizCategory.setText(favoriteQuizCategory);
-
-                    binding.textBooksRead.setText(String.valueOf(booksRead));
-                    binding.textTutorialsCompleted.setText(String.valueOf(tutorialsCompleted));
-                    binding.textPathsCompleted.setText(String.valueOf(pathsCompleted));
-                    binding.textStudyStreak.setText(studyStreak + " Hari");
-
-                    updateAchievements(earnedAchievements);
-                });
-            }
-        });
-    }
 
     private void updateAchievements(List<String> earned) {
         int goldColor = Color.parseColor("#C8A165");
@@ -371,6 +315,104 @@ public class ProfileFragment extends Fragment {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         requireActivity().finish();
+    }
+
+    private void setupDailyGoalSelector() {
+        SharedPreferences prefs = requireContext().getSharedPreferences("lumora_prefs", Context.MODE_PRIVATE);
+        int dailyGoal = prefs.getInt("daily_study_goal_minutes", 30);
+
+        if (dailyGoal == 15) {
+            binding.rbGoal15.setChecked(true);
+        } else if (dailyGoal == 30) {
+            binding.rbGoal30.setChecked(true);
+        } else if (dailyGoal == 60) {
+            binding.rbGoal60.setChecked(true);
+        } else if (dailyGoal == 120) {
+            binding.rbGoal120.setChecked(true);
+        } else {
+            binding.rbGoal30.setChecked(true);
+        }
+
+        binding.rgDailyGoal.setOnCheckedChangeListener((group, checkedId) -> {
+            int selectedGoal = 30;
+            if (checkedId == R.id.rb_goal_15) {
+                selectedGoal = 15;
+            } else if (checkedId == R.id.rb_goal_30) {
+                selectedGoal = 30;
+            } else if (checkedId == R.id.rb_goal_60) {
+                selectedGoal = 60;
+            } else if (checkedId == R.id.rb_goal_120) {
+                selectedGoal = 120;
+            }
+
+            prefs.edit().putInt("daily_study_goal_minutes", selectedGoal).apply();
+            Toast.makeText(requireContext(), "Target harian disimpan: " + selectedGoal + " menit", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void setupAchievementsGallery() {
+        binding.layoutAchievementsGallery.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), com.lumora.app.activities.AchievementGalleryActivity.class);
+            startActivity(intent);
+        });
+    }
+
+    private void loadStatistics() {
+        if (executorService == null || databaseHelper == null) return;
+        executorService.execute(() -> {
+            int totalHistory = databaseHelper.countHistory();
+                        int totalBookmarks = databaseHelper.countBookmarks();
+
+            String favCategory = databaseHelper.getFavoriteCategory();
+            int booksRead = databaseHelper.countBooksRead(1);
+            int tutorialsCompleted = databaseHelper.countTutorialsCompleted(1);
+            int quizCompleted = databaseHelper.countQuizHistory();
+            int pathsCompleted = databaseHelper.getLearningPathsCompleted(1);
+            int studyStreak = databaseHelper.getCurrentStreak(1);
+            int quizHighScore = databaseHelper.getMaxQuizScore();
+            String favQuizCategory = databaseHelper.getFavoriteQuizCategory();
+
+            // Load scholar level stats
+            List<String> earnedAchievements = databaseHelper.getEarnedAchievements(1);
+            int achievementsCount = earnedAchievements.size();
+            int totalPoints = (booksRead * 20) + (tutorialsCompleted * 15) + (quizCompleted * 10) + (achievementsCount * 30);
+
+            String scholarLevelTitle = "Novice Reader";
+            if (totalPoints >= 1000) {
+                scholarLevelTitle = "Grand Archivist";
+            } else if (totalPoints >= 500) {
+                scholarLevelTitle = "Senior Scholar";
+            } else if (totalPoints >= 250) {
+                scholarLevelTitle = "Knowledge Seeker";
+            } else if (totalPoints >= 100) {
+                scholarLevelTitle = "Junior Scholar";
+            }
+
+            final String fLevelTitle = scholarLevelTitle;
+            final int fPoints = totalPoints;
+
+            if (getActivity() != null) {
+                requireActivity().runOnUiThread(() -> {
+                    if (binding != null) {
+                        binding.textTotalHistory.setText(String.valueOf(totalHistory));
+                                                binding.textTotalBookmarks.setText(String.valueOf(totalBookmarks));
+
+                        binding.textFavoriteCategory.setText(favCategory);
+                        binding.textBooksRead.setText(String.valueOf(booksRead));
+                        binding.textTutorialsCompleted.setText(String.valueOf(tutorialsCompleted));
+                        binding.textQuizCompleted.setText(String.valueOf(quizCompleted));
+                        binding.textPathsCompleted.setText(String.valueOf(pathsCompleted));
+                        binding.textStudyStreak.setText(studyStreak + " Hari");
+                        binding.textQuizHighScore.setText(String.valueOf(quizHighScore));
+                        binding.textFavoriteQuizCategory.setText(favQuizCategory);
+
+                        binding.textScholarLevel.setText(fLevelTitle + " (" + fPoints + " Poin)");
+
+                        updateAchievements(earnedAchievements);
+                    }
+                });
+            }
+        });
     }
 
     @Override
