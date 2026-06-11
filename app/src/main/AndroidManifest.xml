@@ -89,6 +89,37 @@
             android:exported="false"
             android:parentActivityName=".activities.MainActivity" />
 
-    </application>
+        <!-- Achievement Gallery Activity -->
+        <activity
+            android:name=".activities.AchievementGalleryActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.MainActivity" />
+
+        <!-- Offline Library Activity -->
+        <activity
+            android:name=".activities.OfflineLibraryActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.MainActivity" />
+
+        <!-- Onboarding Activity -->
+        <activity
+            android:name=".activities.OnboardingActivity"
+            android:exported="false" />
+
+        <!-- File Provider -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.lumora.app.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+            <activity android:name=".activities.CourseDetailActivity" android:exported="false" android:theme="@style/Theme.Lumora.Detail" />
+        <activity android:name=".activities.ModuleDetailActivity" android:exported="false" android:theme="@style/Theme.Lumora.Detail" />
+        <activity android:name=".activities.CertificateActivity" android:exported="false" android:theme="@style/Theme.Lumora.Detail" />
+</application>
 
 </manifest>

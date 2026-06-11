@@ -13,28 +13,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.lumora.app.R;
+import com.lumora.app.models.Module;
 
 import java.util.List;
 
 public class LearningPathStepAdapter extends RecyclerView.Adapter<LearningPathStepAdapter.ViewHolder> {
 
     public interface OnStepStatusChangeListener {
-        void onStatusChange(String moduleName, String currentStatus);
+        void onStatusChange(Module module);
     }
 
     private final Context context;
-    private final List<String> modulesList;
-    private final List<String> completedModules;
-    private final List<String> inProgressModules;
+    private final List<Module> modulesList;
     private final OnStepStatusChangeListener listener;
 
-    public LearningPathStepAdapter(Context context, List<String> modulesList, 
-                                   List<String> completedModules, List<String> inProgressModules,
+    public LearningPathStepAdapter(Context context, List<Module> modulesList, 
                                    OnStepStatusChangeListener listener) {
         this.context = context;
         this.modulesList = modulesList;
-        this.completedModules = completedModules;
-        this.inProgressModules = inProgressModules;
         this.listener = listener;
     }
 
@@ -47,65 +43,67 @@ public class LearningPathStepAdapter extends RecyclerView.Adapter<LearningPathSt
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String moduleName = modulesList.get(position);
-        holder.textStepTitle.setText((position + 1) + ". " + moduleName);
-        
-        // Setup module description description based on title keywords
-        String desc = getModuleDescription(moduleName);
-        holder.textStepDesc.setText(desc);
+        Module module = modulesList.get(position);
+        holder.textStepTitle.setText((position + 1) + ". " + module.getName());
+        holder.textStepDesc.setText(module.getDescription());
 
-        // Determine current status
-        String status = "Belum Dimulai";
-        int dotColor = ContextCompat.getColor(context, R.color.outline);
+        // Determine locking: locked if position > 0 and previous module is not completed ("Selesai")
+        boolean isLocked = false;
+        if (position > 0) {
+            Module prevModule = modulesList.get(position - 1);
+            if (!"Selesai".equals(prevModule.getStatus())) {
+                isLocked = true;
+            }
+        }
+
+        String status;
+        int dotColor;
         
-        if (completedModules.contains(moduleName)) {
-            status = "Selesai";
-            dotColor = ContextCompat.getColor(context, R.color.success);
-            holder.textStepStatus.setTextColor(ContextCompat.getColor(context, R.color.success));
-        } else if (inProgressModules.contains(moduleName)) {
-            status = "Sedang Dipelajari";
-            dotColor = ContextCompat.getColor(context, R.color.warning);
-            holder.textStepStatus.setTextColor(ContextCompat.getColor(context, R.color.warning));
-        } else {
+        if (isLocked) {
+            status = "Terkunci";
+            dotColor = ContextCompat.getColor(context, R.color.outline);
             holder.textStepStatus.setTextColor(ContextCompat.getColor(context, R.color.text_secondary));
+            holder.textStepTitle.setAlpha(0.5f);
+            holder.textStepDesc.setAlpha(0.5f);
+            holder.btnChangeStatus.setEnabled(false);
+            holder.btnChangeStatus.setText("Terkunci");
+        } else {
+            status = module.getStatus();
+            holder.textStepTitle.setAlpha(1.0f);
+            holder.textStepDesc.setAlpha(1.0f);
+            holder.btnChangeStatus.setEnabled(true);
+            holder.btnChangeStatus.setText("Ubah Status");
+
+            if ("Selesai".equals(status)) {
+                dotColor = ContextCompat.getColor(context, R.color.success);
+                holder.textStepStatus.setTextColor(ContextCompat.getColor(context, R.color.success));
+            } else if ("Sedang Dipelajari".equals(status)) {
+                dotColor = ContextCompat.getColor(context, R.color.warning);
+                holder.textStepStatus.setTextColor(ContextCompat.getColor(context, R.color.warning));
+            } else {
+                dotColor = ContextCompat.getColor(context, R.color.outline);
+                holder.textStepStatus.setTextColor(ContextCompat.getColor(context, R.color.text_secondary));
+            }
         }
         
-        holder.textStepStatus.setText(status);
+        // Show progress percentage if not locked
+        if (!isLocked && !"Belum Dimulai".equals(status)) {
+            holder.textStepStatus.setText(status + " (" + module.getCompletionPercentage() + "%)");
+        } else {
+            holder.textStepStatus.setText(status);
+        }
+        
         holder.dotIndicator.setBackgroundTintList(ColorStateList.valueOf(dotColor));
 
         // Connectors visibility
         holder.lineTop.setVisibility(position == 0 ? View.INVISIBLE : View.VISIBLE);
         holder.lineBottom.setVisibility(position == getItemCount() - 1 ? View.INVISIBLE : View.VISIBLE);
 
-        final String finalStatus = status;
         holder.btnChangeStatus.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onStatusChange(moduleName, finalStatus);
+                listener.onStatusChange(module);
             }
         });
-    }
-
-    private String getModuleDescription(String moduleName) {
-        if (moduleName.contains("Java") || moduleName.contains("Kotlin") || moduleName.contains("Dasar")) {
-            return "Dasar sintaksis, variabel, percabangan, perulangan, dan pemecahan masalah algoritma dasar.";
-        } else if (moduleName.contains("OOP") || moduleName.contains("Object")) {
-            return "Kelas, objek, pewarisan (inheritance), enkapsulasi, polimorfisme, dan interface.";
-        } else if (moduleName.contains("Activity") || moduleName.contains("Lifecycle")) {
-            return "Memahami siklus hidup activity Android, penanganan state, dan intent navigasi.";
-        } else if (moduleName.contains("Fragment") || moduleName.contains("Navigasi")) {
-            return "Menggunakan fragment modular, transaksi fragment manager, dan Android Navigation Component.";
-        } else if (moduleName.contains("API") || moduleName.contains("Network") || moduleName.contains("Retrofit")) {
-            return "Integrasi web service RESTful menggunakan Retrofit, parsing JSON, dan data callback.";
-        } else if (moduleName.contains("Database") || moduleName.contains("SQL") || moduleName.contains("Local")) {
-            return "Manajemen data persisten menggunakan SQLite DatabaseHelper, skema relasional, dan transaksi CRUD.";
-        } else if (moduleName.contains("AI") || moduleName.contains("Machine") || moduleName.contains("Model")) {
-            return "Memahami teori machine learning dasar, model prediksi, regresi linear, dan inferensi neural.";
-        } else if (moduleName.contains("Security") || moduleName.contains("Kripto") || moduleName.contains("Cyber")) {
-            return "Prinsip keamanan sistem, kriptografi simetris/asimetris, dan enkripsi payload data.";
-        } else if (moduleName.contains("Design") || moduleName.contains("Architect") || moduleName.contains("Pattern")) {
-            return "Pola arsitektur MVVM/MVC, pemisahan data logic dari view, kode bersih, dan testing unit.";
-        }
-        return "Modul pembelajaran mendalam mengenai konsep akademik yang bersangkutan.";
     }
 
     @Override

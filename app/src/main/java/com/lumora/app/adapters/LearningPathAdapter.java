@@ -47,11 +47,33 @@ public class LearningPathAdapter extends RecyclerView.Adapter<LearningPathAdapte
         holder.progressBar.setProgress(path.getProgress());
         holder.textProgress.setText(path.getProgress() + "%");
 
-        holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, LearningPathDetailActivity.class);
-            intent.putExtra("learning_path", path);
-            context.startActivity(intent);
-        });
+        // Determine if path is locked
+        boolean isLocked = false;
+        if (position > 0) {
+            LearningPath prevPath = pathsList.get(position - 1);
+            if (prevPath.getProgress() < 100) {
+                isLocked = true;
+            }
+        }
+
+        if (isLocked) {
+            holder.textTitle.setAlpha(0.5f);
+            holder.textDesc.setAlpha(0.5f);
+            holder.textDuration.setText("Terkunci");
+            holder.itemView.setAlpha(0.7f);
+            holder.itemView.setOnClickListener(v -> {
+                android.widget.Toast.makeText(context, "Selesaikan jalur belajar sebelumnya terlebih dahulu!", android.widget.Toast.LENGTH_SHORT).show();
+            });
+        } else {
+            holder.textTitle.setAlpha(1.0f);
+            holder.textDesc.setAlpha(1.0f);
+            holder.itemView.setAlpha(1.0f);
+            holder.itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(context, LearningPathDetailActivity.class);
+                intent.putExtra("learning_path", path);
+                context.startActivity(intent);
+            });
+        }
     }
 
     @Override
