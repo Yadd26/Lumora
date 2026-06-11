@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FAF4E8"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <!-- Handle bar for Bottom Sheet -->
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:background="#C8A165"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Title and Tabs -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Peralatan Akademisi"
+        android:textAppearance="?attr/textAppearanceTitleLarge"
+        android:textColor="#3E2723"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_marginBottom="16dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_tab_notes"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="4dp"
+            android:text="Catatan"
+            android:textColor="#FAF4E8"
+            app:backgroundTint="#5C3D2E" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_tab_highlights"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="4dp"
+            android:text="Sorotan"
+            android:textColor="#5C3D2E"
+            app:strokeColor="#5C3D2E" />
+
+    </LinearLayout>
+
+    <!-- Content Area -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="350dp">
+
+        <!-- TAB 1: NOTES SECTION -->
+        <LinearLayout
+            android:id="@+id/layout_notes_tab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_add_note"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="+ Tambah Catatan Baru"
+                android:textColor="#5C3D2E"
+                android:layout_marginBottom="10dp"
+                app:backgroundTint="#EFE5D3" />
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:id="@+id/container_notes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+            </androidx.core.widget.NestedScrollView>
+
+        </LinearLayout>
+
+        <!-- TAB 2: HIGHLIGHTS SECTION -->
+        <LinearLayout
+            android:id="@+id/layout_highlights_tab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <!-- Form highlight -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Teks yang akan disorot:"
+                android:textAppearance="?attr/textAppearanceLabelLarge"
+                android:textColor="#5C3D2E"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/edit_highlight_phrase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Pilih teks di bab atau ketik di sini..."
+                android:textColor="#3E2723"
+                android:textColorHint="#8D6E63"
+                android:backgroundTint="#5C3D2E"
+                android:layout_marginBottom="12dp"
+                android:textSize="14sp"
+                android:padding="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pilih Warna Sorotan:"
+                android:textAppearance="?attr/textAppearanceLabelLarge"
+                android:textColor="#5C3D2E"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Color picker radio buttons -->
+            <RadioGroup
+                android:id="@+id/rg_highlight_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp"
+                android:gravity="center_vertical">
+
+                <RadioButton
+                    android:id="@+id/rb_color_yellow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kuning"
+                    android:textColor="#5C3D2E"
+                    android:checked="true"
+                    android:layout_marginEnd="8dp"
+                    android:buttonTint="#FFF2B2" />
+
+                <RadioButton
+                    android:id="@+id/rb_color_gold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Emas"
+                    android:textColor="#5C3D2E"
+                    android:layout_marginEnd="8dp"
+                    android:buttonTint="#FFE082" />
+
+                <RadioButton
+                    android:id="@+id/rb_color_brown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Coklat"
+                    android:buttonTint="#D7CCC8"
+                    android:textColor="#5C3D2E" />
+
+            </RadioGroup>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_save_highlight"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Simpan Sorotan"
+                android:textColor="#FAF4E8"
+                android:layout_marginBottom="12dp"
+                app:backgroundTint="#5C3D2E" />
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:id="@+id/container_highlights"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+            </androidx.core.widget.NestedScrollView>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</LinearLayout>

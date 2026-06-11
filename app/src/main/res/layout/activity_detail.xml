@@ -20,9 +20,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_back"
-            app:navigationIconTint="@color/on_primary"
+            app:navigationIconTint="#FFF8F0"
             app:title="@string/detail_title"
-            app:titleTextColor="@color/on_primary"
+            app:titleTextColor="#FFF8F0"
             app:titleTextAppearance="@style/TextAppearance.Lumora.TitleMedium" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -82,7 +82,7 @@
                     android:layout_marginTop="20dp"
                     android:text="@string/category_learning"
                     android:fontFamily="@font/cinzel"
-                    android:textColor="@color/on_primary"
+                    android:textColor="#FFF8F0"
                     app:chipBackgroundColor="@color/primary"
                     app:chipStrokeWidth="0dp"
                     app:cornerRadius="8dp" />
@@ -324,7 +324,7 @@
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:backgroundTint="@color/primary"
-                    android:textColor="@color/on_primary"
+                    android:textColor="#FFF8F0"
                     app:cornerRadius="12dp" />
 
                 <!-- Bookmark Button (Simpan ke Koleksi) -->
@@ -363,3 +363,4 @@
         android:contentDescription="@string/bookmark_added" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+

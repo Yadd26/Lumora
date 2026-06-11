@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_parchment_card"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_marginBottom="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/text_tut_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Pengenalan OOP Java"
+            android:textColor="#3E2723"
+            android:textStyle="bold"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/text_tut_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Belum Dimulai"
+            android:textColor="#8D6E63"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:background="#EFE5D3"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_tut_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="Mempelajari konsep dasar pemograman berorientasi objek..."
+        android:textColor="#5C3D2E"
+        android:textSize="13sp"
+        android:maxLines="2"
+        android:ellipsize="end" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#EFE5D3"
+        android:layout_marginVertical="10dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/text_tut_meta"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Pemrograman • Menengah • 15 Menit"
+            android:textColor="#8D6E63"
+            android:textSize="12sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_study_tutorial"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PELAJARI"
+            android:textColor="#FAF4E8"
+            app:backgroundTint="#5C3D2E"
+            android:textSize="11sp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

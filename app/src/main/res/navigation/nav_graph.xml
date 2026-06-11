@@ -3,19 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/archiveFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.lumora.app.fragments.HomeFragment"
+        android:id="@+id/archiveFragment"
+        android:name="com.lumora.app.fragments.ArchiveFragment"
         android:label="@string/nav_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_archive" />
 
-    <fragment
-        android:id="@+id/discussionFragment"
-        android:name="com.lumora.app.fragments.DiscussionFragment"
-        android:label="@string/nav_discussion"
-        tools:layout="@layout/fragment_discussion" />
+
 
     <fragment
         android:id="@+id/quizFragment"
@@ -52,5 +48,17 @@
         android:name="com.lumora.app.fragments.TutorialFragment"
         android:label="@string/nav_tutorial"
         tools:layout="@layout/fragment_tutorial" />
+
+
+
+    <activity
+        android:id="@+id/achievementGalleryActivity"
+        android:name="com.lumora.app.activities.AchievementGalleryActivity"
+        android:label="Galeri Penghargaan" />
+
+    <activity
+        android:id="@+id/offlineLibraryActivity"
+        android:name="com.lumora.app.activities.OfflineLibraryActivity"
+        android:label="Perpustakaan Offline" />
 
 </navigation>

@@ -24,7 +24,7 @@
             android:layout_height="48dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_back"
-            app:tint="@color/on_primary" />
+            app:tint="#FFF8F0" />
 
         <TextView
             android:id="@+id/text_toolbar_title"
@@ -33,7 +33,7 @@
             android:layout_marginStart="8dp"
             android:text="Peta Kurikulum"
             android:textAppearance="?attr/textAppearanceTitleLarge"
-            android:textColor="@color/on_primary"
+            android:textColor="#FFF8F0"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -102,6 +102,17 @@
 
             </LinearLayout>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_download_certificate"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Unduh Sertifikat Kelulusan"
+                android:textColor="#5C3D2E"
+                app:backgroundTint="#C8A165"
+                android:enabled="false" />
+
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
@@ -110,6 +121,14 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_open_book"
+            android:alpha="0.03"
+            android:contentDescription="Watermark" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_path_steps"
@@ -122,3 +141,4 @@
     </FrameLayout>
 
 </LinearLayout>
+

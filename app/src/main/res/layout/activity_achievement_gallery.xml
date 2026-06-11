@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAF4E8">
+
+    <!-- Header Toolbar -->
+    <LinearLayout
+        android:id="@+id/layout_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#EFE5D3"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="16dp">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_back"
+            app:tint="#5C3D2E"
+            android:contentDescription="Kembali" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Galeri Penghargaan"
+            android:textAppearance="?attr/textAppearanceTitleLarge"
+            android:textColor="#3E2723"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <!-- Scroll View for grid of achievements -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/layout_header"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Subtitle -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lencana Kehormatan Akademisi Lumora"
+                android:textColor="#5C3D2E"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                android:gravity="center"
+                android:layout_marginBottom="16dp" />
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="3"
+                android:useDefaultMargins="true"
+                android:alignmentMode="alignBounds">
+
+                <!-- 1. EXPLORER BADGE -->
+                <LinearLayout
+                    android:id="@+id/card_ach_explorer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_parchment_card"
+                    android:padding="16dp"
+                    android:layout_margin="6dp">
+
+                    <ImageView
+                        android:id="@+id/img_ach_explorer"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:src="@drawable/ic_gate"
+                        app:tint="#CCCCCC"
+                        android:alpha="0.4"
+                        android:importantForAccessibility="no" />
+
+                    <TextView
+                        android:id="@+id/text_title_explorer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Explorer (Terkunci)"
+                        android:textColor="#3E2723"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Selesaikan minimal 1 tutorial akademik."
+                        android:textColor="#8D6E63"
+                        android:textSize="11sp"
+                        android:gravity="center" />
+
+                </LinearLayout>
+
+                <!-- 2. SCHOLAR BADGE -->
+                <LinearLayout
+                    android:id="@+id/card_ach_scholar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_parchment_card"
+                    android:padding="16dp"
+                    android:layout_margin="6dp">
+
+                    <ImageView
+                        android:id="@+id/img_ach_scholar"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:src="@drawable/ic_learning_path"
+                        app:tint="#CCCCCC"
+                        android:alpha="0.4"
+                        android:importantForAccessibility="no" />
+
+                    <TextView
+                        android:id="@+id/text_title_scholar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Scholar (Terkunci)"
+                        android:textColor="#3E2723"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Selesaikan minimal 1 learning path modul."
+                        android:textColor="#8D6E63"
+                        android:textSize="11sp"
+                        android:gravity="center" />
+
+                </LinearLayout>
+
+                <!-- 3. MASTER READER BADGE -->
+                <LinearLayout
+                    android:id="@+id/card_ach_reader"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_parchment_card"
+                    android:padding="16dp"
+                    android:layout_margin="6dp">
+
+                    <ImageView
+                        android:id="@+id/img_ach_reader"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:src="@drawable/ic_open_book"
+                        app:tint="#CCCCCC"
+                        android:alpha="0.4"
+                        android:importantForAccessibility="no" />
+
+                    <TextView
+                        android:id="@+id/text_title_reader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Master Reader (Terkunci)"
+                        android:textColor="#3E2723"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Mulai membaca minimal 1 buku naskah."
+                        android:textColor="#8D6E63"
+                        android:textSize="11sp"
+                        android:gravity="center" />
+
+                </LinearLayout>
+
+                <!-- 4. KNOWLEDGE KEEPER BADGE -->
+                <LinearLayout
+                    android:id="@+id/card_ach_keeper"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_parchment_card"
+                    android:padding="16dp"
+                    android:layout_margin="6dp">
+
+                    <ImageView
+                        android:id="@+id/img_ach_keeper"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:src="@drawable/ic_quill"
+                        app:tint="#CCCCCC"
+                        android:alpha="0.4"
+                        android:importantForAccessibility="no" />
+
+                    <TextView
+                        android:id="@+id/text_title_keeper"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Knowledge Keeper (Terkunci)"
+                        android:textColor="#3E2723"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Simpan minimal 3 catatan atau jurnal."
+                        android:textColor="#8D6E63"
+                        android:textSize="11sp"
+                        android:gravity="center" />
+
+                </LinearLayout>
+
+                <!-- 5. QUIZ CHAMPION BADGE -->
+                <LinearLayout
+                    android:id="@+id/card_ach_champion"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_parchment_card"
+                    android:padding="16dp"
+                    android:layout_margin="6dp">
+
+                    <ImageView
+                        android:id="@+id/img_ach_champion"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:src="@drawable/ic_quiz"
+                        app:tint="#CCCCCC"
+                        android:alpha="0.4"
+                        android:importantForAccessibility="no" />
+
+                    <TextView
+                        android:id="@+id/text_title_champion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Quiz Champion (Terkunci)"
+                        android:textColor="#3E2723"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Dapatkan nilai di atas 80% pada kuis."
+                        android:textColor="#8D6E63"
+                        android:textSize="11sp"
+                        android:gravity="center" />
+
+                </LinearLayout>
+
+                <!-- 6. GRAND ARCHIVIST BADGE -->
+                <LinearLayout
+                    android:id="@+id/card_ach_archivist"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_parchment_card"
+                    android:padding="16dp"
+                    android:layout_margin="6dp">
+
+                    <ImageView
+                        android:id="@+id/img_ach_archivist"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:src="@drawable/ic_lantern"
+                        app:tint="#CCCCCC"
+                        android:alpha="0.4"
+                        android:importantForAccessibility="no" />
+
+                    <TextView
+                        android:id="@+id/text_title_archivist"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Grand Archivist (Terkunci)"
+                        android:textColor="#3E2723"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Akumulasikan total poin scholar sebesar 1000."
+                        android:textColor="#8D6E63"
+                        android:textSize="11sp"
+                        android:gravity="center" />
+
+                </LinearLayout>
+
+            </GridLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>

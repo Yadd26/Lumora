@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <!-- ViewPager2 for sliding pages -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager_onboarding"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/layout_bottom_bar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <!-- Bottom Actions Container -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_bottom_bar"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:paddingHorizontal="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <!-- Skip Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_skip"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="LEWATI"
+            android:fontFamily="@font/cinzel"
+            android:textColor="@color/text_secondary"
+            android:letterSpacing="0.05"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Progress Indicators (Dots) -->
+        <LinearLayout
+            android:id="@+id/layout_indicators"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Next / Get Started Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_next"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="LANJUT"
+            android:fontFamily="@font/cinzel"
+            android:textColor="@color/on_primary"
+            android:letterSpacing="0.05"
+            android:textSize="14sp"
+            app:backgroundTint="@color/primary"
+            app:cornerRadius="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

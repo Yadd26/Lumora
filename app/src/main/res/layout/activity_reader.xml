@@ -9,6 +9,7 @@
 
     <!-- Header / Book Title -->
     <LinearLayout
+        android:id="@+id/layout_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#EFE5D3"
@@ -23,6 +24,7 @@
             android:layout_height="48dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_back"
+            android:contentDescription="Kembali ke Detail Buku"
             app:tint="#5C3D2E" />
 
         <LinearLayout
@@ -54,6 +56,35 @@
 
         </LinearLayout>
 
+        <!-- Bookmark button -->
+        <ImageButton
+            android:id="@+id/btn_bookmark"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_bookmark_outline"
+            android:contentDescription="Simpan ke Bookmark"
+            app:tint="#5C3D2E" />
+
+        <!-- Settings button -->
+        <ImageButton
+            android:id="@+id/btn_settings"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_menu"
+            android:contentDescription="Pengaturan Pembaca"
+            app:tint="#5C3D2E" />
+
+        <ImageButton
+            android:id="@+id/btn_academic_tools"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_quill"
+            android:contentDescription="Alat Akademik"
+            app:tint="#5C3D2E" />
+
     </LinearLayout>
 
     <!-- Reading Progress Bar -->
@@ -67,67 +98,221 @@
         android:progressTint="#5C3D2E"
         android:progressBackgroundTint="#EFE5D3" />
 
-    <!-- Chapter Title & Reading Section -->
-    <androidx.core.widget.NestedScrollView
+    <!-- Settings Panel (Collapsible) -->
+    <LinearLayout
+        android:id="@+id/layout_settings_panel"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="24dp">
+        android:layout_height="wrap_content"
+        android:background="#EFE5D3"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:visibility="gone">
 
+        <!-- Font Size Row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-            <!-- Chapter Label -->
             <TextView
-                android:id="@+id/text_chapter_label"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="BAB 1"
-                android:textAppearance="?attr/textAppearanceTitleLarge"
+                android:text="Ukuran Font:"
                 android:textColor="#5C3D2E"
-                android:textStyle="bold" />
+                android:textSize="14sp"
+                android:fontFamily="@font/cinzel" />
 
-            <TextView
-                android:id="@+id/text_chapter_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:text="Gerbang Pengetahuan Dasar"
-                android:textAppearance="?attr/textAppearanceHeadlineSmall"
-                android:textColor="#3E2723" />
-
-            <!-- Divider Ornament -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginTop="16dp"
-                android:text="❦ ❦ ❦"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_font_decrease"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:text="A-"
                 android:textColor="#5C3D2E"
-                android:textSize="18sp" />
+                android:contentDescription="Kecilkan Font" />
 
-            <!-- Chapter Body Text -->
-            <TextView
-                android:id="@+id/text_chapter_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="Isi konten materi bab digital reader..."
-                android:textAppearance="?attr/textAppearanceBodyLarge"
-                android:textColor="#3E2723"
-                android:lineSpacingExtra="8dp"
-                android:textSize="18sp" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_font_increase"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:text="A+"
+                android:textColor="#5C3D2E"
+                android:contentDescription="Besarkan Font" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_focus_mode"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Fokus"
+                android:textSize="12sp"
+                android:textColor="#5C3D2E"
+                app:strokeColor="#5C3D2E"
+                app:cornerRadius="4dp"
+                android:contentDescription="Aktifkan Mode Fokus" />
 
         </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
+        <!-- Theme Selector Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tema Halaman:"
+                android:textColor="#5C3D2E"
+                android:textSize="14sp"
+                android:fontFamily="@font/cinzel" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_theme_light"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:text="Terang"
+                android:textSize="12sp"
+                android:textColor="#3E2723"
+                app:backgroundTint="#FAF4E8"
+                android:contentDescription="Tema Terang" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_theme_sepia"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:text="Sepia"
+                android:textSize="12sp"
+                android:textColor="#5C4033"
+                app:backgroundTint="#F4ECD8"
+                android:contentDescription="Tema Sepia" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_theme_dark"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:text="Gelap"
+                android:textSize="12sp"
+                android:textColor="#F5EFE6"
+                app:backgroundTint="#1B1A17"
+                android:contentDescription="Tema Gelap" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Chapter Title & Reading Section with Watermark -->
+    <FrameLayout
+        android:id="@+id/layout_reading_area"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#FAF4E8">
+
+        <ImageView
+            android:id="@+id/image_watermark"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_open_book"
+            android:alpha="0.03"
+            android:scaleType="centerInside"
+            android:importantForAccessibility="no" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Chapter Label -->
+                <TextView
+                    android:id="@+id/text_chapter_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="BAB 1"
+                    android:textAppearance="?attr/textAppearanceTitleLarge"
+                    android:textColor="#5C3D2E"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/text_chapter_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:text="Gerbang Pengetahuan Dasar"
+                    android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                    android:textColor="#3E2723" />
+
+                <!-- Divider Ornament -->
+                <TextView
+                    android:id="@+id/text_divider_ornament"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="16dp"
+                    android:text="❦ ❦ ❦"
+                    android:textColor="#5C3D2E"
+                    android:textSize="18sp" />
+
+                <!-- Chapter Body Text -->
+                <TextView
+                    android:id="@+id/text_chapter_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Isi konten materi bab digital reader..."
+                    android:textAppearance="?attr/textAppearanceBodyLarge"
+                    android:textColor="#3E2723"
+                    android:lineSpacingExtra="8dp"
+                    android:textSize="18sp"
+                    android:textIsSelectable="true" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <!-- Exit Focus Mode Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_exit_focus"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:layout_margin="16dp"
+            android:text="Keluar Fokus"
+            android:textSize="12sp"
+            android:textColor="#C8A165"
+            app:backgroundTint="#2C241C"
+            android:visibility="gone"
+            android:contentDescription="Keluar dari Mode Fokus" />
+
+    </FrameLayout>
 
     <!-- Reader Control Panel (Bottom) -->
     <LinearLayout
+        android:id="@+id/layout_control_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#EFE5D3"
@@ -142,27 +327,24 @@
 
             <TextView
                 android:id="@+id/text_progress_percentage"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Halaman 1 dari 5 • Progress: 20%"
                 android:textAppearance="?attr/textAppearanceLabelMedium"
                 android:textColor="#3E2723" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_save_progress"
                 style="@style/Widget.Material3.Button.TonalButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Simpan Kemajuan"
+                android:text="Simpan"
                 android:textColor="#5C3D2E"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
-                app:backgroundTint="#FAF4E8" />
+                app:backgroundTint="#FAF4E8"
+                android:contentDescription="Simpan Kemajuan Membaca" />
 
         </LinearLayout>
 
@@ -182,7 +364,8 @@
                 android:layout_marginEnd="6dp"
                 android:text="Sebelumnya"
                 android:textColor="#5C3D2E"
-                app:strokeColor="#5C3D2E" />
+                app:strokeColor="#5C3D2E"
+                android:contentDescription="Halaman Sebelumnya" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_next_chapter"
@@ -193,7 +376,8 @@
                 android:layout_marginStart="6dp"
                 android:text="Berikutnya"
                 android:textColor="#FAF4E8"
-                app:backgroundTint="#5C3D2E" />
+                app:backgroundTint="#5C3D2E"
+                android:contentDescription="Halaman Berikutnya" />
 
         </LinearLayout>
 

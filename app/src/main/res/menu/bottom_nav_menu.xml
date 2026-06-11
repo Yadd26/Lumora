@@ -2,19 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/homeFragment"
+        android:id="@+id/archiveFragment"
         android:icon="@drawable/ic_home"
-        android:title="@string/nav_home" />
+        android:title="Archive" />
 
-    <item
-        android:id="@+id/discussionFragment"
-        android:icon="@drawable/ic_discussion"
-        android:title="@string/nav_discussion" />
+
 
     <item
         android:id="@+id/bookmarkFragment"
         android:icon="@drawable/ic_bookmark"
-        android:title="@string/nav_bookmark" />
+        android:title="Koleksi Pribadi" />
 
     <item
         android:id="@+id/profileFragment"

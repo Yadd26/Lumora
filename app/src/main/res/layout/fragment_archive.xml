@@ -22,25 +22,25 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/text_home_title"
+            android:id="@+id/text_archive_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/home_title"
+            android:text="Archive Pusat"
             android:fontFamily="@font/cinzel"
             android:textAppearance="?attr/textAppearanceHeadlineMedium"
-            android:textColor="@color/on_primary"
+            android:textColor="#FFF8F0"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/text_home_subtitle"
+            android:id="@+id/text_archive_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:alpha="0.9"
-            android:text="@string/home_subtitle"
+            android:text="Eksplorasi Arsip Akademik Anda"
             android:fontFamily="@font/cormorant_garamond"
             android:textAppearance="?attr/textAppearanceBodyMedium"
-            android:textColor="@color/on_primary" />
+            android:textColor="#FFF8F0" />
 
         <!-- Search Bar (Parchment background with gold border overlay) -->
         <com.google.android.material.card.MaterialCardView
@@ -98,7 +98,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
-                        android:text="Lembaga Akademik"
+                        android:text="Koleksi Cepat"
                         android:fontFamily="@font/cinzel"
                         android:textAppearance="?attr/textAppearanceTitleMedium"
                         android:textColor="@color/text_primary"
@@ -411,7 +411,7 @@
                                     android:text="PILIHAN TERBAIK"
                                     android:fontFamily="@font/cinzel"
                                     android:textAppearance="?attr/textAppearanceLabelSmall"
-                                    android:textColor="@color/on_primary"
+                                    android:textColor="#FFF8F0"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -450,7 +450,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
-                        android:text="Arsip Departemen"
+                        android:text="Kategori Arsip"
                         android:fontFamily="@font/cinzel"
                         android:textAppearance="?attr/textAppearanceTitleMedium"
                         android:textColor="@color/text_primary"
@@ -903,3 +903,5 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+

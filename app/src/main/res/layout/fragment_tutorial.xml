@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:text="PANDUAN AKADEMIK"
             android:textAppearance="?attr/textAppearanceTitleLarge"
-            android:textColor="@color/on_primary"
+            android:textColor="#FFF8F0"
             android:textStyle="bold" />
 
         <TextView
@@ -30,7 +30,7 @@
             android:layout_marginTop="4dp"
             android:text="Tutorial &amp; Contoh Kode Pembelajaran Offline"
             android:textAppearance="?attr/textAppearanceBodyMedium"
-            android:textColor="@color/on_primary"
+            android:textColor="#FFF8F0"
             android:alpha="0.85" />
 
     </LinearLayout>
@@ -61,3 +61,4 @@
     </FrameLayout>
 
 </LinearLayout>
+

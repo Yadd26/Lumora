@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_parchment_card"
+    android:padding="12dp"
+    android:layout_marginBottom="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/text_note_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Judul Catatan"
+            android:textColor="#3E2723"
+            android:textStyle="bold"
+            android:textSize="15sp" />
+
+        <ImageButton
+            android:id="@+id/btn_edit_note"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_edit"
+            app:tint="#C8A165"
+            android:contentDescription="Edit" />
+
+        <ImageButton
+            android:id="@+id/btn_delete_note"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_delete"
+            app:tint="#8D6E63"
+            android:contentDescription="Hapus" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_note_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Konten catatan akademis..."
+        android:textColor="#5C3D2E"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/text_note_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="12 Jun 2026, 14:00"
+        android:textColor="#8D6E63"
+        android:textSize="11sp"
+        android:gravity="end" />
+
+</LinearLayout>
