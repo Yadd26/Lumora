@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/discussionFragment"
-        android:name="com.lumora.app.fragments.DiscussionFragment"
-        android:label="@string/nav_discussion"
-        tools:layout="@layout/fragment_discussion" />
+        android:id="@+id/learningCenterFragment"
+        android:name="com.lumora.app.fragments.LearningCenterFragment"
+        android:label="@string/nav_learning_center"
+        tools:layout="@layout/fragment_learning_center" />
 
     <fragment
         android:id="@+id/quizFragment"
@@ -52,5 +52,17 @@
         android:name="com.lumora.app.fragments.TutorialFragment"
         android:label="@string/nav_tutorial"
         tools:layout="@layout/fragment_tutorial" />
+
+
+
+    <activity
+        android:id="@+id/achievementGalleryActivity"
+        android:name="com.lumora.app.activities.AchievementGalleryActivity"
+        android:label="Galeri Penghargaan" />
+
+    <activity
+        android:id="@+id/offlineLibraryActivity"
+        android:name="com.lumora.app.activities.OfflineLibraryActivity"
+        android:label="Perpustakaan Offline" />
 
 </navigation>

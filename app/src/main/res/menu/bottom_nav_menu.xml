@@ -7,9 +7,9 @@
         android:title="@string/nav_home" />
 
     <item
-        android:id="@+id/discussionFragment"
-        android:icon="@drawable/ic_discussion"
-        android:title="@string/nav_discussion" />
+        android:id="@+id/learningCenterFragment"
+        android:icon="@drawable/ic_journal"
+        android:title="@string/nav_learning_center" />
 
     <item
         android:id="@+id/bookmarkFragment"

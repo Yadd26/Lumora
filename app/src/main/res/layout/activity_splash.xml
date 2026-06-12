@@ -53,16 +53,13 @@
                         android:background="@drawable/bg_avatar_circle"
                         android:backgroundTint="#15C8A165" />
 
-                    <!-- Golden letter logo -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <!-- Official Logo Image -->
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
                         android:layout_gravity="center"
-                        android:text="L"
-                        android:fontFamily="@font/cinzel"
-                        android:textColor="@color/tertiary"
-                        android:textSize="44sp"
-                        android:textStyle="bold" />
+                        android:src="@drawable/ic_logo_lumora"
+                        android:contentDescription="Lumora Logo" />
 
                 </FrameLayout>
 
@@ -94,6 +91,36 @@
             android:textAppearance="?attr/textAppearanceBodyMedium"
             android:textColor="@color/text_secondary"
             android:textStyle="italic" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progress_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                app:indicatorColor="@color/tertiary"
+                app:trackColor="@color/surface_variant"
+                app:trackThickness="3dp"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Pulse Loading text -->
+            <TextView
+                android:id="@+id/text_loading_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Memuat Arsip Pengetahuan..."
+                android:fontFamily="@font/cormorant_garamond"
+                android:textAppearance="?attr/textAppearanceBodySmall"
+                android:textColor="@color/tertiary"
+                android:letterSpacing="0.1" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

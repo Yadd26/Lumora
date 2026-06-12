@@ -43,6 +43,14 @@ public class QuizResultActivity extends AppCompatActivity {
         int accuracy = totalQuestions > 0 ? (correct * 100) / totalQuestions : 0;
 
         // Render nilai hasil ke UI
+        if (accuracy >= 70) {
+            binding.textResultStatus.setText("Kuis LULUS");
+            binding.textResultStatus.setTextColor(getResources().getColor(android.R.color.holo_green_light));
+        } else {
+            binding.textResultStatus.setText("Kuis GAGAL");
+            binding.textResultStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+        }
+
         binding.textResultCategory.setText("Kategori: " + categoryName);
         binding.textResultScore.setText(String.valueOf(score));
         binding.textResultCorrect.setText(String.valueOf(correct));

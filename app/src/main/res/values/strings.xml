@@ -9,6 +9,7 @@
     <string name="nav_discussion">Forum Akademik</string>
     <string name="nav_bookmark">Koleksi Pribadi</string>
     <string name="nav_profile">Profil Akademisi</string>
+    <string name="nav_learning_center">Learning Center</string>
 
     <!-- Kategori & Label Lainnya -->
     <string name="category_learning">Pembelajaran</string>

@@ -211,10 +211,22 @@ public class QuizActivity extends AppCompatActivity {
         final int finalCorrect = correct;
         final int finalIncorrect = incorrect;
 
+        int totalQuestions = questions.size();
+        int pct = totalQuestions > 0 ? (correct * 100) / totalQuestions : 0;
+        final boolean passed = pct >= 70;
+
         // Simpan hasil kuis ke database SQLite di thread latar belakang
         executorService.execute(() -> {
-            databaseHelper.insertQuizHistory(categoryName, score, questions.size());
-            databaseHelper.insertLearningHistory(1, "Menyelesaikan Kuis " + categoryName, categoryName, "QUIZ");
+            com.lumora.app.preferences.SessionManager session = com.lumora.app.preferences.SessionManager.getInstance(QuizActivity.this);
+            int userId = session.getUserId();
+            if (userId <= 0) userId = 1;
+
+            int courseId = getIntent().getIntExtra("extra_course_id", -1);
+            int moduleId = getIntent().getIntExtra("extra_module_id", -1);
+
+            databaseHelper.insertQuizResult(userId, courseId, moduleId, score, passed ? 1 : 0);
+            databaseHelper.insertQuizHistory(categoryName, score, totalQuestions);
+            databaseHelper.insertLearningHistory(userId, "Menyelesaikan Kuis " + categoryName, categoryName, "QUIZ");
 
             runOnUiThread(() -> {
                 // Buka Halaman Hasil Kuis

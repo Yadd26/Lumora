@@ -43,6 +43,15 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <!-- Watermark Background -->
+    <ImageView
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_open_book"
+        android:alpha="0.03"
+        android:contentDescription="Watermark" />
+
     <!-- Content Area -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

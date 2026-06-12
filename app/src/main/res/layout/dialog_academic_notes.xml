@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FAF4E8"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Catatan Akademik"
+        android:fontFamily="@font/cinzel"
+        android:textAppearance="?attr/textAppearanceHeadlineSmall"
+        android:textColor="#3E2723"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="16dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        app:boxStrokeColor="#5C3D2E"
+        app:hintTextColor="#5C3D2E">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_note_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Judul Catatan"
+            android:textColor="#3E2723"
+            android:fontFamily="@font/cormorant_garamond"
+            android:textStyle="bold" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        app:boxStrokeColor="#5C3D2E"
+        app:hintTextColor="#5C3D2E">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_note_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minLines="5"
+            android:gravity="top|start"
+            android:hint="Tuliskan pemikiran, ringkasan, atau analisis Anda di sini..."
+            android:textColor="#3E2723"
+            android:fontFamily="@font/cormorant_garamond" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_save_note"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="Simpan ke Arsip"
+        android:textColor="#FAF4E8"
+        app:backgroundTint="#5C3D2E"
+        app:cornerRadius="12dp"
+        android:fontFamily="@font/cinzel"
+        android:textStyle="bold" />
+
+</LinearLayout>

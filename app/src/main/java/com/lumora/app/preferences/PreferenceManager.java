@@ -15,6 +15,7 @@ public class PreferenceManager {
     // Kunci preferensi (preference keys)
     private static final String KEY_USERNAME = "username";
     private static final String KEY_THEME_MODE = "theme_mode";
+    private static final String KEY_ONBOARDING_COMPLETED = "onboarding_completed";
 
     // Konstanta mode tema
     public static final int THEME_LIGHT = 0;
@@ -44,6 +45,26 @@ public class PreferenceManager {
 
     private PreferenceManager(Context context) {
         sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+    }
+
+    /**
+     * Menyimpan status penyelesaian onboarding.
+     *
+     * @param completed true jika onboarding selesai, false jika belum
+     */
+    public void saveOnboardingCompleted(boolean completed) {
+        sharedPreferences.edit()
+                .putBoolean(KEY_ONBOARDING_COMPLETED, completed)
+                .apply();
+    }
+
+    /**
+     * Mengambil status penyelesaian onboarding.
+     *
+     * @return true jika onboarding selesai, false jika belum
+     */
+    public boolean isOnboardingCompleted() {
+        return sharedPreferences.getBoolean(KEY_ONBOARDING_COMPLETED, false);
     }
 
     /**

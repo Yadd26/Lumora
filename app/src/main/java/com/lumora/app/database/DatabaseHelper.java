@@ -8,10 +8,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.lumora.app.models.Book;
 import com.lumora.app.models.Bookmark;
-import com.lumora.app.models.Discussion;
 import com.lumora.app.models.User;
 import com.lumora.app.models.Tutorial;
 import com.lumora.app.models.LearningHistoryItem;
+import com.lumora.app.models.Note;
+import com.lumora.app.models.Highlight;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ import java.util.Locale;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "lumora.db";
-    private static final int DATABASE_VERSION = 7; // Dinaikkan ke versi 7 untuk penambahan tabel achievements
+    private static final int DATABASE_VERSION = 10; // Dinaikkan ke versi 10 untuk penambahan fitur Course System 3.0 dan Quiz 3.0
 
     // Tabel: bookmarks
     private static final String TABLE_BOOKMARKS = "bookmarks";
@@ -126,6 +127,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL_ACH_DESC = "description";
     private static final String COL_ACH_EARNED_AT = "earned_at";
 
+    // Tabel Baru: notes
+    private static final String TABLE_NOTES = "notes";
+    private static final String COL_NOTE_ID = "id";
+    private static final String COL_NOTE_USER_ID = "user_id";
+    private static final String COL_NOTE_BOOK_KEY = "book_key";
+    private static final String COL_NOTE_TITLE = "title";
+    private static final String COL_NOTE_CONTENT = "content";
+    private static final String COL_NOTE_CREATED_AT = "created_at";
+    private static final String COL_NOTE_UPDATED_AT = "updated_at";
+
+    // Tabel Baru: highlights
+    private static final String TABLE_HIGHLIGHTS = "highlights";
+    private static final String COL_HL_ID = "id";
+    private static final String COL_HL_USER_ID = "user_id";
+    private static final String COL_HL_BOOK_KEY = "book_key";
+    private static final String COL_HL_SELECTED_TEXT = "selected_text";
+    private static final String COL_HL_COLOR = "color";
+    private static final String COL_HL_CREATED_AT = "created_at";
+
+    
+    // Tabel Baru: learning_streak
+    private static final String TABLE_STREAK = "learning_streak";
+    private static final String COL_STR_ID = "id";
+    private static final String COL_STR_USER_ID = "user_id";
+    private static final String COL_STR_CURRENT = "current_streak";
+    private static final String COL_STR_BEST = "best_streak";
+    private static final String COL_STR_LAST_ACTIVITY = "last_activity";
+
+    // Tabel Baru: daily_study_time
+    private static final String TABLE_STUDY_TIME = "daily_study_time";
+    private static final String COL_DST_ID = "id";
+    private static final String COL_DST_USER_ID = "user_id";
+    private static final String COL_DST_DATE = "study_date";
+    private static final String COL_DST_DURATION = "duration_minutes";
+
     private static DatabaseHelper instance;
 
     public static synchronized DatabaseHelper getInstance(Context context) {
@@ -152,11 +188,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COL_BOOKMARK_SUBJECT + " TEXT, "
                 + COL_BOOKMARK_EDITION_COUNT + " INTEGER)");
 
-        // 2. Discussions Table
+        // 2. Discussions Table (Forum 2.0 Thread)
         db.execSQL("CREATE TABLE " + TABLE_DISCUSSIONS + " ("
                 + COL_DISCUSSION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COL_DISCUSSION_TITLE + " TEXT, "
-                + COL_DISCUSSION_CONTENT + " TEXT)");
+                + "category TEXT, "
+                + COL_DISCUSSION_CONTENT + " TEXT, "
+                + "author TEXT, "
+                + "date TEXT, "
+                + "replies_count INTEGER DEFAULT 0, "
+                + "is_solved INTEGER DEFAULT 0, "
+                + "best_answer TEXT, "
+                + "likes_count INTEGER DEFAULT 0)");
 
         // 3. Users Table
         db.execSQL("CREATE TABLE " + TABLE_USERS + " ("
@@ -238,6 +281,121 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COL_ACH_DESC + " TEXT, "
                 + COL_ACH_EARNED_AT + " TEXT)");
 
+        // 11. Notes Table
+        db.execSQL("CREATE TABLE " + TABLE_NOTES + " ("
+                + COL_NOTE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COL_NOTE_USER_ID + " INTEGER, "
+                + COL_NOTE_BOOK_KEY + " TEXT, "
+                + COL_NOTE_TITLE + " TEXT, "
+                + COL_NOTE_CONTENT + " TEXT, "
+                + COL_NOTE_CREATED_AT + " TEXT, "
+                + COL_NOTE_UPDATED_AT + " TEXT)");
+
+        // 12. Highlights Table
+        db.execSQL("CREATE TABLE " + TABLE_HIGHLIGHTS + " ("
+                + COL_HL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COL_HL_USER_ID + " INTEGER, "
+                + COL_HL_BOOK_KEY + " TEXT, "
+                + COL_HL_SELECTED_TEXT + " TEXT, "
+                + COL_HL_COLOR + " TEXT, "
+                + COL_HL_CREATED_AT + " TEXT)");
+
+        // 13. Journals Table
+
+        // 14. Learning Streak Table
+        db.execSQL("CREATE TABLE " + TABLE_STREAK + " ("
+                + COL_STR_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COL_STR_USER_ID + " INTEGER, "
+                + COL_STR_CURRENT + " INTEGER, "
+                + COL_STR_BEST + " INTEGER, "
+                + COL_STR_LAST_ACTIVITY + " TEXT)");
+
+        // 15. Daily Study Time Table
+        db.execSQL("CREATE TABLE " + TABLE_STUDY_TIME + " ("
+                + COL_DST_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COL_DST_USER_ID + " INTEGER, "
+                + COL_DST_DATE + " TEXT, "
+                + COL_DST_DURATION + " INTEGER)");
+
+        // 16. courses table
+        db.execSQL("CREATE TABLE courses ("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "name TEXT UNIQUE, "
+                + "description TEXT, "
+                + "duration TEXT, "
+                + "modules_count INTEGER DEFAULT 0, "
+                + "level TEXT, "
+                + "progress INTEGER DEFAULT 0)");
+
+        // 17. course_modules table
+        db.execSQL("CREATE TABLE course_modules ("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "course_id INTEGER, "
+                + "name TEXT, "
+                + "description TEXT, "
+                + "goals TEXT, "
+                + "content TEXT, "
+                + "example TEXT, "
+                + "tutorial_id INTEGER, "
+                + "exercise TEXT, "
+                + "quiz_id INTEGER, "
+                + "status TEXT DEFAULT 'Belum Dimulai', "
+                + "completion_percentage INTEGER DEFAULT 0)");
+
+        // 18. module_progress table
+        db.execSQL("CREATE TABLE module_progress ("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "user_id INTEGER, "
+                + "module_id INTEGER, "
+                + "materi_completed INTEGER DEFAULT 0, "
+                + "tutorial_completed INTEGER DEFAULT 0, "
+                + "latihan_completed INTEGER DEFAULT 0, "
+                + "quiz_completed INTEGER DEFAULT 0, "
+                + "status TEXT DEFAULT 'Belum Dimulai', "
+                + "completion_percentage INTEGER DEFAULT 0, "
+                + "last_access TEXT)");
+
+        // 19. forum_reputation table
+        db.execSQL("CREATE TABLE forum_reputation ("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "user_id INTEGER UNIQUE, "
+                + "points INTEGER DEFAULT 0)");
+
+        // 20. forum_badges table
+        db.execSQL("CREATE TABLE forum_badges ("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "user_id INTEGER, "
+                + "badge_name TEXT)");
+
+        // 21. forum_references table
+        db.execSQL("CREATE TABLE forum_references ("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "thread_id INTEGER, "
+                + "reference_url TEXT)");
+
+        // 22. exercise_progress table
+        db.execSQL("CREATE TABLE exercise_progress ("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "user_id INTEGER, "
+                + "module_id INTEGER, "
+                + "status TEXT DEFAULT 'Belum Dikerjakan')");
+
+        // 23. quiz_result table
+        db.execSQL("CREATE TABLE quiz_result ("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "user_id INTEGER, "
+                + "course_id INTEGER, "
+                + "module_id INTEGER, "
+                + "score INTEGER, "
+                + "passed INTEGER, "
+                + "date TEXT)");
+
+        // Pre-populate data paths and modules
+        populateDefaultPathsAndModules(db);
+
+        // Pre-populate forum threads
+        
+
         // Pre-populate data tutorial
         populateDefaultTutorials(db);
     }
@@ -245,7 +403,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_BOOKMARKS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_DISCUSSIONS);
+        
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_QUIZ_HISTORY);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TUTORIALS);
@@ -254,6 +412,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_BOOK_PROGRESS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LEARNING_HISTORY);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ACHIEVEMENTS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_HIGHLIGHTS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_STREAK);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_STUDY_TIME);
+        db.execSQL("DROP TABLE IF EXISTS learning_paths");
+        db.execSQL("DROP TABLE IF EXISTS learning_modules");
+        db.execSQL("DROP TABLE IF EXISTS courses");
+        db.execSQL("DROP TABLE IF EXISTS course_modules");
+        db.execSQL("DROP TABLE IF EXISTS module_progress");
+        
+        
+        
+        db.execSQL("DROP TABLE IF EXISTS exercise_progress");
+        db.execSQL("DROP TABLE IF EXISTS quiz_result");
         onCreate(db);
     }
 
@@ -556,66 +728,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // OPERASI TABEL DISCUSSION (FORUM AKADEMIK)
     // ==========================================
 
-    public long insertDiscussion(Discussion discussion) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COL_DISCUSSION_TITLE, discussion.getTitle());
-        values.put(COL_DISCUSSION_CONTENT, discussion.getContent());
-        return db.insert(TABLE_DISCUSSIONS, null, values);
-    }
-
-    public int deleteDiscussion(int id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(TABLE_DISCUSSIONS,
-                COL_DISCUSSION_ID + " = ?",
-                new String[]{String.valueOf(id)});
-    }
-
-    public List<Discussion> getDiscussions() {
-        List<Discussion> discussions = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = null;
-        try {
-            cursor = db.query(TABLE_DISCUSSIONS, null, null, null, null, null,
-                    COL_DISCUSSION_ID + " DESC");
-
-            if (cursor != null && cursor.moveToFirst()) {
-                int idIndex = cursor.getColumnIndexOrThrow(COL_DISCUSSION_ID);
-                int titleIndex = cursor.getColumnIndexOrThrow(COL_DISCUSSION_TITLE);
-                int contentIndex = cursor.getColumnIndexOrThrow(COL_DISCUSSION_CONTENT);
-
-                do {
-                    Discussion discussion = new Discussion();
-                    discussion.setId(cursor.getInt(idIndex));
-                    discussion.setTitle(cursor.getString(titleIndex));
-                    discussion.setContent(cursor.getString(contentIndex));
-                    discussions.add(discussion);
-                } while (cursor.moveToNext());
-            }
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        return discussions;
-    }
-
-    public int countDiscussions() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = null;
-        try {
-            cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_DISCUSSIONS, null);
-            if (cursor != null && cursor.moveToFirst()) {
-                return cursor.getInt(0);
-            }
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        return 0;
-    }
-
+    
+    
+    
+    
+    
     // ==========================================
     // OPERASI TABEL QUIZ HISTORY
     // ==========================================
@@ -1177,4 +1294,721 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return list;
     }
+
+    // ==========================================
+    // OPERASI TABEL NOTES (CATATAN AKADEMIK)
+    // ==========================================
+
+    public long insertNote(int userId, String bookKey, String title, String content) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_NOTE_USER_ID, userId);
+        values.put(COL_NOTE_BOOK_KEY, bookKey);
+        values.put(COL_NOTE_TITLE, title);
+        values.put(COL_NOTE_CONTENT, content);
+        String dateStr = new SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault()).format(new Date());
+        values.put(COL_NOTE_CREATED_AT, dateStr);
+        values.put(COL_NOTE_UPDATED_AT, dateStr);
+        return db.insert(TABLE_NOTES, null, values);
+    }
+
+    public int updateNote(int noteId, String title, String content) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_NOTE_TITLE, title);
+        values.put(COL_NOTE_CONTENT, content);
+        values.put(COL_NOTE_UPDATED_AT, new SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault()).format(new Date()));
+        return db.update(TABLE_NOTES, values, COL_NOTE_ID + " = ?", new String[]{String.valueOf(noteId)});
+    }
+
+    public int deleteNote(int noteId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_NOTES, COL_NOTE_ID + " = ?", new String[]{String.valueOf(noteId)});
+    }
+
+    public List<Note> getNotesByBook(int userId, String bookKey) {
+        List<Note> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_NOTES, null,
+                COL_NOTE_USER_ID + " = ? AND " + COL_NOTE_BOOK_KEY + " = ?",
+                new String[]{String.valueOf(userId), bookKey},
+                null, null, COL_NOTE_UPDATED_AT + " DESC");
+        if (cursor != null) {
+            try {
+                if (cursor.moveToFirst()) {
+                    int idCol = cursor.getColumnIndexOrThrow(COL_NOTE_ID);
+                    int uCol = cursor.getColumnIndexOrThrow(COL_NOTE_USER_ID);
+                    int bkCol = cursor.getColumnIndexOrThrow(COL_NOTE_BOOK_KEY);
+                    int tCol = cursor.getColumnIndexOrThrow(COL_NOTE_TITLE);
+                    int cCol = cursor.getColumnIndexOrThrow(COL_NOTE_CONTENT);
+                    int crCol = cursor.getColumnIndexOrThrow(COL_NOTE_CREATED_AT);
+                    int upCol = cursor.getColumnIndexOrThrow(COL_NOTE_UPDATED_AT);
+                    do {
+                        list.add(new Note(
+                            cursor.getInt(idCol),
+                            cursor.getInt(uCol),
+                            cursor.getString(bkCol),
+                            cursor.getString(tCol),
+                            cursor.getString(cCol),
+                            cursor.getString(crCol),
+                            cursor.getString(upCol)
+                        ));
+                    } while (cursor.moveToNext());
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        return list;
+    }
+
+    // ==========================================
+    // OPERASI TABEL HIGHLIGHTS (SOROTAN TEKS)
+    // ==========================================
+
+    public long insertHighlight(int userId, String bookKey, String selectedText, String color) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_HL_USER_ID, userId);
+        values.put(COL_HL_BOOK_KEY, bookKey);
+        values.put(COL_HL_SELECTED_TEXT, selectedText);
+        values.put(COL_HL_COLOR, color);
+        values.put(COL_HL_CREATED_AT, new SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault()).format(new Date()));
+        return db.insert(TABLE_HIGHLIGHTS, null, values);
+    }
+
+    public int deleteHighlight(int highlightId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_HIGHLIGHTS, COL_HL_ID + " = ?", new String[]{String.valueOf(highlightId)});
+    }
+
+    public List<Highlight> getHighlightsByBook(int userId, String bookKey) {
+        List<Highlight> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_HIGHLIGHTS, null,
+                COL_HL_USER_ID + " = ? AND " + COL_HL_BOOK_KEY + " = ?",
+                new String[]{String.valueOf(userId), bookKey},
+                null, null, COL_HL_ID + " DESC");
+        if (cursor != null) {
+            try {
+                if (cursor.moveToFirst()) {
+                    int idCol = cursor.getColumnIndexOrThrow(COL_HL_ID);
+                    int uCol = cursor.getColumnIndexOrThrow(COL_HL_USER_ID);
+                    int bkCol = cursor.getColumnIndexOrThrow(COL_HL_BOOK_KEY);
+                    int tCol = cursor.getColumnIndexOrThrow(COL_HL_SELECTED_TEXT);
+                    int cCol = cursor.getColumnIndexOrThrow(COL_HL_COLOR);
+                    int crCol = cursor.getColumnIndexOrThrow(COL_HL_CREATED_AT);
+                    do {
+                        list.add(new Highlight(
+                            cursor.getInt(idCol),
+                            cursor.getInt(uCol),
+                            cursor.getString(bkCol),
+                            cursor.getString(tCol),
+                            cursor.getString(cCol),
+                            cursor.getString(crCol)
+                        ));
+                    } while (cursor.moveToNext());
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        return list;
+    }
+
+    // ==========================================
+    // OPERASI TABEL JOURNALS (JURNAL AKADEMIK)
+    // ==========================================
+
+    
+    
+    
+    
+    // ==========================================
+    // OPERASI TABEL DAILY STUDY TIME & GOAL
+    // ==========================================
+
+    public void addStudyDuration(int userId, int minutes) {
+        if (minutes <= 0) return;
+        SQLiteDatabase db = this.getWritableDatabase();
+        String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+
+        Cursor cursor = db.query(TABLE_STUDY_TIME, new String[]{COL_DST_DURATION},
+                COL_DST_USER_ID + " = ? AND " + COL_DST_DATE + " = ?",
+                new String[]{String.valueOf(userId), today},
+                null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            int current = cursor.getInt(0);
+            ContentValues cv = new ContentValues();
+            cv.put(COL_DST_DURATION, current + minutes);
+            db.update(TABLE_STUDY_TIME, cv, COL_DST_USER_ID + " = ? AND " + COL_DST_DATE + " = ?", new String[]{String.valueOf(userId), today});
+            cursor.close();
+        } else {
+            if (cursor != null) cursor.close();
+            ContentValues cv = new ContentValues();
+            cv.put(COL_DST_USER_ID, userId);
+            cv.put(COL_DST_DATE, today);
+            cv.put(COL_DST_DURATION, minutes);
+            db.insert(TABLE_STUDY_TIME, null, cv);
+        }
+        
+        // Trigger update streak data simultaneously
+        updateStreakData(userId);
+    }
+
+    public int getTodayStudyDuration(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        Cursor cursor = db.query(TABLE_STUDY_TIME, new String[]{COL_DST_DURATION},
+                COL_DST_USER_ID + " = ? AND " + COL_DST_DATE + " = ?",
+                new String[]{String.valueOf(userId), today},
+                null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            int duration = cursor.getInt(0);
+            cursor.close();
+            return duration;
+        }
+        if (cursor != null) cursor.close();
+        return 0;
+    }
+
+    public int getTotalStudyDuration(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT SUM(" + COL_DST_DURATION + ") FROM " + TABLE_STUDY_TIME + " WHERE " + COL_DST_USER_ID + " = ?",
+                new String[]{String.valueOf(userId)});
+        if (cursor != null && cursor.moveToFirst()) {
+            int total = cursor.getInt(0);
+            cursor.close();
+            return total;
+        }
+        if (cursor != null) cursor.close();
+        return 0;
+    }
+
+    // ==========================================
+    // OPERASI TABEL LEARNING STREAK
+    // ==========================================
+
+    public void updateStreakData(int userId) {
+        int calculatedStreak = getStudyStreak(userId);
+        SQLiteDatabase db = this.getWritableDatabase();
+        String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+
+        Cursor cursor = db.query(TABLE_STREAK, null,
+                COL_STR_USER_ID + " = ?", new String[]{String.valueOf(userId)},
+                null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            int best = cursor.getInt(cursor.getColumnIndexOrThrow(COL_STR_BEST));
+            if (calculatedStreak > best) {
+                best = calculatedStreak;
+            }
+            ContentValues cv = new ContentValues();
+            cv.put(COL_STR_CURRENT, calculatedStreak);
+            cv.put(COL_STR_BEST, best);
+            cv.put(COL_STR_LAST_ACTIVITY, today);
+            db.update(TABLE_STREAK, cv, COL_STR_USER_ID + " = ?", new String[]{String.valueOf(userId)});
+            cursor.close();
+        } else {
+            if (cursor != null) cursor.close();
+            ContentValues cv = new ContentValues();
+            cv.put(COL_STR_USER_ID, userId);
+            cv.put(COL_STR_CURRENT, calculatedStreak);
+            cv.put(COL_STR_BEST, calculatedStreak);
+            cv.put(COL_STR_LAST_ACTIVITY, today);
+            db.insert(TABLE_STREAK, null, cv);
+        }
+    }
+
+    public int getCurrentStreak(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_STREAK, new String[]{COL_STR_CURRENT},
+                COL_STR_USER_ID + " = ?", new String[]{String.valueOf(userId)},
+                null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            int current = cursor.getInt(0);
+            cursor.close();
+            return current;
+        }
+        if (cursor != null) cursor.close();
+        return getStudyStreak(userId); // fallback to dynamic calculation
+    }
+
+    // ==========================================
+    // SEED DATA: COURSES & MODULES & FORUM THREADS
+    // ==========================================
+
+    private void populateDefaultPathsAndModules(SQLiteDatabase db) {
+        // 1. Pemrograman (5 Modul)
+        long path1 = insertCourse(db, "Pemrograman", "Kembangkan fondasi pemrograman kuat menggunakan Java, logika algoritma, pilar OOP, dan struktur data.", "4 Minggu", "Pemula", 5);
+        insertCourseModule(db, path1, "Java Dasar & Algoritma", "Dasar sintaksis, variabel, percabangan, perulangan, dan pemecahan masalah algoritma dasar.", 1, 1);
+        insertCourseModule(db, path1, "OOP Java & Pewarisan", "Kelas, objek, pewarisan (inheritance), enkapsulasi, polimorfisme, dan interface.", 1, 1);
+        insertCourseModule(db, path1, "Exception & File Handling", "Pencegahan crash dengan try-catch dan penulisan file.", 0, 1);
+        insertCourseModule(db, path1, "Collections Framework", "List, Map, Set untuk efisiensi penyimpanan data.", 0, 1);
+        insertCourseModule(db, path1, "Concurrency & Threading", "Proses asynchronous dan pengelolaan thread di Java.", 0, 1);
+
+        // 2. Basis Data (5 Modul)
+        long path2 = insertCourse(db, "Basis Data", "Pelajari perancangan database relasional, SQL Query, normalisasi skema 1NF/2NF/3NF, indeks, dan ACID.", "3 Minggu", "Menengah", 5);
+        insertCourseModule(db, path2, "Skema Relasional & ERD", "Perancangan diagram database logis.", 2, 2);
+        insertCourseModule(db, path2, "Perintah SQL Dasar (DDL/DML)", "Query SELECT, INSERT, UPDATE, DELETE.", 2, 2);
+        insertCourseModule(db, path2, "Normalisasi Database", "Menghilangkan redundansi data.", 2, 2);
+        insertCourseModule(db, path2, "Indexing & Optimasi Query", "Meningkatkan kecepatan query.", 0, 2);
+        insertCourseModule(db, path2, "Transaksi ACID", "Menjamin integritas data transaksi.", 0, 2);
+
+        // 3. Software Engineering (6 Modul)
+        long path3 = insertCourse(db, "Software Engineering", "Pelajari siklus pengembangan perangkat lunak (SDLC), metodologi Agile/Scrum, perancangan arsitektur, clean code, dan testing.", "3 Minggu", "Menengah", 6);
+        insertCourseModule(db, path3, "Pengenalan SDLC & Agile", "Siklus pengembangan dan cara kerja Scrum.", 0, 3);
+        insertCourseModule(db, path3, "Analisis Kebutuhan", "Mendokumentasikan use case dan requirement.", 0, 3);
+        insertCourseModule(db, path3, "Perancangan UML & Arsitektur", "Membuat diagram kelas dan use case.", 0, 3);
+        insertCourseModule(db, path3, "Clean Code & Refactoring", "Menulis kode yang mudah dibaca.", 0, 3);
+        insertCourseModule(db, path3, "Software Testing & QA", "Unit testing dan integrasi test.", 0, 3);
+        insertCourseModule(db, path3, "CI/CD & Deployment", "Otomatisasi build dan deploy.", 0, 3);
+
+        // 4. Mobile Development (9 Modul)
+        long path4 = insertCourse(db, "Mobile Development", "Kuasai Android SDK secara mendalam menggunakan Kotlin, UI, navigation, API Retrofit, local Room, MVVM, dan Compose.", "5 Minggu", "Mahir", 9);
+        insertCourseModule(db, path4, "Kotlin Dasar", "Variabel, fungsi, null safety di Kotlin.", 3, 4);
+        insertCourseModule(db, path4, "Android Lifecycle", "Siklus hidup activity dan fragment.", 3, 4);
+        insertCourseModule(db, path4, "ViewBinding & XML Layout", "UI Android klasik dengan XML.", 3, 4);
+        insertCourseModule(db, path4, "Navigation Component", "Navigasi antar fragment.", 3, 4);
+        insertCourseModule(db, path4, "Retrofit API Integration", "Koneksi internet dengan Retrofit.", 3, 4);
+        insertCourseModule(db, path4, "Local SQLite & Room", "Penyimpanan data lokal di Android.", 3, 4);
+        insertCourseModule(db, path4, "Jetpack Compose", "UI modern Android.", 0, 4);
+        insertCourseModule(db, path4, "Arsitektur MVVM", "Clean architecture untuk Android.", 0, 4);
+        insertCourseModule(db, path4, "Testing Aplikasi Mobile", "Instrumented dan unit testing Android.", 0, 4);
+
+        // 5. Artificial Intelligence (6 Modul)
+        long path5 = insertCourse(db, "Artificial Intelligence", "Bangun pemahaman dasar Machine Learning, regresi linear, neural networks, NLP, CV, dan LLM.", "6 Minggu", "Mahir", 6);
+        insertCourseModule(db, path5, "Matematika untuk AI", "Aljabar linear, kalkulus, statistika.", 4, 5);
+        insertCourseModule(db, path5, "Regresi & Klasifikasi", "Model regresi linear dan logistik.", 4, 5);
+        insertCourseModule(db, path5, "Jaringan Saraf Tiruan", "Deep learning basics.", 4, 5);
+        insertCourseModule(db, path5, "Natural Language Processing", "Analisis teks dan sentiment.", 0, 5);
+        insertCourseModule(db, path5, "Computer Vision", "Pemrosesan gambar dengan CNN.", 0, 5);
+        insertCourseModule(db, path5, "Generative AI & LLM", "Prompt engineering dan transformer.", 0, 5);
+
+        // 6. Cyber Security (6 Modul)
+        long path6 = insertCourse(db, "Cyber Security", "Lindungi sistem menggunakan CIA Triad, enkripsi asimetris RSA, malware analysis, firewall, dan pentest.", "4 Minggu", "Mahir", 6);
+        insertCourseModule(db, path6, "Konsep CIA Triad", "Confidentiality, Integrity, Availability.", 5, 6);
+        insertCourseModule(db, path6, "Kriptografi & Enkripsi", "Enkripsi simetris dan asimetris.", 5, 6);
+        insertCourseModule(db, path6, "Malware & Trojan Analysis", "Menganalisis software berbahaya.", 5, 6);
+        insertCourseModule(db, path6, "Social Engineering", "Serangan non-teknis.", 0, 6);
+        insertCourseModule(db, path6, "Network Security & Firewall", "Keamanan jaringan dan port filtering.", 0, 6);
+        insertCourseModule(db, path6, "Penetration Testing", "Langkah-langkah audit keamanan.", 0, 6);
+
+        // 7. Data Science (6 Modul)
+        long path7 = insertCourse(db, "Data Science", "Eksplorasi statistika deskriptif, analisis data tabular Pandas, manipulasi array NumPy, visualisasi Seaborn.", "4 Minggu", "Menengah", 6);
+        insertCourseModule(db, path7, "Statistika Deskriptif", "Mean, median, modus, sebaran data.", 6, 7);
+        insertCourseModule(db, path7, "Python Data Stack", "Pandas, NumPy, Matplotlib.", 6, 7);
+        insertCourseModule(db, path7, "Data Cleaning Pandas", "Membersihkan data kosong dan duplikat.", 6, 7);
+        insertCourseModule(db, path7, "Manipulasi Array NumPy", "Operasi matriks di Python.", 0, 7);
+        insertCourseModule(db, path7, "Visualisasi Data", "Seaborn and Matplotlib.", 0, 7);
+        insertCourseModule(db, path7, "Model Prediksi Sederhana", "Machine learning sederhana dengan Scikit-Learn.", 0, 7);
+    }
+
+    private long insertCourse(SQLiteDatabase db, String name, String desc, String duration, String level, int modulesCount) {
+        ContentValues cv = new ContentValues();
+        cv.put("name", name);
+        cv.put("description", desc);
+        cv.put("duration", duration);
+        cv.put("level", level);
+        cv.put("modules_count", modulesCount);
+        cv.put("progress", 0);
+        return db.insert("courses", null, cv);
+    }
+
+    private long insertCourseModule(SQLiteDatabase db, long courseId, String name, String desc, int tutorialId, int quizId) {
+        ContentValues cv = new ContentValues();
+        cv.put("course_id", courseId);
+        cv.put("name", name);
+        cv.put("description", desc);
+        cv.put("goals", "Menguasai topik " + name + " secara teori dan praktis.");
+        cv.put("content", "Materi pembelajaran akademik mengenai " + name + ".");
+        cv.put("example", "Contoh implementasi dan analisis untuk " + name + ".");
+        cv.put("tutorial_id", tutorialId);
+        cv.put("exercise", "Latihan menulis kode program atau menjawab studi kasus untuk " + name + ".");
+        cv.put("quiz_id", quizId);
+        return db.insert("course_modules", null, cv);
+    }
+
+    
+    // ==========================================
+    // FORUM REPUTATION & BADGES & REFERENCES
+    // ==========================================
+
+    public int getUserReputation(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        try {
+            cursor = db.query("forum_reputation", new String[]{"points"},
+                    "user_id = ?", new String[]{String.valueOf(userId)},
+                    null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                return cursor.getInt(0);
+            }
+        } finally {
+            if (cursor != null) cursor.close();
+        }
+        return 0;
+    }
+
+    public void addUserReputationPoints(int userId, int points) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int current = getUserReputation(userId);
+        ContentValues cv = new ContentValues();
+        cv.put("user_id", userId);
+        cv.put("points", current + points);
+        
+        db.delete("forum_reputation", "user_id = ?", new String[]{String.valueOf(userId)});
+        db.insert("forum_reputation", null, cv);
+
+        // Check for new badges
+        
+    }
+
+    
+    public boolean hasBadge(int userId, String badgeName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        try {
+            cursor = db.query("forum_badges", new String[]{"id"},
+                    "user_id = ? AND badge_name = ?", new String[]{String.valueOf(userId), badgeName},
+                    null, null, null);
+            return cursor != null && cursor.getCount() > 0;
+        } finally {
+            if (cursor != null) cursor.close();
+        }
+    }
+
+    
+    
+    public void updateSolvedStatus(int threadId, int isSolved, String bestAnswer) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("is_solved", isSolved);
+        if (bestAnswer != null) {
+            cv.put("best_answer", bestAnswer);
+        }
+        db.update(TABLE_DISCUSSIONS, cv, COL_DISCUSSION_ID + " = ?", new String[]{String.valueOf(threadId)});
+    }
+
+    
+    
+    // ==========================================
+    // COURSE & MODULE 3.0 METHODS
+    // ==========================================
+
+    public List<com.lumora.app.models.Module> getModulesForPath(int userId, String pathName) {
+        List<com.lumora.app.models.Module> modules = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        
+        String query = "SELECT m.*, p.materi_completed, p.tutorial_completed, p.latihan_completed, p.quiz_completed, p.status as progress_status, p.completion_percentage " +
+                "FROM course_modules m " +
+                "JOIN courses c ON m.course_id = c.id " +
+                "LEFT JOIN module_progress p ON m.id = p.module_id AND p.user_id = ? " +
+                "WHERE c.name = ? " +
+                "ORDER BY m.id ASC";
+                
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId), pathName});
+        if (cursor != null) {
+            try {
+                if (cursor.moveToFirst()) {
+                    int idCol = cursor.getColumnIndexOrThrow("id");
+                    int nameCol = cursor.getColumnIndexOrThrow("name");
+                    int descCol = cursor.getColumnIndexOrThrow("description");
+                    int contentCol = cursor.getColumnIndexOrThrow("content");
+                    int exampleCol = cursor.getColumnIndexOrThrow("example");
+                    int tutCol = cursor.getColumnIndexOrThrow("tutorial_id");
+                    int exCol = cursor.getColumnIndexOrThrow("exercise");
+                    int qCol = cursor.getColumnIndexOrThrow("quiz_id");
+                    
+                    int matCompCol = cursor.getColumnIndexOrThrow("materi_completed");
+                    int tutCompCol = cursor.getColumnIndexOrThrow("tutorial_completed");
+                    int latCompCol = cursor.getColumnIndexOrThrow("latihan_completed");
+                    int quizCompCol = cursor.getColumnIndexOrThrow("quiz_completed");
+                    int statusCol = cursor.getColumnIndexOrThrow("progress_status");
+                    int pctCol = cursor.getColumnIndexOrThrow("completion_percentage");
+                    
+                    do {
+                        com.lumora.app.models.Module module = new com.lumora.app.models.Module();
+                        module.setId(cursor.getInt(idCol));
+                        module.setPathName(pathName);
+                        module.setName(cursor.getString(nameCol));
+                        module.setDescription(cursor.getString(descCol));
+                        module.setContent(cursor.getString(contentCol));
+                        module.setExample(cursor.getString(exampleCol));
+                        module.setTutorialId(cursor.getInt(tutCol));
+                        module.setExercise(cursor.getString(exCol));
+                        module.setQuizId(cursor.getInt(qCol));
+                        
+                        module.setMateriCompleted(cursor.isNull(matCompCol) ? 0 : cursor.getInt(matCompCol));
+                        module.setTutorialCompleted(cursor.isNull(tutCompCol) ? 0 : cursor.getInt(tutCompCol));
+                        module.setLatihanCompleted(cursor.isNull(latCompCol) ? 0 : cursor.getInt(latCompCol));
+                        module.setQuizCompleted(cursor.isNull(quizCompCol) ? 0 : cursor.getInt(quizCompCol));
+                        
+                        String status = cursor.getString(statusCol);
+                        module.setStatus(status != null ? status : "Belum Dimulai");
+                        
+                        module.setCompletionPercentage(cursor.isNull(pctCol) ? 0 : cursor.getInt(pctCol));
+                        
+                        modules.add(module);
+                    } while (cursor.moveToNext());
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        return modules;
+    }
+
+    public void updateModuleSubProgress(int userId, int moduleId, int materi, int tutorial, int latihan, int quiz) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        
+        int count = 0;
+        if (materi == 1) count++;
+        if (tutorial == 1) count++;
+        if (latihan == 1) count++;
+        if (quiz == 1) count++;
+        int pct = count * 25;
+        
+        String status = "Belum Dimulai";
+        if (pct == 100) {
+            status = "Selesai";
+        } else if (pct > 0) {
+            status = "Sedang Dipelajari";
+        }
+        
+        ContentValues cv = new ContentValues();
+        cv.put("user_id", userId);
+        cv.put("module_id", moduleId);
+        cv.put("materi_completed", materi);
+        cv.put("tutorial_completed", tutorial);
+        cv.put("latihan_completed", latihan);
+        cv.put("quiz_completed", quiz);
+        cv.put("status", status);
+        cv.put("completion_percentage", pct);
+        cv.put("last_access", new SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault()).format(new Date()));
+        
+        db.delete("module_progress", "user_id = ? AND module_id = ?", new String[]{String.valueOf(userId), String.valueOf(moduleId)});
+        db.insert("module_progress", null, cv);
+        
+        Cursor moduleCursor = db.rawQuery("SELECT c.name, m.name FROM course_modules m JOIN courses c ON m.course_id = c.id WHERE m.id = ?", new String[]{String.valueOf(moduleId)});
+        if (moduleCursor != null) {
+            try {
+                if (moduleCursor.moveToFirst()) {
+                    String courseName = moduleCursor.getString(0);
+                    String moduleName = moduleCursor.getString(1);
+                    insertOrUpdatePathProgress(userId, courseName, moduleName, status, pct);
+                }
+            } finally {
+                moduleCursor.close();
+            }
+        }
+    }
+
+    public boolean isModuleLocked(int userId, String pathName, int moduleId) {
+        List<com.lumora.app.models.Module> modules = getModulesForPath(userId, pathName);
+        for (int i = 0; i < modules.size(); i++) {
+            if (modules.get(i).getId() == moduleId) {
+                if (i == 0) return false;
+                return !modules.get(i - 1).getStatus().equals("Selesai");
+            }
+        }
+        return false;
+    }
+
+    // ==========================================
+    // EXERCISE PROGRESS OPERATIONS
+    // ==========================================
+
+    public String getExerciseStatus(int userId, int moduleId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        try {
+            cursor = db.query("exercise_progress", new String[]{"status"},
+                    "user_id = ? AND module_id = ?", new String[]{String.valueOf(userId), String.valueOf(moduleId)},
+                    null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                return cursor.getString(0);
+            }
+        } finally {
+            if (cursor != null) cursor.close();
+        }
+        return "Belum Dikerjakan";
+    }
+
+    public void updateExerciseStatus(int userId, int moduleId, String status) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("user_id", userId);
+        cv.put("module_id", moduleId);
+        cv.put("status", status);
+
+        db.delete("exercise_progress", "user_id = ? AND module_id = ?", new String[]{String.valueOf(userId), String.valueOf(moduleId)});
+        db.insert("exercise_progress", null, cv);
+
+        // Update module progress latihan_completed
+        int completed = "Selesai".equals(status) ? 1 : 0;
+        updateModuleLatihanCompleted(userId, moduleId, completed);
+    }
+
+    private void updateModuleLatihanCompleted(int userId, int moduleId, int completed) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int mat = 0, tut = 0, lat = completed, qz = 0;
+        Cursor c = db.query("module_progress", null, "user_id = ? AND module_id = ?", new String[]{String.valueOf(userId), String.valueOf(moduleId)}, null, null, null);
+        if (c != null) {
+            try {
+                if (c.moveToFirst()) {
+                    mat = c.getInt(c.getColumnIndexOrThrow("materi_completed"));
+                    tut = c.getInt(c.getColumnIndexOrThrow("tutorial_completed"));
+                    qz = c.getInt(c.getColumnIndexOrThrow("quiz_completed"));
+                }
+            } finally {
+                c.close();
+            }
+        }
+        updateModuleSubProgress(userId, moduleId, mat, tut, lat, qz);
+    }
+
+    // ==========================================
+    // QUIZ RESULT OPERATIONS
+    // ==========================================
+
+    public long insertQuizResult(int userId, int courseId, int moduleId, int score, int passed) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("user_id", userId);
+        cv.put("course_id", courseId);
+        cv.put("module_id", moduleId);
+        cv.put("score", score);
+        cv.put("passed", passed);
+        cv.put("date", new SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault()).format(new Date()));
+
+        long result = db.insert("quiz_result", null, cv);
+
+        // Update module progress quiz_completed
+        updateModuleQuizCompleted(userId, moduleId, passed);
+
+        return result;
+    }
+
+    private void updateModuleQuizCompleted(int userId, int moduleId, int passed) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int mat = 0, tut = 0, lat = 0, qz = passed;
+        Cursor c = db.query("module_progress", null, "user_id = ? AND module_id = ?", new String[]{String.valueOf(userId), String.valueOf(moduleId)}, null, null, null);
+        if (c != null) {
+            try {
+                if (c.moveToFirst()) {
+                    mat = c.getInt(c.getColumnIndexOrThrow("materi_completed"));
+                    tut = c.getInt(c.getColumnIndexOrThrow("tutorial_completed"));
+                    lat = c.getInt(c.getColumnIndexOrThrow("latihan_completed"));
+                }
+            } finally {
+                c.close();
+            }
+        }
+        updateModuleSubProgress(userId, moduleId, mat, tut, lat, qz);
+    }
+
+    // ==========================================
+    // LEARNING CENTER 2.0 METHODS
+    // ==========================================
+    
+    public List<com.lumora.app.models.Course> getAllCourses(int userId) {
+        List<com.lumora.app.models.Course> courses = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query("courses", null, null, null, null, null, "id ASC");
+        if (cursor != null) {
+            try {
+                int idCol = cursor.getColumnIndexOrThrow("id");
+                int nameCol = cursor.getColumnIndexOrThrow("name");
+                int descCol = cursor.getColumnIndexOrThrow("description");
+                int durCol = cursor.getColumnIndexOrThrow("duration");
+                int modCountCol = cursor.getColumnIndexOrThrow("modules_count");
+                int lvlCol = cursor.getColumnIndexOrThrow("level");
+                
+                while (cursor.moveToNext()) {
+                    com.lumora.app.models.Course course = new com.lumora.app.models.Course(
+                            cursor.getInt(idCol),
+                            cursor.getString(nameCol),
+                            cursor.getString(descCol),
+                            cursor.getString(durCol),
+                            cursor.getInt(modCountCol),
+                            cursor.getString(lvlCol),
+                            0 // progress calculated later
+                    );
+                    course.setProgress(calculateCourseProgress(course.getId(), userId));
+                    courses.add(course);
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        return courses;
+    }
+    
+    public int calculateCourseProgress(int courseId, int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT AVG(completion_percentage) FROM module_progress p " +
+                       "JOIN course_modules m ON p.module_id = m.id " +
+                       "WHERE m.course_id = ? AND p.user_id = ?";
+        Cursor c = db.rawQuery(query, new String[]{String.valueOf(courseId), String.valueOf(userId)});
+        int progress = 0;
+        if (c != null) {
+            try {
+                if (c.moveToFirst()) {
+                    progress = (int) Math.round(c.getDouble(0));
+                }
+            } finally {
+                c.close();
+            }
+        }
+        return progress;
+    }
+    
+    public List<com.lumora.app.models.Module> getCourseModules(int courseId, int userId) {
+        List<com.lumora.app.models.Module> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT m.*, " +
+                       "IFNULL(p.materi_completed, 0) as materi_completed, " +
+                       "IFNULL(p.tutorial_completed, 0) as tutorial_completed, " +
+                       "IFNULL(p.latihan_completed, 0) as latihan_completed, " +
+                       "IFNULL(p.quiz_completed, 0) as quiz_completed, " +
+                       "IFNULL(p.status, 'Belum Dimulai') as status, " +
+                       "IFNULL(p.completion_percentage, 0) as completion_percentage " +
+                       "FROM course_modules m " +
+                       "LEFT JOIN module_progress p ON m.id = p.module_id AND p.user_id = ? " +
+                       "WHERE m.course_id = ? " +
+                       "ORDER BY m.id ASC";
+        Cursor c = db.rawQuery(query, new String[]{String.valueOf(userId), String.valueOf(courseId)});
+        if (c != null) {
+            try {
+                while (c.moveToNext()) {
+                    com.lumora.app.models.Module mod = new com.lumora.app.models.Module();
+                    mod.setId(c.getInt(c.getColumnIndexOrThrow("id")));
+                    mod.setName(c.getString(c.getColumnIndexOrThrow("name")));
+                    mod.setDescription(c.getString(c.getColumnIndexOrThrow("description")));
+                    mod.setContent(c.getString(c.getColumnIndexOrThrow("content")));
+                    mod.setExample(c.getString(c.getColumnIndexOrThrow("example")));
+                    mod.setTutorialId(c.getInt(c.getColumnIndexOrThrow("tutorial_id")));
+                    mod.setExercise(c.getString(c.getColumnIndexOrThrow("exercise")));
+                    mod.setQuizId(c.getInt(c.getColumnIndexOrThrow("quiz_id")));
+                    
+                    mod.setMateriCompleted(c.getInt(c.getColumnIndexOrThrow("materi_completed")));
+                    mod.setTutorialCompleted(c.getInt(c.getColumnIndexOrThrow("tutorial_completed")));
+                    mod.setLatihanCompleted(c.getInt(c.getColumnIndexOrThrow("latihan_completed")));
+                    mod.setQuizCompleted(c.getInt(c.getColumnIndexOrThrow("quiz_completed")));
+                    mod.setStatus(c.getString(c.getColumnIndexOrThrow("status")));
+                    mod.setCompletionPercentage(c.getInt(c.getColumnIndexOrThrow("completion_percentage")));
+                    
+                    list.add(mod);
+                }
+            } finally {
+                c.close();
+            }
+        }
+        return list;
+    }
+
+
+    
 }

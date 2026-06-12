@@ -21,7 +21,7 @@ import com.lumora.app.preferences.SessionManager;
 public class SplashActivity extends AppCompatActivity {
 
     private ActivitySplashBinding binding;
-    private static final int SPLASH_DURATION = 2000; // Durasi splash screen (2 detik)
+    private static final int SPLASH_DURATION = 2500; // Durasi splash screen (2.5 detik)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class SplashActivity extends AppCompatActivity {
         binding = ActivitySplashBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Jalankan animasi fade-in modern pada container logo & teks
+        // Jalankan animasi fade-in & scale modern pada container logo & teks
         startFadeInAnimation();
 
         // Alihkan layar setelah durasi yang ditentukan
@@ -57,11 +57,34 @@ public class SplashActivity extends AppCompatActivity {
      * Memulai animasi fade-in asinkron untuk mempercantik transisi masuk logo.
      */
     private void startFadeInAnimation() {
+        // Logo container initial states
         binding.layoutLogoContainer.setAlpha(0f);
+        binding.layoutLogoContainer.setScaleX(0.7f);
+        binding.layoutLogoContainer.setScaleY(0.7f);
+
         binding.layoutLogoContainer.animate()
                 .alpha(1f)
-                .setDuration(1200)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setDuration(1500)
                 .setInterpolator(new AccelerateDecelerateInterpolator())
+                .start();
+
+        // Animate text loading pulse
+        binding.textLoadingProgress.setAlpha(0.3f);
+        binding.textLoadingProgress.animate()
+                .alpha(1f)
+                .setDuration(800)
+                .setListener(new android.animation.AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(android.animation.Animator animation) {
+                        binding.textLoadingProgress.animate()
+                                .alpha(0.3f)
+                                .setDuration(800)
+                                .setListener(this)
+                                .start();
+                    }
+                })
                 .start();
     }
 
@@ -69,10 +92,14 @@ public class SplashActivity extends AppCompatActivity {
      * Memeriksa sesi login lokal dan mengarahkan pengguna ke aktivitas berikutnya.
      */
     private void checkSessionAndRedirect() {
+        PreferenceManager prefManager = PreferenceManager.getInstance(this);
         SessionManager sessionManager = SessionManager.getInstance(this);
         Intent intent;
 
-        if (sessionManager.isLoggedIn()) {
+        if (!prefManager.isOnboardingCompleted()) {
+            // Jika onboarding belum selesai, arahkan ke OnboardingActivity
+            intent = new Intent(SplashActivity.this, OnboardingActivity.class);
+        } else if (sessionManager.isLoggedIn()) {
             // Jika sudah masuk, arahkan langsung ke halaman utama (MainActivity)
             intent = new Intent(SplashActivity.this, MainActivity.class);
         } else {
