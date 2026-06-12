@@ -1,68 +1,54 @@
-# Lumora - Digital Academic Archive 🏛️📚
+# Lumora: Where Ancient Wisdom Meets Modern Learning
 
-**Where Ancient Wisdom Meets Modern Learning**
+Lumora adalah Perpustakaan Digital Akademik Premium yang menggabungkan nuansa *Ancient Library* dan *Dark Academia* dengan fitur pembelajaran modern. Aplikasi ini dirancang sebagai ekosistem pembelajaran akademik lengkap di mana pengguna dapat membaca, belajar, berlatih, dan berdiskusi.
 
-Lumora adalah aplikasi Perpustakaan Digital Akademik Premium dengan estetika *Dark Academia* yang mengintegrasikan repositori literatur terbuka dengan platform pembelajaran digital. Aplikasi ini dirancang untuk memenuhi spesifikasi teknis pengembangan aplikasi Android modern.
+Proyek ini dibuat untuk memenuhi tugas final mata kuliah Pemrograman Mobile.
 
----
+## 🌟 Fitur Utama (Cara Penggunaan)
 
-## 📖 Deskripsi Aplikasi
+1. **Digital Reader 2.0 & Perpustakaan Offline**: Baca buku digital dengan dukungan mode Fokus, penyesuaian ukuran font, tema Sepia/Dark/Light, serta fitur penanda (bookmark) dan catatan (highlight/note).
+2. **Academic Course System**: Modul pembelajaran interaktif terstruktur mulai dari materi, tutorial, latihan, hingga kuis. Modul baru akan terbuka (unlock) jika sub-modul sebelumnya diselesaikan.
+3. **Forum Akademik (Scholar Community)**: Diskusikan materi pembelajaran. Forum dilengkapi dengan sistem reputasi poin, penanda jawaban terbaik (*Solved/Best Answer*), pemberian *like*, balasan, dan *badges* tingkat kemahiran (*Knowledge Seeker*, *Helpful Scholar*, dll).
+4. **Universal Search 2.0**: Cari buku, tutorial, kursus, maupun *thread* forum melalui satu fitur pencarian universal di bagian atas layar.
+5. **Leveling & Analytics**: Analitik lengkap riwayat bacaan, streak harian, kursus yang diselesaikan, hingga sertifikat kelulusan dalam bentuk file PDF.
 
-Lumora menggabungkan fitur perpustakaan kuno (*Ancient Library*) dengan platform pembelajaran (*Learning Center*). Pengguna dapat menelusuri literatur global melalui *Open Library API*, mendaftarkan diri dalam *Course* pembelajaran terstruktur, membaca buku secara *offline*, dan mengelola catatan akademis. Aplikasi ini ditujukan bagi mahasiswa dan akademisi untuk menciptakan ekosistem pembelajaran (*Digital Academic Archive*) yang komprehensif.
+## 🛠 Penjelasan Implementasi Teknis
 
-## 🚀 Cara Penggunaan
+Aplikasi Lumora dikembangkan dengan memenuhi spesifikasi teknis berikut:
 
-1. **Kloning & Build**: Kloning repositori ini dan buka menggunakan Android Studio (Gradle 8+). Sinkronisasikan *project* dan jalankan pada emulator atau perangkat fisik Android.
-2. **Login/Register**: Saat aplikasi pertama kali dibuka (*Splash Activity* berlanjut ke *Login/Register Activity*), buat akun baru (tersimpan secara lokal) untuk masuk ke menu utama.
-3. **Jelajahi Arsip**: Pada halaman utama (*Archive*), Anda dapat melihat buku populer atau mencari buku spesifik. Jika internet terputus, Anda dapat menggunakan fitur **Refresh** saat koneksi kembali.
-4. **Learning Center**: Navigasi ke tab *Learning Center* melalui *Bottom Navigation* untuk melihat modul pembelajaran, tutorial, latihan, dan kuis.
-5. **Koleksi & Baca**: Simpan buku ke koleksi lokal (*Bookmark*), dan buka *ReaderActivity* untuk membaca sekaligus membuat catatan (*Academic Notes*) yang dapat diakses secara *offline*.
-6. **Tema Visual**: Aplikasi mendukung mode Gelap (*Dark Theme*) dan Terang (*Light Theme*) yang dapat menyesuaikan dengan sistem perangkat Anda (Estetika *Dark Academia* dioptimalkan untuk mode gelap).
+### 1. Activity & Intent
+- **Activity**: Terdapat lebih dari 2 Activity, di antaranya `SplashActivity` sebagai launcher, `MainActivity`, `ReaderActivity`, `QuizActivity`, dan berbagai activity detail lainnya.
+- **Intent**: Intent eksplisit digunakan secara luas untuk navigasi dari daftar (`RecyclerView`) menuju halaman detail (contoh: membuka materi atau kuis dari *Learning Path*).
 
----
+### 2. Fragment & Navigation Component
+- **Fragment**: Aplikasi menggunakan lebih dari 2 *Fragment*, antara lain `HomeFragment`, `TutorialFragment`, `QuizFragment`, `DiscussionFragment`, dan `ProfileFragment`.
+- **Navigation**: Seluruh perpindahan antar-menu utama pada *Bottom Navigation Bar* dikelola menggunakan *Jetpack Navigation Component* (`nav_graph.xml`).
 
-## 🛠️ Implementasi Spesifikasi Teknis
+### 3. RecyclerView & Adapter
+Menampilkan berbagai daftar dengan performa yang lancar menggunakan `RecyclerView`, seperti daftar buku, daftar modul pembelajaran (*Learning Path*), daftar *thread* forum, hingga slide *Onboarding* menggunakan `ViewPager2`.
 
-Lumora dibangun secara spesifik untuk mematuhi seluruh kriteria penilaian dan spesifikasi teknis pengembangan Android, sebagai berikut:
+### 4. Background Thread (Executor)
+Operasi berat seperti pengambilan data dari internet, pengisian basis data (*seed database*), pembuatan file PDF sertifikat, serta manipulasi data lokal (Insert/Update SQLite) dieksekusi secara asinkron di latar belakang (Background Thread) menggunakan `ExecutorService` untuk menjaga kelancaran antarmuka (UI Thread).
 
-### 1. Activity (Minimal 2 Activity)
-Aplikasi ini memiliki lebih dari dua *Activity* utama:
-*   `SplashActivity` (Sebagai **Launcher** aplikasi).
-*   `MainActivity` (Sebagai penampung Navigation Component / Bottom Nav).
-*   `LoginActivity` & `RegisterActivity` (Untuk autentikasi).
-*   `ReaderActivity` & `DetailActivity` (Untuk konten detail dan pengalaman membaca).
+### 5. Networking (Retrofit & API)
+- **API**: Mengambil data buku dari API publik **Open Library API**.
+- **Retrofit**: Implementasi jaringan dikelola secara efisien menggunakan Retrofit2 + Gson Converter.
+- **Refresh Control**: Tersedia penanganan ketika gagal memuat data/kondisi jaringan buruk dengan menggunakan tombol aksi atau mekanisme *Pull-to-Refresh* (SwipeRefreshLayout) untuk mencoba ulang *request*.
 
-### 2. Intent
-*Intent* digunakan secara ekstensif untuk berkomunikasi dan berpindah antar *Activity*. Contoh:
-*   Berpindah dari `SplashActivity` ke `LoginActivity`.
-*   Berpindah dari `LoginActivity` ke `MainActivity` (dengan membawa data *session* user).
-*   Membuka `DetailActivity` dan `ReaderActivity` dengan menyisipkan `putExtra` (ID Buku, Judul, Author) untuk dirender pada *Activity* tujuan.
+### 6. Local Data Persistent (SQLite & SharedPreferences)
+- **SQLite**: Menyimpan seluruh kemajuan belajar, riwayat forum (diskusi, reputasi), *bookmark* buku, dan catatan (*notes/highlights*) ke dalam basis data SQLite lokal secara persisten. Data ini dapat ditampilkan sepenuhnya bahkan tanpa koneksi internet (Fitur Offline).
+- **SharedPreferences**: Mengelola dan menyimpan sesi login pengguna (Session Manager), pengaturan tema preferensi, serta *flag* penyelesaian Onboarding (*Welcome Tour*).
 
-### 3. RecyclerView
-`RecyclerView` adalah komponen utama untuk menampilkan seluruh daftar data dinamis di Lumora:
-*   Menampilkan daftar Buku Populer, Referensi Akademik, dan Hasil Pencarian di halaman Archive.
-*   Menampilkan daftar *Course* Pembelajaran di *Learning Center*.
-*   Menampilkan daftar koleksi buku tersimpan (*Bookmark*).
-
-### 4. Fragment & Navigation Component
-Aplikasi ini mengadopsi arsitektur *Single-Activity Multiple-Fragments* pada bagian utamanya:
-*   Memiliki lebih dari dua Fragment: `HomeFragment` (Archive), `LearningCenterFragment`, `BookmarkFragment`, dan `ProfileFragment`.
-*   Menggunakan **Android Jetpack Navigation Component** (`nav_graph.xml`) yang terhubung langsung dengan `BottomNavigationView` untuk mengelola transisi antarmuka secara *seamless*.
-
-### 5. Background Thread (Executor)
-Operasi berat di latar belakang tidak memblokir *Main UI Thread*. Lumora menggunakan **`ExecutorService`**:
-*   Pengambilan dan penyimpanan data dari/ke SQLite (seperti `DatabaseHelper.insertNote`, `getCurrentStreak`).
-*   Kalkulasi progres harian dan rendering data statistik pada *Dashboard Learning Center* dilakukan di dalam `executorService.execute(() -> { ... })` sebelum di-post kembali ke UI melalui `runOnUiThread`.
-
-### 6. Networking (Retrofit & API)
-*   Mengambil pustaka data secara *real-time* dari **Open Library API** menggunakan pustaka **Retrofit2**.
-*   Data buku (`OpenLibraryResponse`) di-*parsing* menggunakan *converter* Gson dan ditampilkan secara visual ke dalam `RecyclerView` beserta *Cover Image*-nya (menggunakan Glide).
-*   Terdapat fungsionalitas `SwipeRefreshLayout` yang bertindak sebagai **Tombol Refresh** manakala data gagal dimuat (misalnya saat kondisi tidak ada jaringan).
-
-### 7. Local Data Persistent & Tema
-*   **SQLite**: Digunakan secara ekstensif untuk menyimpan data terstruktur (Tabel `users`, `bookmarks`, `courses`, `notes`, `module_progress`). Data seperti *Bookmark* dan *Academic Notes* sepenuhnya tersedia dan dapat ditampilkan kembali ketika aplikasi **tidak terhubung ke jaringan** (Mode *Offline*).
-*   **SharedPreferences**: Digunakan untuk mengelola *Session Login* (menyimpan `user_id` aktif) dan pengaturan target belajar harian.
-*   **Tema (Dark/Light Theme)**: Aplikasi menerapkan pewarnaan dinamis `values/colors.xml` (Light) dan `values-night/colors.xml` (Dark). Palet warna disesuaikan agar estetika *Dark Academia* tetap elegan di kedua mode, mengikuti konfigurasi perangkat pengguna (Material Design 3).
+### 7. Dual Theme (Dark Theme & Light Theme)
+Mendukung perpindahan tema dari *Light Mode* ke *Dark Mode* secara sistem maupun manual. Antarmuka UI (komponen warna, kontras teks, palet warna *Dark Academia*) telah memenuhi standar kelayakan aksesibilitas warna WCAG AA.
 
 ---
-*Dikembangkan menggunakan pendekatan Semantic Commit pada GitHub untuk keteraturan dokumentasi dan riwayat versi.*
+
+## 🎨 User Interface (UI/UX)
+Dibangun menggunakan *Material Design 3* dengan pendekatan desain *Dark Academia*, sehingga memberikan kesan perpustakaan kuno, manuskrip bersejarah, dan elit akademik. Termasuk *custom font* (Cormorant Garamond, Cinzel), animasi elemen, interaksi responsif (minimal area tekan 48dp), hingga *Premium Splash Screen*.
+
+## 👨‍💻 Dokumentasi
+Seluruh *source code* didokumentasikan di repository GitHub ini dengan mengadopsi standar *semantic commit*.
+
+---
+*Dibuat untuk Tugas Final Mobile Programming (Batas Pengerjaan: 12 Juni 2026).*
