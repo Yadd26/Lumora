@@ -23,7 +23,7 @@
     <!-- Background & Surface (Dark Theme) -->
     <color name="background">#1B1A17</color>
     <color name="surface">#2C241C</color>
-    <color name="surface_variant">#3A3027</color>
+    <color name="surface_variant">#3D3328</color>
     <color name="on_background">#F5EFE6</color>
     <color name="on_surface">#F5EFE6</color>
     <color name="on_surface_variant">#D4C6B8</color>

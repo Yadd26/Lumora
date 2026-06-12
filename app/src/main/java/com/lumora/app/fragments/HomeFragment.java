@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+import androidx.navigation.Navigation;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -71,6 +73,26 @@ public class HomeFragment extends Fragment implements BookAdapter.OnBookClickLis
         setupRecyclerViews();
         setupSearchView();
         setupSwipeRefresh();
+
+        // Shortcut Listeners
+        if (binding.getRoot().findViewById(R.id.btn_shortcut_course) != null) {
+            binding.getRoot().findViewById(R.id.btn_shortcut_course).setOnClickListener(v -> {
+                try {
+                    Navigation.findNavController(v).navigate(R.id.learningCenterFragment);
+                } catch (Exception e) {
+                    Toast.makeText(getContext(), "Learning Center tidak tersedia", Toast.LENGTH_SHORT).show();
+                }
+            });
+            binding.getRoot().findViewById(R.id.btn_shortcut_tutorial).setOnClickListener(v -> {
+                Toast.makeText(getContext(), "Navigasi ke Tutorial", Toast.LENGTH_SHORT).show();
+            });
+            binding.getRoot().findViewById(R.id.btn_shortcut_exercise).setOnClickListener(v -> {
+                Toast.makeText(getContext(), "Navigasi ke Latihan", Toast.LENGTH_SHORT).show();
+            });
+            binding.getRoot().findViewById(R.id.btn_shortcut_quiz).setOnClickListener(v -> {
+                Toast.makeText(getContext(), "Navigasi ke Quiz", Toast.LENGTH_SHORT).show();
+            });
+        }
 
         loadDashboardData();
     }

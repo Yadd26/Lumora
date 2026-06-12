@@ -98,7 +98,6 @@ public class ReaderActivity extends AppCompatActivity {
         binding.btnBack.setOnClickListener(v -> onBackPressed());
 
         // Setup Buttons
-        binding.btnAcademicTools.setOnClickListener(v -> showAcademicNotesDialog());
         binding.btnPrevChapter.setOnClickListener(v -> {
             if (currentChapter > 1) {
                 currentChapter--;
@@ -636,22 +635,19 @@ public class ReaderActivity extends AppCompatActivity {
         }
     }
 
-        private void showAcademicNotesDialog() {
-        com.google.android.material.bottomsheet.BottomSheetDialog dialog = new com.google.android.material.bottomsheet.BottomSheetDialog(this);
+    private void showAcademicNotesDialog() {
+        BottomSheetDialog dialog = new BottomSheetDialog(this);
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_academic_notes, null);
         
         EditText editTitle = view.findViewById(R.id.edit_note_title);
         EditText editContent = view.findViewById(R.id.edit_note_content);
         View btnSave = view.findViewById(R.id.btn_save_note);
         
-        final int[] noteId = {-1};
-
         // Load existing note if any
         executorService.execute(() -> {
             List<Note> notes = databaseHelper.getNotesByBook(1, bookKey); // User ID 1 for now
             if (!notes.isEmpty()) {
                 Note existingNote = notes.get(0);
-                noteId[0] = existingNote.getId();
                 runOnUiThread(() -> {
                     editTitle.setText(existingNote.getTitle());
                     editContent.setText(existingNote.getContent());
@@ -667,16 +663,15 @@ public class ReaderActivity extends AppCompatActivity {
             
             final String finalTitle = title;
             executorService.execute(() -> {
-                long result = -1;
-                if (noteId[0] == -1) {
-                    result = databaseHelper.insertNote(1, bookKey, finalTitle, noteContent);
-                } else {
-                    result = databaseHelper.updateNote(noteId[0], finalTitle, noteContent);
-                }
+                Note note = new Note();
+                note.setUserId(1);
+                note.setBookKey(bookKey);
+                note.setTitle(finalTitle);
+                note.setContent(noteContent);
                 
-                final long res = result;
+                long result = databaseHelper.insertNote(1, bookKey, note.getTitle(), note.getContent());
                 runOnUiThread(() -> {
-                    if (res != -1) {
+                    if (result != -1) {
                         Toast.makeText(this, "Catatan Akademik disimpan", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                     } else {

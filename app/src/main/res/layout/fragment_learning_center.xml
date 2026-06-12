@@ -110,7 +110,7 @@
                             android:layout_marginTop="8dp"
                             android:max="100"
                             android:progress="0"
-                            android:progressTint="@color/tertiary"
+                            android:progressTint="@color/primary"
                             android:progressBackgroundTint="@color/surface_variant" />
 
                     </LinearLayout>
@@ -134,7 +134,7 @@
                             android:id="@+id/text_streak_val"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="HARI 0"
+                            android:text="\?\? 0 Hari"
                             android:textColor="@color/primary"
                             android:textSize="20sp"
                             android:textStyle="bold" />
@@ -181,7 +181,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:text="Evaluasi dan Panduan"
+                android:text="Evaluasi &amp; Panduan"
                 android:fontFamily="@font/cinzel"
                 android:textAppearance="?attr/textAppearanceTitleMedium"
                 android:textColor="@color/text_primary"
@@ -223,8 +223,8 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="PANDUAN"
-                                android:textSize="16sp" />
+                                android:text="\?\?"
+                                android:textSize="24sp" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -260,13 +260,13 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="LATIHAN"
-                                android:textSize="16sp" />
+                                android:text="\?\?"
+                                android:textSize="24sp" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
-                                android:text="Exercise"
+                                android:text="Latihan"
                                 android:fontFamily="@font/cinzel"
                                 android:textColor="@color/primary"
                                 android:textSize="13sp"
@@ -304,8 +304,8 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="UJIAN"
-                                android:textSize="16sp" />
+                                android:text="\?\?"
+                                android:textSize="24sp" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -341,8 +341,8 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="PENGHARGAAN"
-                                android:textSize="16sp" />
+                                android:text="\?\?"
+                                android:textSize="24sp" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"

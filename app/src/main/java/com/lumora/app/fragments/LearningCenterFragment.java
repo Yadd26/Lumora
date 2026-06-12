@@ -77,49 +77,45 @@ public class LearningCenterFragment extends Fragment {
         });
 
         binding.rvLearningPaths.setLayoutManager(new LinearLayoutManager(requireContext()));
-        courseAdapter = new CourseAdapter(courseList, course -> {
+        courseAdapter = new CourseAdapter(course -> {
             // Intent intent = new Intent(requireContext(), CourseDetailActivity.class);
             // intent.putExtra("course_id", course.getId());
             // startActivity(intent);
         });
+        courseAdapter.setCourses(courseList);
         binding.rvLearningPaths.setAdapter(courseAdapter);
     }
 
     private void loadData() {
         if (executorService == null || databaseHelper == null) return;
         
-        final android.app.Activity activity = getActivity();
-        if (activity == null) return;
-        
-        android.content.SharedPreferences prefs = activity.getSharedPreferences("lumora_prefs", android.content.Context.MODE_PRIVATE);
-        int dailyGoal = prefs.getInt("daily_study_goal_minutes", 30);
-        
+        final android.content.SharedPreferences prefs = requireContext().getSharedPreferences("lumora_prefs", android.content.Context.MODE_PRIVATE);
         executorService.execute(() -> {
-            int todayDuration = databaseHelper.getTodayStudyDuration(1);
-            int streak = databaseHelper.getCurrentStreak(1);
-            int progressPercent = (dailyGoal > 0) ? (todayDuration * 100) / dailyGoal : 0;
-            if (progressPercent > 100) progressPercent = 100;
+            final int todayDuration = databaseHelper.getTodayStudyDuration(1);
+            final int streak = databaseHelper.getCurrentStreak(1);
             
-            final int fTodayDuration = todayDuration;
-            final int fDailyGoal = dailyGoal;
-            final int fProgressPercent = progressPercent;
-            final int fStreak = streak;
+            final int dailyGoal = prefs.getInt("daily_study_goal_minutes", 30);
+            int tempProgress = (dailyGoal > 0) ? (todayDuration * 100) / dailyGoal : 0;
+            if (tempProgress > 100) tempProgress = 100;
+            final int progressPercent = tempProgress;
             
             List<Course> activeCourses = databaseHelper.getAllCourses(1);
             
-            activity.runOnUiThread(() -> {
-                if (binding != null) {
-                    binding.textTodayProgressVal.setText(fTodayDuration + " / " + fDailyGoal + " Menit");
-                    binding.progressDailyTarget.setProgress(fProgressPercent);
-                    binding.textStreakVal.setText("🔥 " + fStreak + " Hari");
-                    
-                    courseList.clear();
-                    if (activeCourses != null) {
-                        courseList.addAll(activeCourses);
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    if (binding != null) {
+                        binding.textTodayProgressVal.setText(todayDuration + " / " + dailyGoal + " Menit");
+                        binding.progressDailyTarget.setProgress(progressPercent);
+                        binding.textStreakVal.setText("?? " + streak + " Hari");
+                        
+                        courseList.clear();
+                        if (activeCourses != null) {
+                            courseList.addAll(activeCourses);
+                        }
+                        courseAdapter.notifyDataSetChanged();
                     }
-                    courseAdapter.notifyDataSetChanged();
-                }
-            });
+                });
+            }
         });
     }
 

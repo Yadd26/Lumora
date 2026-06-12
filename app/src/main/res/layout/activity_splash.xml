@@ -92,35 +92,17 @@
             android:textColor="@color/text_secondary"
             android:textStyle="italic" />
 
-        <LinearLayout
+        <!-- Pulse Loading text -->
+        <TextView
+            android:id="@+id/text_loading_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <com.google.android.material.progressindicator.CircularProgressIndicator
-                android:id="@+id/progress_indicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:indeterminate="true"
-                app:indicatorColor="@color/tertiary"
-                app:trackColor="@color/surface_variant"
-                app:trackThickness="3dp"
-                android:layout_marginBottom="12dp" />
-
-            <!-- Pulse Loading text -->
-            <TextView
-                android:id="@+id/text_loading_progress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Memuat Arsip Pengetahuan..."
-                android:fontFamily="@font/cormorant_garamond"
-                android:textAppearance="?attr/textAppearanceBodySmall"
-                android:textColor="@color/tertiary"
-                android:letterSpacing="0.1" />
-
-        </LinearLayout>
+            android:text="Memuat Arsip Pengetahuan..."
+            android:fontFamily="@font/cormorant_garamond"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textColor="@color/tertiary"
+            android:letterSpacing="0.1" />
 
     </LinearLayout>
 
