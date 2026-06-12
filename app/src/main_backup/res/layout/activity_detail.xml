@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/detail_coordinator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <!-- AppBar -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_gradient_primary"
+        app:elevation="0dp">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_back"
+            app:navigationIconTint="@color/on_primary"
+            app:title="@string/detail_title"
+            app:titleTextColor="@color/on_primary"
+            app:titleTextAppearance="@style/TextAppearance.Lumora.TitleMedium" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Scrollable Manuscript Page -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="24dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <!-- Outer Frame: book/manuscript style -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:cardBackgroundColor="@color/surface"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="3dp"
+            app:strokeColor="@color/card_stroke"
+            app:strokeWidth="1.2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:gravity="center_horizontal">
+
+                <!-- Book Cover Image Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="160dp"
+                    android:layout_height="224dp"
+                    android:layout_marginTop="16dp"
+                    app:cardCornerRadius="12dp"
+                    app:strokeColor="@color/tertiary"
+                    app:strokeWidth="1dp"
+                    app:cardElevation="4dp">
+
+                    <ImageView
+                        android:id="@+id/image_detail_cover"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_bookmark_outline"
+                        android:contentDescription="Cover Buku" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Category Chip -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/category_learning"
+                    android:fontFamily="@font/cinzel"
+                    android:textColor="@color/on_primary"
+                    app:chipBackgroundColor="@color/primary"
+                    app:chipStrokeWidth="0dp"
+                    app:cornerRadius="8dp" />
+
+                <!-- Title -->
+                <TextView
+                    android:id="@+id/text_detail_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:fontFamily="@font/cinzel"
+                    android:textAppearance="?attr/textAppearanceHeadlineMedium"
+                    android:textColor="@color/text_primary"
+                    android:textStyle="bold" />
+
+                <!-- Author -->
+                <TextView
+                    android:id="@+id/text_detail_author"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:fontFamily="@font/cormorant_garamond"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:textColor="@color/text_secondary"
+                    android:textStyle="italic" />
+
+                <!-- Metadata Row (Year & Edition) -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/text_detail_year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/cormorant_garamond"
+                        android:text="Tahun Terbit: -"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="@color/text_secondary" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="12dp"
+                        android:layout_marginHorizontal="12dp"
+                        android:background="@color/outline" />
+
+                    <TextView
+                        android:id="@+id/text_detail_editions"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/cormorant_garamond"
+                        android:text="Jumlah Edisi: 1"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="@color/text_secondary" />
+
+                </LinearLayout>
+
+                <!-- Divider -->
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    app:dividerColor="@color/outline" />
+
+                <!-- Key Info Box -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="12dp"
+                    app:cardBackgroundColor="@color/surface_variant"
+                    app:strokeColor="@color/outline"
+                    app:strokeWidth="0.8dp"
+                    android:layout_marginBottom="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Informasi Buku"
+                            android:fontFamily="@font/cinzel"
+                            android:textStyle="bold"
+                            android:textAppearance="?attr/textAppearanceTitleSmall"
+                            android:textColor="@color/text_primary" />
+
+                        <TextView
+                            android:id="@+id/text_detail_key"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/cormorant_garamond"
+                            android:textAppearance="?attr/textAppearanceBodyMedium"
+                            android:textColor="@color/text_secondary" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Description Body -->
+                <TextView
+                    android:id="@+id/text_detail_body"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingMultiplier="1.4"
+                    android:fontFamily="@font/cormorant_garamond"
+                    android:textAppearance="?attr/textAppearanceBodyLarge"
+                    android:textColor="@color/text_primary"
+                    android:text="Buku ini merupakan salah satu materi pembelajaran yang bersumber dari repositori Open Library. Anda dapat menyimpan buku ini ke dalam Koleksi Pribadi lokal untuk mengakses detail informasi buku ini kapan saja secara offline." />
+
+                <!-- Curriculum Info Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_curriculum_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="12dp"
+                    app:cardBackgroundColor="@color/surface_variant"
+                    app:strokeColor="@color/outline"
+                    app:strokeWidth="0.8dp"
+                    android:layout_marginBottom="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Silabus &amp; Kurikulum Akademik"
+                            android:fontFamily="@font/cinzel"
+                            android:textStyle="bold"
+                            android:textAppearance="?attr/textAppearanceTitleSmall"
+                            android:textColor="@color/text_primary" />
+
+                        <TextView
+                            android:id="@+id/text_curriculum_subject"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Subjek Belajar: -"
+                            android:fontFamily="@font/cormorant_garamond"
+                            android:textAppearance="?attr/textAppearanceBodyMedium"
+                            android:textColor="@color/text_secondary" />
+
+                        <TextView
+                            android:id="@+id/text_curriculum_prereq"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Prasyarat: -"
+                            android:fontFamily="@font/cormorant_garamond"
+                            android:textAppearance="?attr/textAppearanceBodyMedium"
+                            android:textColor="@color/text_secondary" />
+
+                        <TextView
+                            android:id="@+id/text_curriculum_duration"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Estimasi Durasi: -"
+                            android:fontFamily="@font/cormorant_garamond"
+                            android:textAppearance="?attr/textAppearanceBodyMedium"
+                            android:textColor="@color/text_secondary" />
+
+                        <!-- Mini buttons for tutorial and quiz -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_curriculum_tutorial"
+                                style="@style/Widget.Material3.Button.TonalButton"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginEnd="4dp"
+                                android:text="Buka Panduan"
+                                android:textSize="11sp"
+                                android:insetTop="0dp"
+                                android:insetBottom="0dp"
+                                android:textColor="@color/primary"
+                                app:cornerRadius="6dp" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_curriculum_quiz"
+                                style="@style/Widget.Material3.Button.TonalButton"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginStart="4dp"
+                                android:text="Mulai Kuis"
+                                android:textSize="11sp"
+                                android:insetTop="0dp"
+                                android:insetBottom="0dp"
+                                android:textColor="@color/primary"
+                                app:cornerRadius="6dp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Action Buttons -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_read_book"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Baca Buku Digital"
+                    android:fontFamily="@font/cinzel"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:backgroundTint="@color/secondary"
+                    android:textColor="@color/on_secondary"
+                    app:cornerRadius="12dp" />
+
+                <!-- Start Learning Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_start_learning"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/start_learning"
+                    android:fontFamily="@font/cinzel"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:backgroundTint="@color/primary"
+                    android:textColor="@color/on_primary"
+                    app:cornerRadius="12dp" />
+
+                <!-- Bookmark Button (Simpan ke Koleksi) -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_save_to_collection"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="Simpan ke Koleksi"
+                    android:fontFamily="@font/cinzel"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"
+                    app:strokeColor="@color/primary"
+                    app:strokeWidth="1.2dp"
+                    app:cornerRadius="12dp"
+                    app:icon="@drawable/ic_bookmark"
+                    app:iconTint="@color/primary" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Invisible FloatingActionButton for Java compatibility (so code doesn't crash) -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_bookmark"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:clickable="false"
+        android:focusable="false"
+        android:contentDescription="@string/bookmark_added" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

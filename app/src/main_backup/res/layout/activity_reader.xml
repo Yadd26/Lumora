@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAF4E8"
+    android:orientation="vertical">
+
+    <!-- Header / Book Title -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#EFE5D3"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="16dp">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_back"
+            app:tint="#5C3D2E" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_book_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Judul Buku Digital"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:textColor="#3E2723"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:ellipsize="end" />
+
+            <TextView
+                android:id="@+id/text_book_author"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Penulis"
+                android:textAppearance="?attr/textAppearanceBodySmall"
+                android:textColor="#5C3D2E"
+                android:alpha="0.8" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Reading Progress Bar -->
+    <ProgressBar
+        android:id="@+id/progress_reading_top"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:max="100"
+        android:progress="20"
+        android:progressTint="#5C3D2E"
+        android:progressBackgroundTint="#EFE5D3" />
+
+    <!-- Chapter Title & Reading Section -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Chapter Label -->
+            <TextView
+                android:id="@+id/text_chapter_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="BAB 1"
+                android:textAppearance="?attr/textAppearanceTitleLarge"
+                android:textColor="#5C3D2E"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/text_chapter_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="Gerbang Pengetahuan Dasar"
+                android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                android:textColor="#3E2723" />
+
+            <!-- Divider Ornament -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="16dp"
+                android:text="❦ ❦ ❦"
+                android:textColor="#5C3D2E"
+                android:textSize="18sp" />
+
+            <!-- Chapter Body Text -->
+            <TextView
+                android:id="@+id/text_chapter_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Isi konten materi bab digital reader..."
+                android:textAppearance="?attr/textAppearanceBodyLarge"
+                android:textColor="#3E2723"
+                android:lineSpacingExtra="8dp"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Reader Control Panel (Bottom) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#EFE5D3"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_progress_percentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Halaman 1 dari 5 • Progress: 20%"
+                android:textAppearance="?attr/textAppearanceLabelMedium"
+                android:textColor="#3E2723" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_save_progress"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Simpan Kemajuan"
+                android:textColor="#5C3D2E"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                app:backgroundTint="#FAF4E8" />
+
+        </LinearLayout>
+
+        <!-- Navigation buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_prev_chapter"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:text="Sebelumnya"
+                android:textColor="#5C3D2E"
+                app:strokeColor="#5C3D2E" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_next_chapter"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:text="Berikutnya"
+                android:textColor="#FAF4E8"
+                app:backgroundTint="#5C3D2E" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

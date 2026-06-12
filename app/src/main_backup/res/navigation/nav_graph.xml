@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.lumora.app.fragments.HomeFragment"
+        android:label="@string/nav_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/discussionFragment"
+        android:name="com.lumora.app.fragments.DiscussionFragment"
+        android:label="@string/nav_discussion"
+        tools:layout="@layout/fragment_discussion" />
+
+    <fragment
+        android:id="@+id/quizFragment"
+        android:name="com.lumora.app.fragments.QuizFragment"
+        android:label="Kuis"
+        tools:layout="@layout/fragment_quiz" />
+
+    <fragment
+        android:id="@+id/learningResourcesFragment"
+        android:name="com.lumora.app.fragments.LearningResourcesFragment"
+        android:label="@string/nav_resources"
+        tools:layout="@layout/fragment_learning_resources" />
+
+    <fragment
+        android:id="@+id/bookmarkFragment"
+        android:name="com.lumora.app.fragments.BookmarkFragment"
+        android:label="@string/nav_bookmark"
+        tools:layout="@layout/fragment_bookmark" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.lumora.app.fragments.ProfileFragment"
+        android:label="@string/nav_profile"
+        tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/learningPathFragment"
+        android:name="com.lumora.app.fragments.LearningPathFragment"
+        android:label="@string/nav_learning_path"
+        tools:layout="@layout/fragment_learning_path" />
+
+    <fragment
+        android:id="@+id/tutorialFragment"
+        android:name="com.lumora.app.fragments.TutorialFragment"
+        android:label="@string/nav_tutorial"
+        tools:layout="@layout/fragment_tutorial" />
+
+</navigation>
