@@ -88,11 +88,15 @@ public class LearningCenterFragment extends Fragment {
     private void loadData() {
         if (executorService == null || databaseHelper == null) return;
         
+        final android.app.Activity activity = getActivity();
+        if (activity == null) return;
+        
+        android.content.SharedPreferences prefs = activity.getSharedPreferences("lumora_prefs", android.content.Context.MODE_PRIVATE);
+        int dailyGoal = prefs.getInt("daily_study_goal_minutes", 30);
+        
         executorService.execute(() -> {
             int todayDuration = databaseHelper.getTodayStudyDuration(1);
             int streak = databaseHelper.getCurrentStreak(1);
-            android.content.SharedPreferences prefs = requireContext().getSharedPreferences("lumora_prefs", android.content.Context.MODE_PRIVATE);
-            int dailyGoal = prefs.getInt("daily_study_goal_minutes", 30);
             int progressPercent = (dailyGoal > 0) ? (todayDuration * 100) / dailyGoal : 0;
             if (progressPercent > 100) progressPercent = 100;
             
@@ -103,21 +107,19 @@ public class LearningCenterFragment extends Fragment {
             
             List<Course> activeCourses = databaseHelper.getAllCourses(1);
             
-            if (getActivity() != null) {
-                getActivity().runOnUiThread(() -> {
-                    if (binding != null) {
-                        binding.textTodayProgressVal.setText(fTodayDuration + " / " + fDailyGoal + " Menit");
-                        binding.progressDailyTarget.setProgress(fProgressPercent);
-                        binding.textStreakVal.setText("🔥 " + fStreak + " Hari");
-                        
-                        courseList.clear();
-                        if (activeCourses != null) {
-                            courseList.addAll(activeCourses);
-                        }
-                        courseAdapter.notifyDataSetChanged();
+            activity.runOnUiThread(() -> {
+                if (binding != null) {
+                    binding.textTodayProgressVal.setText(fTodayDuration + " / " + fDailyGoal + " Menit");
+                    binding.progressDailyTarget.setProgress(fProgressPercent);
+                    binding.textStreakVal.setText("🔥 " + fStreak + " Hari");
+                    
+                    courseList.clear();
+                    if (activeCourses != null) {
+                        courseList.addAll(activeCourses);
                     }
-                });
-            }
+                    courseAdapter.notifyDataSetChanged();
+                }
+            });
         });
     }
 
