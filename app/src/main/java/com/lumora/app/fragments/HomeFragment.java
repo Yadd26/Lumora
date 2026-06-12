@@ -15,14 +15,26 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.bumptech.glide.Glide;
 import com.lumora.app.R;
 import com.lumora.app.activities.DetailActivity;
+import com.lumora.app.activities.LearningPathDetailActivity;
+import com.lumora.app.activities.TutorialDetailActivity;
 import com.lumora.app.adapters.BookAdapter;
+import com.lumora.app.adapters.ContinueReadingAdapter;
+import com.lumora.app.adapters.LearningHistoryAdapter;
+import com.lumora.app.database.DatabaseHelper;
 import com.lumora.app.databinding.FragmentHomeBinding;
 import com.lumora.app.models.Book;
+import com.lumora.app.models.BookProgress;
+import com.lumora.app.models.LearningHistoryItem;
+import com.lumora.app.models.LearningPath;
 import com.lumora.app.models.OpenLibraryResponse;
+import com.lumora.app.models.Tutorial;
 import com.lumora.app.network.ApiClient;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,6 +55,8 @@ public class HomeFragment extends Fragment implements BookAdapter.OnBookClickLis
     private BookAdapter networkingAdapter;
     private BookAdapter aiAdapter;
     private BookAdapter searchAdapter;
+    private ContinueReadingAdapter continueReadingAdapter;
+    private LearningHistoryAdapter learningHistoryAdapter;
 
     // Data lists
     private final List<Book> popularBooks = new ArrayList<>();
@@ -51,6 +65,11 @@ public class HomeFragment extends Fragment implements BookAdapter.OnBookClickLis
     private final List<Book> networkingBooks = new ArrayList<>();
     private final List<Book> aiBooks = new ArrayList<>();
     private final List<Book> searchBooks = new ArrayList<>();
+    private final List<BookProgress> continueReadingList = new ArrayList<>();
+    private final List<LearningHistoryItem> learningHistoryList = new ArrayList<>();
+
+    private DatabaseHelper databaseHelper;
+    private ExecutorService executorService;
 
     private Book recommendationBook;
     private boolean isSearching = false;
@@ -69,6 +88,9 @@ public class HomeFragment extends Fragment implements BookAdapter.OnBookClickLis
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        databaseHelper = DatabaseHelper.getInstance(requireContext());
+        executorService = Executors.newSingleThreadExecutor();
+
         setupRecyclerViews();
         setupSearchView();
         setupCategoryClickListeners();
@@ -76,9 +98,44 @@ public class HomeFragment extends Fragment implements BookAdapter.OnBookClickLis
         setupCloseSearchButton();
         setupRecommendationClick();
         setupRetryButton();
+        setupQuickAccessButtons();
 
         // Muat semua data beranda
         loadDashboardData();
+    }
+
+    /**
+     * Bind click listeners for quick access menu buttons.
+     */
+    private void setupQuickAccessButtons() {
+        binding.btnQuickQuiz.setOnClickListener(v -> {
+            try {
+                androidx.navigation.Navigation.findNavController(v).navigate(R.id.quizFragment);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        binding.btnQuickLearningPath.setOnClickListener(v -> {
+            try {
+                androidx.navigation.Navigation.findNavController(v).navigate(R.id.learningPathFragment);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        binding.btnQuickTutorials.setOnClickListener(v -> {
+            try {
+                androidx.navigation.Navigation.findNavController(v).navigate(R.id.tutorialFragment);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        binding.btnQuickResources.setOnClickListener(v -> {
+            try {
+                androidx.navigation.Navigation.findNavController(v).navigate(R.id.learningResourcesFragment);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     /**
@@ -112,6 +169,16 @@ public class HomeFragment extends Fragment implements BookAdapter.OnBookClickLis
 
         binding.recyclerAi.setLayoutManager(aiLayout);
         binding.recyclerAi.setAdapter(aiAdapter);
+
+        // Continue Reading setup
+        binding.rvContinueReading.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        continueReadingAdapter = new ContinueReadingAdapter(requireContext(), continueReadingList);
+        binding.rvContinueReading.setAdapter(continueReadingAdapter);
+
+        // Learning History setup
+        binding.rvLearningHistory.setLayoutManager(new LinearLayoutManager(requireContext()));
+        learningHistoryAdapter = new LearningHistoryAdapter(requireContext(), learningHistoryList);
+        binding.rvLearningHistory.setAdapter(learningHistoryAdapter);
 
         // Vertical Search list setup
         searchAdapter = new BookAdapter(searchBooks, this);
@@ -290,6 +357,122 @@ public class HomeFragment extends Fragment implements BookAdapter.OnBookClickLis
     /**
      * Melakukan pencarian buku cerdas menggunakan Open Library.
      */
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadProgressAndHistory();
+    }
+
+    private void loadProgressAndHistory() {
+        if (executorService == null || databaseHelper == null) return;
+        executorService.execute(() -> {
+            // 1. Load Continue Reading
+            android.database.Cursor cursor = databaseHelper.getRecentBookProgress(1);
+            List<BookProgress> tempProgress = new ArrayList<>();
+            if (cursor != null) {
+                try {
+                    int keyIdx = cursor.getColumnIndex("book_key");
+                    int titleIdx = cursor.getColumnIndex("book_title");
+                    int authorIdx = cursor.getColumnIndex("book_author");
+                    int coverIdx = cursor.getColumnIndex("book_cover");
+                    int chapIdx = cursor.getColumnIndex("current_chapter");
+                    int progIdx = cursor.getColumnIndex("progress");
+
+                    while (cursor.moveToNext()) {
+                        String key = keyIdx != -1 ? cursor.getString(keyIdx) : "";
+                        String title = titleIdx != -1 ? cursor.getString(titleIdx) : "";
+                        String author = authorIdx != -1 ? cursor.getString(authorIdx) : "";
+                        String cover = coverIdx != -1 ? cursor.getString(coverIdx) : "";
+                        int chap = chapIdx != -1 ? cursor.getInt(chapIdx) : 1;
+                        int prog = progIdx != -1 ? cursor.getInt(progIdx) : 0;
+                        tempProgress.add(new BookProgress(key, title, author, cover, chap, prog));
+                    }
+                } finally {
+                    cursor.close();
+                }
+            }
+
+            // 2. Load History
+            List<LearningHistoryItem> tempHistory = databaseHelper.getLearningHistoryList(1, 5);
+
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    continueReadingList.clear();
+                    continueReadingList.addAll(tempProgress);
+                    continueReadingAdapter.notifyDataSetChanged();
+
+                    if (continueReadingList.isEmpty()) {
+                        binding.layoutContinueReading.setVisibility(View.GONE);
+                    } else {
+                        binding.layoutContinueReading.setVisibility(View.VISIBLE);
+                    }
+
+                    learningHistoryList.clear();
+                    learningHistoryList.addAll(tempHistory);
+                    learningHistoryAdapter.notifyDataSetChanged();
+                });
+            }
+        });
+    }
+
+    private void searchLocalItems(String query, List<Book> resultsList) {
+        // Query local tutorials
+        List<Tutorial> tutorials = databaseHelper.getTutorials(1);
+        if (tutorials != null) {
+            for (Tutorial tut : tutorials) {
+                if (tut.getTitle().toLowerCase().contains(query.toLowerCase()) || 
+                    tut.getCategory().toLowerCase().contains(query.toLowerCase()) ||
+                    tut.getDescription().toLowerCase().contains(query.toLowerCase())) {
+                    
+                    Book dummy = new Book(
+                        "PANDUAN: " + tut.getTitle(),
+                        tut.getCategory() + " • " + tut.getDifficulty(),
+                        "",
+                        tut.getTimeEstimation(),
+                        tut.getCategory(),
+                        1,
+                        "TUTORIAL_" + tut.getId()
+                    );
+                    resultsList.add(dummy);
+                }
+            }
+        }
+
+        // Query predefined learning paths
+        String[] paths = {
+            "Pemrograman", "Basis Data", "Software Engineering", 
+            "Mobile Development", "Artificial Intelligence", "Cyber Security", "Data Science"
+        };
+        String[] descriptions = {
+            "Kembangkan fondasi pemrograman kuat menggunakan Java, logika algoritma, pilar OOP, dan struktur data.",
+            "Pelajari perancangan database relasional, SQL Query, normalisasi skema 1NF/2NF/3NF, indeks, dan ACID.",
+            "Pelajari siklus pengembangan perangkat lunak (SDLC), metodologi Agile/Scrum, perancangan arsitektur, clean code, dan testing.",
+            "Kuasai Android SDK secara mendalam menggunakan Kotlin, UI, navigation, API Retrofit, local Room, MVVM, dan Compose.",
+            "Bangun pemahaman dasar Machine Learning, regresi linear, neural networks, NLP, CV, dan LLM.",
+            "Lindungi sistem menggunakan CIA Triad, enkripsi asimetris RSA, malware analysis, firewall, dan pentest.",
+            "Eksplorasi statistika deskriptif, analisis data tabular Pandas, manipulasi array NumPy, visualisasi Seaborn."
+        };
+
+        for (int i = 0; i < paths.length; i++) {
+            String name = paths[i];
+            if (name.toLowerCase().contains(query.toLowerCase()) || descriptions[i].toLowerCase().contains(query.toLowerCase())) {
+                Book dummy = new Book(
+                    "JALUR BELAJAR: " + name,
+                    descriptions[i],
+                    "",
+                    "Kurikulum",
+                    name,
+                    1,
+                    "PATH_" + name
+                );
+                resultsList.add(dummy);
+            }
+        }
+    }
+
+    /**
+     * Melakukan pencarian buku cerdas menggunakan Open Library.
+     */
     private void performSearch(String query) {
         isSearching = true;
         showSearchLoadingState();
@@ -298,6 +481,14 @@ public class HomeFragment extends Fragment implements BookAdapter.OnBookClickLis
 
         if (searchCall != null && !searchCall.isCanceled()) {
             searchCall.cancel();
+        }
+
+        // 1. Load local matches immediately
+        searchBooks.clear();
+        searchLocalItems(query, searchBooks);
+        searchAdapter.updateData(searchBooks);
+        if (!searchBooks.isEmpty()) {
+            showSearchContentState();
         }
 
         searchCall = ApiClient.getBookApiService().searchBooks(query);
@@ -309,10 +500,19 @@ public class HomeFragment extends Fragment implements BookAdapter.OnBookClickLis
 
                 if (response.isSuccessful() && response.body() != null) {
                     List<OpenLibraryResponse.BookDoc> docs = response.body().getDocs();
-                    searchBooks.clear();
                     if (docs != null) {
                         for (OpenLibraryResponse.BookDoc doc : docs) {
-                            searchBooks.add(doc.toBook());
+                            Book b = doc.toBook();
+                            boolean isDuplicate = false;
+                            for (Book existing : searchBooks) {
+                                if (existing.getKey() != null && existing.getKey().equals(b.getKey())) {
+                                    isDuplicate = true;
+                                    break;
+                                }
+                            }
+                            if (!isDuplicate) {
+                                searchBooks.add(b);
+                            }
                         }
                     }
                     searchAdapter.updateData(searchBooks);
@@ -323,7 +523,9 @@ public class HomeFragment extends Fragment implements BookAdapter.OnBookClickLis
                         showSearchContentState();
                     }
                 } else {
-                    showSearchErrorState("Kesalahan server saat melakukan pencarian.");
+                    if (searchBooks.isEmpty()) {
+                        showSearchErrorState("Kesalahan server saat melakukan pencarian.");
+                    }
                 }
             }
 
@@ -333,7 +535,9 @@ public class HomeFragment extends Fragment implements BookAdapter.OnBookClickLis
                 if (call.isCanceled()) return;
 
                 binding.swipeRefresh.setRefreshing(false);
-                showSearchErrorState("Koneksi gagal. Silakan coba lagi.");
+                if (searchBooks.isEmpty()) {
+                    showSearchErrorState("Koneksi gagal. Silakan coba lagi.");
+                }
             }
         });
     }
@@ -420,6 +624,24 @@ public class HomeFragment extends Fragment implements BookAdapter.OnBookClickLis
 
     @Override
     public void onBookClick(Book book) {
+        if (book.getKey() != null && book.getKey().startsWith("TUTORIAL_")) {
+            int tutId = Integer.parseInt(book.getKey().substring("TUTORIAL_".length()));
+            Intent intent = new Intent(requireContext(), TutorialDetailActivity.class);
+            intent.putExtra("tutorial_id", tutId);
+            startActivity(intent);
+            return;
+        }
+        if (book.getKey() != null && book.getKey().startsWith("PATH_")) {
+            String pathName = book.getKey().substring("PATH_".length());
+            LearningPath targetPath = getLearningPathByName(pathName);
+            if (targetPath != null) {
+                Intent intent = new Intent(requireContext(), LearningPathDetailActivity.class);
+                intent.putExtra("learning_path", targetPath);
+                startActivity(intent);
+            }
+            return;
+        }
+
         Intent intent = new Intent(requireContext(), DetailActivity.class);
         intent.putExtra(DetailActivity.EXTRA_BOOK_KEY, book.getKey());
         intent.putExtra(DetailActivity.EXTRA_BOOK_TITLE, book.getTitle());
@@ -431,11 +653,45 @@ public class HomeFragment extends Fragment implements BookAdapter.OnBookClickLis
         startActivity(intent);
     }
 
+    private LearningPath getLearningPathByName(String name) {
+        String desc = "";
+        List<String> modules = new ArrayList<>();
+        if ("Pemrograman".equals(name)) {
+            desc = "Kembangkan fondasi pemrograman kuat menggunakan Java, logika algoritma, pilar OOP, dan struktur data.";
+            modules = Arrays.asList("Java Dasar & Algoritma", "OOP Java & Pewarisan", "Exception & File Handling", "Collections Framework", "Concurrency & Threading");
+        } else if ("Basis Data".equals(name)) {
+            desc = "Pelajari perancangan database relasional, SQL Query, normalisasi skema 1NF/2NF/3NF, indeks, dan ACID.";
+            modules = Arrays.asList("Skema Relasional & ERD", "Perintah SQL Dasar (DDL/DML)", "Normalisasi Database", "Indexing & Optimasi Query", "Transaksi ACID");
+        } else if ("Software Engineering".equals(name)) {
+            desc = "Pelajari siklus pengembangan perangkat lunak (SDLC), metodologi Agile/Scrum, perancangan arsitektur, clean code, dan testing.";
+            modules = Arrays.asList("Pengenalan SDLC & Agile", "Analisis Kebutuhan", "Perancangan UML & Arsitektur", "Clean Code & Refactoring", "Software Testing & QA", "CI/CD & Deployment");
+        } else if ("Mobile Development".equals(name)) {
+            desc = "Kuasai Android SDK secara mendalam menggunakan Kotlin, UI, navigation, API Retrofit, local Room, MVVM, dan Compose.";
+            modules = Arrays.asList("Kotlin Dasar", "Android Lifecycle", "ViewBinding & XML Layout", "Navigation Component", "Retrofit API Integration", "Local SQLite & Room", "Jetpack Compose", "Arsitektur MVVM", "Testing Aplikasi Mobile");
+        } else if ("Artificial Intelligence".equals(name)) {
+            desc = "Bangun pemahaman dasar Machine Learning, regresi linear, neural networks, NLP, CV, dan LLM.";
+            modules = Arrays.asList("Matematika untuk AI", "Regresi & Klasifikasi", "Jaringan Saraf Tiruan", "Natural Language Processing", "Computer Vision", "Generative AI & LLM");
+        } else if ("Cyber Security".equals(name)) {
+            desc = "Lindungi sistem menggunakan CIA Triad, enkripsi asimetris RSA, malware analysis, firewall, dan pentest.";
+            modules = Arrays.asList("Konsep CIA Triad", "Kriptografi & Enkripsi", "Malware & Trojan Analysis", "Social Engineering", "Network Security & Firewall", "Penetration Testing");
+        } else if ("Data Science".equals(name)) {
+            desc = "Eksplorasi statistika deskriptif, analisis data tabular Pandas, manipulasi array NumPy, visualisasi Seaborn.";
+            modules = Arrays.asList("Statistika Deskriptif", "Python Data Stack", "Data Cleaning Pandas", "Manipulasi Array NumPy", "Visualisasi Data", "Model Prediksi Sederhana");
+        }
+        if (!desc.isEmpty()) {
+            return new LearningPath(name, desc, name, "4 Minggu", modules);
+        }
+        return null;
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         if (searchCall != null) {
             searchCall.cancel();
+        }
+        if (executorService != null && !executorService.isShutdown()) {
+            executorService.shutdown();
         }
         binding = null;
     }

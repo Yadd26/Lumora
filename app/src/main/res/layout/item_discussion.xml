@@ -5,13 +5,13 @@
     android:id="@+id/card_discussion"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="4dp"
+    android:layout_marginHorizontal="12dp"
     android:layout_marginVertical="6dp"
-    app:cardBackgroundColor="?attr/colorSurface"
+    app:cardBackgroundColor="@color/surface"
     app:cardCornerRadius="16dp"
     app:cardElevation="2dp"
-    app:strokeColor="?attr/colorOutlineVariant"
-    app:strokeWidth="1dp">
+    app:strokeColor="@color/card_stroke"
+    app:strokeWidth="1.2dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,8 +33,9 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="2"
+                android:fontFamily="@font/cinzel"
                 android:textAppearance="?attr/textAppearanceTitleMedium"
-                android:textColor="?attr/colorOnSurface"
+                android:textColor="@color/text_primary"
                 android:textStyle="bold" />
 
             <!-- Content -->
@@ -46,8 +47,9 @@
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:lineSpacingMultiplier="1.3"
+                android:fontFamily="@font/cormorant_garamond"
                 android:textAppearance="?attr/textAppearanceBodyMedium"
-                android:textColor="?attr/colorOnSurfaceVariant" />
+                android:textColor="@color/text_secondary" />
 
         </LinearLayout>
 

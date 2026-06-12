@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:attr/colorBackground">
+    android:background="@color/background">
 
     <!-- Header Section -->
     <LinearLayout
@@ -15,7 +15,7 @@
         android:background="@drawable/bg_gradient_primary"
         android:orientation="vertical"
         android:paddingHorizontal="20dp"
-        android:paddingTop="16dp"
+        android:paddingTop="20dp"
         android:paddingBottom="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,8 +26,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/bookmark_title"
+            android:fontFamily="@font/cinzel"
             android:textAppearance="?attr/textAppearanceHeadlineMedium"
-            android:textColor="@android:color/white"
+            android:textColor="@color/on_primary"
             android:textStyle="bold" />
 
         <TextView
@@ -35,10 +36,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:alpha="0.85"
+            android:alpha="0.9"
             android:text="@string/bookmark_subtitle"
+            android:fontFamily="@font/cormorant_garamond"
             android:textAppearance="?attr/textAppearanceBodyMedium"
-            android:textColor="@android:color/white" />
+            android:textColor="@color/on_primary" />
 
     </LinearLayout>
 
@@ -70,20 +72,24 @@
             android:padding="32dp"
             android:visibility="gone">
 
+            <!-- Old Book Icon -->
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:alpha="0.5"
+                android:alpha="0.75"
                 android:src="@drawable/ic_bookmark_outline"
-                android:contentDescription="@string/no_bookmarks" />
+                android:contentDescription="@string/no_bookmarks"
+                app:tint="@color/tertiary" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/no_bookmarks"
+                android:fontFamily="@font/cinzel"
                 android:textAppearance="?attr/textAppearanceTitleMedium"
-                android:textColor="?attr/colorOnSurface" />
+                android:textColor="@color/text_primary"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -91,8 +97,9 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:text="@string/no_bookmarks_description"
+                android:fontFamily="@font/cormorant_garamond"
                 android:textAppearance="?attr/textAppearanceBodyMedium"
-                android:textColor="?attr/colorOnSurfaceVariant" />
+                android:textColor="@color/text_secondary" />
 
         </LinearLayout>
 

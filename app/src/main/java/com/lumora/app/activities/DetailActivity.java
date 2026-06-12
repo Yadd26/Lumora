@@ -3,6 +3,7 @@ package com.lumora.app.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +13,9 @@ import com.lumora.app.database.DatabaseHelper;
 import com.lumora.app.databinding.ActivityDetailBinding;
 import com.lumora.app.models.Book;
 import com.lumora.app.models.Bookmark;
+
+import com.lumora.app.models.QuizCategory;
+import com.lumora.app.utils.QuizQuestionProvider;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -66,6 +70,7 @@ public class DetailActivity extends AppCompatActivity {
         checkBookmarkStatus();
         setupBookmarkButton();
         setupStartLearningButton();
+        setupCurriculumInfo();
 
         // Simpan otomatis ke riwayat belajar
         saveToLearningHistory();
@@ -170,6 +175,9 @@ public class DetailActivity extends AppCompatActivity {
                 });
             }
         });
+
+        // Hubungkan tombol baru ke tombol bookmark lama (FAB)
+        binding.btnSaveToCollection.setOnClickListener(v -> binding.fabBookmark.performClick());
     }
 
     /**
@@ -203,9 +211,112 @@ public class DetailActivity extends AppCompatActivity {
     private void updateBookmarkIcon() {
         if (isBookmarked) {
             binding.fabBookmark.setImageResource(R.drawable.ic_bookmark_filled);
+            binding.btnSaveToCollection.setText("Hapus dari Koleksi");
+            binding.btnSaveToCollection.setIconResource(R.drawable.ic_bookmark_filled);
         } else {
             binding.fabBookmark.setImageResource(R.drawable.ic_bookmark_outline);
+            binding.btnSaveToCollection.setText("Simpan ke Koleksi");
+            binding.btnSaveToCollection.setIconResource(R.drawable.ic_bookmark_outline);
         }
+    }
+
+    /**
+     * Konfigurasi informasi kurikulum akademis dan navigasi terkait.
+     */
+    private void setupCurriculumInfo() {
+        TextView tvSubject = binding.textCurriculumSubject;
+        TextView tvPrereq = binding.textCurriculumPrereq;
+        TextView tvDuration = binding.textCurriculumDuration;
+
+        final String subject = bookSubject != null ? bookSubject : "Umum";
+        final int tutorialId;
+        final int quizCategoryId;
+        final String categoryName;
+
+        String s = subject.toLowerCase();
+        if (s.contains("programming") || s.contains("java") || s.contains("pemrograman") || s.contains("kotlin") || s.contains("software")) {
+            tvSubject.setText("Subjek Belajar: Pemrograman");
+            tvPrereq.setText("Prasyarat: Logika Algoritma");
+            tvDuration.setText("Estimasi Durasi: 4 Minggu");
+            tutorialId = 1;
+            quizCategoryId = 1;
+            categoryName = "Pemrograman";
+        } else if (s.contains("database") || s.contains("sql") || s.contains("basis data")) {
+            tvSubject.setText("Subjek Belajar: Basis Data");
+            tvPrereq.setText("Prasyarat: Logika Dasar");
+            tvDuration.setText("Estimasi Durasi: 3 Minggu");
+            tutorialId = 2;
+            quizCategoryId = 2;
+            categoryName = "Basis Data";
+        } else if (s.contains("network") || s.contains("jaringan") || s.contains("internet")) {
+            tvSubject.setText("Subjek Belajar: Jaringan Komputer");
+            tvPrereq.setText("Prasyarat: Jaringan Dasar");
+            tvDuration.setText("Estimasi Durasi: 3 Minggu");
+            tutorialId = 5;
+            quizCategoryId = 3;
+            categoryName = "Jaringan Komputer";
+        } else if (s.contains("mobile") || s.contains("android") || s.contains("ios")) {
+            tvSubject.setText("Subjek Belajar: Mobile Development");
+            tvPrereq.setText("Prasyarat: Pemrograman Java/Kotlin");
+            tvDuration.setText("Estimasi Durasi: 5 Minggu");
+            tutorialId = 3;
+            quizCategoryId = 4;
+            categoryName = "Mobile Development";
+        } else if (s.contains("artificial") || s.contains("intelligence") || s.contains("machine") || s.contains("ai")) {
+            tvSubject.setText("Subjek Belajar: Artificial Intelligence");
+            tvPrereq.setText("Prasyarat: Aljabar & Python");
+            tvDuration.setText("Estimasi Durasi: 6 Minggu");
+            tutorialId = 4;
+            quizCategoryId = 5;
+            categoryName = "Artificial Intelligence";
+        } else if (s.contains("security") || s.contains("crypt") || s.contains("cyber") || s.contains("kripto")) {
+            tvSubject.setText("Subjek Belajar: Cyber Security");
+            tvPrereq.setText("Prasyarat: Jaringan Komputer");
+            tvDuration.setText("Estimasi Durasi: 4 Minggu");
+            tutorialId = 5;
+            quizCategoryId = 6;
+            categoryName = "Cyber Security";
+        } else if (s.contains("science") || s.contains("data") || s.contains("pandas") || s.contains("python")) {
+            tvSubject.setText("Subjek Belajar: Data Science");
+            tvPrereq.setText("Prasyarat: Python & Statistika");
+            tvDuration.setText("Estimasi Durasi: 4 Minggu");
+            tutorialId = 6;
+            quizCategoryId = 7;
+            categoryName = "Data Science";
+        } else {
+            tvSubject.setText("Subjek Belajar: Umum");
+            tvPrereq.setText("Prasyarat: Tidak ada");
+            tvDuration.setText("Estimasi Durasi: 2 Minggu");
+            tutorialId = 1;
+            quizCategoryId = 1;
+            categoryName = "Pemrograman";
+        }
+
+        binding.btnCurriculumTutorial.setOnClickListener(v -> {
+            Intent intent = new Intent(DetailActivity.this, TutorialDetailActivity.class);
+            intent.putExtra("tutorial_id", tutorialId);
+            startActivity(intent);
+        });
+
+        binding.btnCurriculumQuiz.setOnClickListener(v -> {
+            QuizCategory quizCat = QuizQuestionProvider.getCategoryById(quizCategoryId);
+            if (quizCat != null) {
+                Intent intent = new Intent(DetailActivity.this, QuizDetailActivity.class);
+                intent.putExtra(QuizDetailActivity.EXTRA_CATEGORY, quizCat);
+                startActivity(intent);
+            } else {
+                Toast.makeText(DetailActivity.this, "Kategori kuis tidak ditemukan.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        binding.btnReadBook.setOnClickListener(v -> {
+            Intent intent = new Intent(DetailActivity.this, ReaderActivity.class);
+            intent.putExtra("extra_book_key", bookKey);
+            intent.putExtra("extra_book_title", bookTitle);
+            intent.putExtra("extra_book_author", bookAuthor);
+            intent.putExtra("extra_book_cover", bookCover);
+            startActivity(intent);
+        });
     }
 
     @Override

@@ -41,4 +41,16 @@
         android:label="@string/nav_profile"
         tools:layout="@layout/fragment_profile" />
 
+    <fragment
+        android:id="@+id/learningPathFragment"
+        android:name="com.lumora.app.fragments.LearningPathFragment"
+        android:label="@string/nav_learning_path"
+        tools:layout="@layout/fragment_learning_path" />
+
+    <fragment
+        android:id="@+id/tutorialFragment"
+        android:name="com.lumora.app.fragments.TutorialFragment"
+        android:label="@string/nav_tutorial"
+        tools:layout="@layout/fragment_tutorial" />
+
 </navigation>

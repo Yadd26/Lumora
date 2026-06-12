@@ -16,7 +16,7 @@
         <item name="colorOnSecondary">@color/on_secondary</item>
         <item name="colorOnSecondaryContainer">@color/on_secondary_container</item>
 
-        <!-- Tertiary -->
+        <!-- Tertiary / Accent -->
         <item name="colorTertiary">@color/tertiary</item>
         <item name="colorTertiaryContainer">@color/tertiary_container</item>
         <item name="colorOnTertiary">@color/on_tertiary</item>
@@ -42,11 +42,79 @@
         <!-- Status Bar -->
         <item name="android:statusBarColor">@color/primary</item>
         <item name="android:navigationBarColor">@color/bottom_nav_background</item>
+
+        <!-- Global Typography Default (Body) -->
+        <item name="android:fontFamily">@font/cormorant_garamond</item>
+
+        <!-- Typography Mappings (Headings and Titles to Cinzel) -->
+        <item name="textAppearanceHeadlineLarge">@style/TextAppearance.Lumora.HeadlineLarge</item>
+        <item name="textAppearanceHeadlineMedium">@style/TextAppearance.Lumora.HeadlineMedium</item>
+        <item name="textAppearanceHeadlineSmall">@style/TextAppearance.Lumora.HeadlineSmall</item>
+        <item name="textAppearanceTitleLarge">@style/TextAppearance.Lumora.TitleLarge</item>
+        <item name="textAppearanceTitleMedium">@style/TextAppearance.Lumora.TitleMedium</item>
+        <item name="textAppearanceTitleSmall">@style/TextAppearance.Lumora.TitleSmall</item>
+
+        <!-- Custom AlertDialog Theme -->
+        <item name="alertDialogTheme">@style/ThemeOverlay.Lumora.AlertDialog</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.Lumora.AlertDialog</item>
     </style>
 
     <!-- Detail Activity Theme with back support -->
     <style name="Theme.Lumora.Detail" parent="Theme.Lumora">
         <item name="android:statusBarColor">@color/primary</item>
+    </style>
+
+    <!-- Custom Typography styles -->
+    <style name="TextAppearance.Lumora.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="fontFamily">@font/cinzel</item>
+        <item name="android:fontFamily">@font/cinzel</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Lumora.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="fontFamily">@font/cinzel</item>
+        <item name="android:fontFamily">@font/cinzel</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Lumora.HeadlineSmall" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="fontFamily">@font/cinzel</item>
+        <item name="android:fontFamily">@font/cinzel</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Lumora.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
+        <item name="fontFamily">@font/cinzel</item>
+        <item name="android:fontFamily">@font/cinzel</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Lumora.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
+        <item name="fontFamily">@font/cinzel</item>
+        <item name="android:fontFamily">@font/cinzel</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Lumora.TitleSmall" parent="TextAppearance.Material3.TitleSmall">
+        <item name="fontFamily">@font/cinzel</item>
+        <item name="android:fontFamily">@font/cinzel</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Material Dialog Style -->
+    <style name="ThemeOverlay.Lumora.AlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="android:backgroundTint">@color/surface</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorPrimary">@color/tertiary</item>
+        <item name="colorOnSurface">@color/on_surface</item>
+        <item name="android:windowTitleStyle">@style/Widget.Lumora.AlertDialog.Title</item>
+    </style>
+
+    <style name="Widget.Lumora.AlertDialog.Title" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:fontFamily">@font/cinzel</item>
+        <item name="fontFamily">@font/cinzel</item>
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

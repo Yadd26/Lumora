@@ -1,76 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Primary Brand Colors -->
-    <color name="primary">#FF4F46E5</color>
-    <color name="primary_dark">#FF3730A3</color>
-    <color name="primary_light">#FF818CF8</color>
-    <color name="primary_container">#FFE0E7FF</color>
-    <color name="on_primary">#FFFFFFFF</color>
-    <color name="on_primary_container">#FF312E81</color>
+    <color name="primary">#5C3D2E</color>
+    <color name="primary_dark">#402A1F</color>
+    <color name="primary_light">#8B6B4A</color>
+    <color name="primary_container">#FFF8F0</color>
+    <color name="on_primary">#FFF8F0</color>
+    <color name="on_primary_container">#2B2118</color>
 
     <!-- Secondary Colors -->
-    <color name="secondary">#FF818CF8</color>
-    <color name="secondary_dark">#FF6366F1</color>
-    <color name="secondary_container">#FFEEF2FF</color>
-    <color name="on_secondary">#FFFFFFFF</color>
-    <color name="on_secondary_container">#FF3730A3</color>
+    <color name="secondary">#8B6B4A</color>
+    <color name="secondary_dark">#6B5B4B</color>
+    <color name="secondary_container">#FFF8F0</color>
+    <color name="on_secondary">#FFF8F0</color>
+    <color name="on_secondary_container">#6B5B4B</color>
 
     <!-- Tertiary / Accent -->
-    <color name="tertiary">#FF06B6D4</color>
-    <color name="tertiary_container">#FFCFFAFE</color>
-    <color name="on_tertiary">#FFFFFFFF</color>
+    <color name="tertiary">#C8A165</color>
+    <color name="tertiary_container">#FFF8F0</color>
+    <color name="on_tertiary">#FFF8F0</color>
 
     <!-- Background & Surface (Light) -->
-    <color name="background">#FFF8FAFC</color>
-    <color name="surface">#FFFFFFFF</color>
-    <color name="surface_variant">#FFF1F5F9</color>
-    <color name="on_background">#FF0F172A</color>
-    <color name="on_surface">#FF1E293B</color>
-    <color name="on_surface_variant">#FF64748B</color>
+    <color name="background">#F5EFE6</color>
+    <color name="surface">#FFF8F0</color>
+    <color name="surface_variant">#EFE8DE</color>
+    <color name="on_background">#2B2118</color>
+    <color name="on_surface">#2B2118</color>
+    <color name="on_surface_variant">#6B5B4B</color>
 
     <!-- Error Colors -->
-    <color name="error">#FFEF4444</color>
-    <color name="error_container">#FFFEE2E2</color>
-    <color name="on_error">#FFFFFFFF</color>
-    <color name="on_error_container">#FF991B1B</color>
+    <color name="error">#B00020</color>
+    <color name="error_container">#FEEBEE</color>
+    <color name="on_error">#FFFFFF</color>
+    <color name="on_error_container">#B00020</color>
 
     <!-- Outline & Divider -->
-    <color name="outline">#FFCBD5E1</color>
-    <color name="outline_variant">#FFE2E8F0</color>
+    <color name="outline">#8B6B4A</color>
+    <color name="outline_variant">#C8A165</color>
 
     <!-- Status Bar -->
-    <color name="status_bar">#FF3730A3</color>
+    <color name="status_bar">#5C3D2E</color>
 
     <!-- Card Colors -->
-    <color name="card_background">#FFFFFFFF</color>
-    <color name="card_stroke">#FFF1F5F9</color>
+    <color name="card_background">#FFF8F0</color>
+    <color name="card_stroke">#C8A165</color>
 
     <!-- Text Colors -->
-    <color name="text_primary">#FF0F172A</color>
-    <color name="text_secondary">#FF475569</color>
-    <color name="text_hint">#FF94A3B8</color>
+    <color name="text_primary">#2B2118</color>
+    <color name="text_secondary">#6B5B4B</color>
+    <color name="text_hint">#8B6B4A</color>
 
     <!-- Bottom Navigation -->
-    <color name="bottom_nav_background">#FFFFFFFF</color>
-    <color name="bottom_nav_selected">#FF4F46E5</color>
-    <color name="bottom_nav_unselected">#FF94A3B8</color>
+    <color name="bottom_nav_background">#FFF8F0</color>
+    <color name="bottom_nav_selected">#5C3D2E</color>
+    <color name="bottom_nav_unselected">#6B5B4B</color>
 
     <!-- Gradient Colors -->
-    <color name="gradient_start">#FF4F46E5</color>
-    <color name="gradient_end">#FF818CF8</color>
+    <color name="gradient_start">#5C3D2E</color>
+    <color name="gradient_end">#8B6B4A</color>
 
     <!-- Success / Warning -->
-    <color name="success">#FF10B981</color>
-    <color name="warning">#FFF59E0B</color>
+    <color name="success">#4CAF50</color>
+    <color name="warning">#FFC107</color>
 
     <!-- Bookmark Colors -->
-    <color name="bookmark_active">#FFF59E0B</color>
-    <color name="bookmark_inactive">#FF94A3B8</color>
+    <color name="bookmark_active">#C8A165</color>
+    <color name="bookmark_inactive">#8B6B4A</color>
 
     <!-- Ripple -->
-    <color name="ripple_color">#1A4F46E5</color>
+    <color name="ripple_color">#1A8B6B4A</color>
 
     <!-- Shimmer Placeholder -->
-    <color name="shimmer_base">#FFE2E8F0</color>
-    <color name="shimmer_highlight">#FFF8FAFC</color>
+    <color name="shimmer_base">#EFE8DE</color>
+    <color name="shimmer_highlight">#FFF8F0</color>
 </resources>
